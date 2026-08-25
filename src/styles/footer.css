@@ -1,19 +1,20 @@
 /* ═══════════════════════════════════════════════════════════════════
-   footer.css — Final Footer & Particle Burst, Tubelight Media Works.
+   footer.css — Final Footer, Tubelight Media Works.
    All selectors scoped to .tmw-footer-* to prevent global collisions.
 
    VISUAL DESIGN INTENT:
-   The final resting frame of the cinematic journey.
-   Features massive, bold TUBELIGHT MEDIA WORKS branding typography,
-   comprehensive studio metadata, and the signature 15-frame production
-   still particle explosion bursting upward across the footer.
+   The final resting frame of the cinematic journey — continues directly
+   from the Ending section's background with no visual seam. Massive
+   TUBELIGHT MEDIA WORKS branding typography and studio metadata, with the
+   signature 15-frame production-still particle burst firing upward across
+   the footer as it enters the viewport.
 ════════════════════════════════════════════════════════════════════ */
 
 .tmw-footer {
   position: relative;
   width: 100%;
   min-height: 85svh;
-  background-color: #070503;
+  background-color: var(--tmw-black);
   color: var(--tmw-white);
   padding: clamp(2rem, 4vw, 4rem) var(--tmw-pad);
   display: flex;
@@ -21,7 +22,6 @@
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* ─── Top Metadata Columns ───────────────────────────────────────── */

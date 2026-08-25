@@ -91,8 +91,36 @@
   padding:   var(--tmw-pad);
   color:     var(--tmw-cream);
   text-align: center;
-  /* Headline starts invisible — JS entrance animation reveals it */
-  opacity:   0;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            1rem;
+  /* NOT opacity:0 here — the headline (and quote) each start invisible
+     via their own JS entrance tween in HeroSection.js. A static opacity:0
+     on this parent would multiply with the children's animated opacity
+     and keep them permanently invisible regardless of their own tween. */
+}
+
+.tmw-hero-fg-quote {
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-body);
+  font-weight:    400;
+  font-style:     italic;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color:          var(--tmw-cream);
+  /* Entrance state — animated to its resting opacity by HeroSection.js */
+  opacity:        0;
+}
+
+.tmw-hero-fg-quote span {
+  display:        block;
+  margin-top:     0.35rem;
+  font-style:     normal;
+  font-size:      0.85em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity:        0.65;
 }
 
 /* Transition overlays */
@@ -130,18 +158,30 @@
 
 .tmw-hero-bg-col:nth-child(2) {
   justify-content: flex-end;
+  padding-right:   calc(var(--tmw-pad) * 0.4);
 }
 
 .tmw-hero-bg-copy {
   display:        flex;
   flex-direction: column;
   gap:            0.5rem;
+  /* MUST stay 50%. The scroll sequence slides each column's copy by ±100%
+     of its OWN width to converge on centre; widening this box makes that
+     travel overshoot and the two columns overlap mid-scroll. Fit the
+     headline by sizing the type (below), never by widening this box. */
   width:          50%;
   will-change:    transform;
 }
 
 .tmw-hero-bg-copy h3 {
-  color: var(--tmw-accent);
+  color:          var(--tmw-accent);
+  letter-spacing: -0.045em;
+  /* Sized against the real metric: in PP Neue Montreal at this tracking,
+     "MEDIAWORKS" renders 6.19em wide, and it cannot wrap. 3.1vw keeps it
+     at ~80% of the 50% box at every viewport width, so it never reaches
+     .tmw-hero's overflow:hidden edge. The shared --tmw-size-h3 (5vw,
+     capped 8rem) was far too large and clipped the word. */
+  font-size: clamp(1.5rem, 3.1vw, 4.6rem);
 }
 
 .tmw-hero-bg-copy p {
@@ -227,8 +267,11 @@
     transform:  none !important;
   }
 
-  .tmw-hero-fg-header {
-    opacity: 1 !important;
+  .tmw-hero-fg-header,
+  .tmw-hero-fg-quote,
+  .tmw-hero-fg-header h1 {
+    opacity:   1 !important;
+    transform: none !important;
   }
 
   .tmw-hero-outro-img:nth-child(1),

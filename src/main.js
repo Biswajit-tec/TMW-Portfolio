@@ -13,7 +13,8 @@
  *   5. initAboutSection()      — ScrollTrigger refresh after loader removal.
  *   6. initProjectSection()    — Flip + horizontal scroll, no Lenis param needed.
  *   7. initProjectEndSection() — Gallery collapse + wordmark, no Lenis param needed.
- *   8. ScrollTrigger.refresh() — final authoritative refresh with full page height.
+ *   8. initFooterSection()     — Particle burst + back-to-top interaction.
+ *   9. ScrollTrigger.refresh() — final authoritative refresh with full page height.
  *
  * SCROLL ARCHITECTURE:
  *   One Lenis instance. One ScrollTrigger.update binding. All sections share it.
@@ -33,7 +34,6 @@ import { initHeroSection }      from './components/hero/HeroSection.js';
 import { initAboutSection }     from './components/about/AboutSection.js';
 import { initProjectSection }   from './components/project/ProjectSection.js';
 import { initProjectEndSection }  from './components/project-end/ProjectEndSection.js';
-import { initEndingSection }    from './components/ending/EndingSection.js';
 import { initFooterSection }    from './components/footer/FooterSection.js';
 import { initNavbar }           from './components/navbar/NavbarSection.js';
 import { ScrollTrigger }        from 'gsap/ScrollTrigger';
@@ -78,10 +78,7 @@ async function bootstrap() {
   // Project End: gallery collapse + wordmark + word fade
   initProjectEndSection();
 
-  // Ending: closing statement + shrinking hero image + lottie sync
-  initEndingSection();
-
-  // Footer: massive typography + particle explosion physics
+  // Footer: particle burst physics + back-to-top interaction
   initFooterSection();
 
   // ── Final refresh: authoritative measurement with full page height ──────

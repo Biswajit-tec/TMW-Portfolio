@@ -52,7 +52,17 @@ export function initHeroSection() {
   // Delay 3.2s from page load = 1.2s into the 2s-delayed 3s dissolve.
   // At that point the WebGL canvas center is clearing, so the headline
   // appears to be born out of the dissolve rather than appearing afterward.
+  const heroQuote    = document.querySelector('.tmw-hero-fg-quote');
   const heroHeadline = document.querySelector('.tmw-hero-fg-header h1');
+
+  if (heroQuote) {
+    gsap.fromTo(
+      heroQuote,
+      { opacity: 0, y: 16 },
+      { opacity: 0.85, y: 0, duration: 1.2, delay: 2.9, ease: 'power3.out' }
+    );
+  }
+
   if (heroHeadline) {
     gsap.fromTo(
       heroHeadline,
@@ -63,10 +73,22 @@ export function initHeroSection() {
 
 
   // ─── SplitText — outro headline ───────────────────────────────────────────
+  // Declared before the split so onSplit() can restore the correct state.
+  let areOutroLinesRevealed = false;
+
+  // autoSplit re-splits once webfonts finish loading (and on resize). Without
+  // it the line breaks stay frozen against fallback-font metrics. Critically,
+  // a re-split builds brand-new line elements, so the masked start state has
+  // to be re-applied inside onSplit — otherwise the fresh lines render at
+  // y:0% (un-masked) and the outro headline sits visible over the hero.
   const outroHeaderSplit = SplitText.create('.tmw-hero-outro-header h3', {
-    type: 'lines',
-    mask: 'lines',
+    type:       'lines',
+    mask:       'lines',
     linesClass: 'tmw-split-line',
+    autoSplit:  true,
+    onSplit(self) {
+      gsap.set(self.lines, { y: areOutroLinesRevealed ? '0%' : '100%' });
+    },
   });
   gsap.set(outroHeaderSplit.lines, { y: '100%' });
 
@@ -78,8 +100,6 @@ export function initHeroSection() {
   const bgCopyRight     = document.querySelectorAll('.tmw-hero-bg-copy')[1];
   const outroImgTop     = document.querySelectorAll('.tmw-hero-outro-img')[0];
   const outroImgBottom  = document.querySelectorAll('.tmw-hero-outro-img')[1];
-
-  let areOutroLinesRevealed = false;
 
   // ─── Scroll-triggered cinematic sequence ──────────────────────────────────
   ScrollTrigger.create({

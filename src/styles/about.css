@@ -62,6 +62,17 @@
   text-transform: uppercase;
 }
 
+.tmw-about-card-desc {
+  font-family:    var(--tmw-font);
+  font-size:      clamp(0.8rem, 1vw, 0.95rem);
+  font-weight:    400;
+  line-height:    1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity:        0.75;
+  max-width:      22em;
+}
+
 
 /* ─── Intro + Outro ─────────────────────────────────────────────────── */
 .tmw-about-intro,
@@ -74,10 +85,30 @@
   padding:         var(--tmw-pad);
 }
 
+.tmw-about-intro-inner,
+.tmw-about-outro-inner {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            1.75rem;
+}
+
 .tmw-about-intro h2,
 .tmw-about-outro h2 {
   max-width: 14em; /* prevent full-width stretch on wide monitors */
   margin:    0 auto;
+}
+
+.tmw-about-subtext {
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-body);
+  font-weight:    400;
+  letter-spacing: 0.06em;
+  line-height:    1.6;
+  color:          var(--tmw-cream);
+  opacity:        0.7;
+  max-width:      32em;
+  margin:         0 auto;
 }
 
 
