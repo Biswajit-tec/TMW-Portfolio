@@ -1,0 +1,242 @@
+/* ═══════════════════════════════════════════════════════════════════
+   hero.css — Hero section styles, scoped to .tmw-hero and descendants.
+   Adapted from the purchased VoyeurVerite scroll animation styles.
+   All selectors prefixed with .tmw- to prevent global collisions.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── Main site container ───────────────────────────────────────────── */
+#tmw-site {
+  /* Starts hidden (aria-hidden=true) — revealed by JS after loader */
+  /* No opacity: 0 needed — the loader canvas covers it completely  */
+}
+
+
+/* ─── Images within hero ────────────────────────────────────────────── */
+.tmw-hero img {
+  width:        100%;
+  height:       100%;
+  object-fit:   cover;
+  display:      block;
+}
+
+
+/* ─── Typography within hero ────────────────────────────────────────── */
+.tmw-hero h1,
+.tmw-hero h3 {
+  font-family:     var(--tmw-font);
+  font-weight:     500;
+  line-height:     0.85;
+  letter-spacing:  -0.03em;
+  text-transform:  uppercase;
+}
+
+.tmw-hero h1 {
+  font-size: var(--tmw-size-hero);
+}
+
+.tmw-hero h3 {
+  font-size: var(--tmw-size-h3);
+}
+
+.tmw-hero p {
+  font-family:     var(--tmw-font);
+  font-size:       var(--tmw-size-body);
+  font-weight:     500;
+  line-height:     1.15;
+  text-transform:  uppercase;
+  letter-spacing:  0.01em;
+}
+
+
+/* ─── Hero section wrapper ─────────────────────────────────────────── */
+.tmw-hero {
+  position:   relative;
+  width:      100%;
+  height:     100svh;
+  overflow:   hidden;
+}
+
+
+/* ─── Foreground layer (dark image, clips + rotates + scales away) ──── */
+.tmw-hero-fg,
+.tmw-hero-bg {
+  position:         absolute;
+  top:              0;
+  left:             0;
+  width:            100%;
+  height:           100%;
+  transform-origin: center center;
+}
+
+.tmw-hero-fg {
+  background-color: var(--tmw-dark);
+  /* Initial state: full coverage — clip-path will narrow this on scroll */
+  clip-path:        polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  will-change:      clip-path, transform;
+  z-index:          2;
+}
+
+.tmw-hero-fg-img {
+  position: absolute;
+  width:    100%;
+  height:   100%;
+}
+
+.tmw-hero-fg-header {
+  position:  absolute;
+  bottom:    0;
+  left:      50%;
+  transform: translateX(-50%);
+  width:     95%;
+  padding:   var(--tmw-pad);
+  color:     var(--tmw-cream);
+  text-align: center;
+  /* Headline starts invisible — JS entrance animation reveals it */
+  opacity:   0;
+}
+
+/* Transition overlays */
+.tmw-hero-overlay-dark,
+.tmw-hero-overlay-accent {
+  position: absolute;
+  inset:    0;
+  opacity:  0;
+  will-change: opacity;
+}
+
+.tmw-hero-overlay-dark {
+  background-color: var(--tmw-dark);
+}
+
+.tmw-hero-overlay-accent {
+  background-color: var(--tmw-accent);
+}
+
+
+/* ─── Background layer (cream, text columns beneath the foreground) ─── */
+.tmw-hero-bg {
+  display:          flex;
+  background-color: var(--tmw-cream);
+  z-index:          0;
+}
+
+.tmw-hero-bg-col {
+  flex:    1;
+  height:  100%;
+  display: flex;
+  align-items: center;
+  padding: var(--tmw-pad);
+}
+
+.tmw-hero-bg-col:nth-child(2) {
+  justify-content: flex-end;
+}
+
+.tmw-hero-bg-copy {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.5rem;
+  width:          50%;
+  will-change:    transform;
+}
+
+.tmw-hero-bg-copy h3 {
+  color: var(--tmw-accent);
+}
+
+.tmw-hero-bg-copy p {
+  color: var(--tmw-dark);
+}
+
+
+/* ─── Outro layer (two images + headline over crimson base) ─────────── */
+.tmw-hero-outro {
+  position:         absolute;
+  inset:            0;
+  display:          flex;
+  z-index:          1;
+}
+
+.tmw-hero-outro-img {
+  flex:         1;
+  height:       100%;
+  will-change:  clip-path;
+}
+
+/* Initial state: images clipped to zero height — JS reveals on scroll */
+.tmw-hero-outro-img:nth-child(1) {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+}
+
+.tmw-hero-outro-img:nth-child(2) {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+}
+
+.tmw-hero-outro-header {
+  position:  absolute;
+  top:       50%;
+  left:      50%;
+  transform: translate(-50%, -50%);
+  color:     var(--tmw-cream);
+  text-align: center;
+  width:     65%;
+}
+
+/* SplitText line mask — lines clip their own overflow */
+.tmw-split-line {
+  position:   relative;
+  will-change: transform;
+}
+
+
+/* ─── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .tmw-hero-bg-copy {
+    width: 100%;
+  }
+
+  .tmw-hero-bg-col:nth-child(1) .tmw-hero-bg-copy {
+    margin-top: -50svh;
+  }
+
+  .tmw-hero-bg-col:nth-child(2) .tmw-hero-bg-copy {
+    margin-top: 50svh;
+  }
+
+  .tmw-hero-outro-header {
+    width:   100%;
+    padding: var(--tmw-pad);
+  }
+}
+
+@media (max-width: 640px) {
+  /* On mobile: keep the outro header readable */
+  .tmw-hero-outro-header {
+    top:       auto;
+    bottom:    var(--tmw-pad);
+    transform: translateX(-50%);
+    width:     90%;
+  }
+}
+
+
+/* ─── Reduced-motion: show hero content statically ──────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tmw-hero-fg {
+    clip-path:  none !important;
+    transform:  none !important;
+  }
+
+  .tmw-hero-fg-header {
+    opacity: 1 !important;
+  }
+
+  .tmw-hero-outro-img:nth-child(1),
+  .tmw-hero-outro-img:nth-child(2) {
+    clip-path: none !important;
+  }
+
+  .tmw-split-line {
+    transform: none !important;
+  }
+}

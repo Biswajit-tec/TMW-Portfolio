@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tubelight Media Works — Production with a point of view. A premium production house crafting stories made to be seen." />
+    <meta name="theme-color" content="#0a0703" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Tubelight Media Works</title>
+    <link rel="stylesheet" href="/src/styles/globals.css" />
+    <link rel="stylesheet" href="/src/styles/reveal.css" />
+    <link rel="stylesheet" href="/src/styles/hero.css" />
+  </head>
+
+  <body>
+
+    <!-- ═══════════════════════════════════════════════
+         REVEAL LOADER — First visual experience
+         Covers the entire viewport via position: fixed
+         Sits atop #tmw-site until the user triggers reveal
+    ════════════════════════════════════════════════ -->
+    <div id="tmw-loader" role="dialog" aria-label="Loading Tubelight Media Works" aria-modal="true">
+      <canvas id="tmw-loader-canvas" aria-hidden="true"></canvas>
+
+      <div class="tmw-loader-ui" aria-hidden="true">
+        <p class="tmw-loader-brand">Tubelight Media Works</p>
+        <p class="tmw-loader-year">Est. MMXXV</p>
+      </div>
+
+      <button
+        class="tmw-loader-prompt"
+        aria-label="Click to enter the Tubelight Media Works experience"
+        tabindex="0"
+      >
+        <span class="tmw-loader-prompt-line"></span>
+        <span class="tmw-loader-prompt-text">Enter the work</span>
+        <span class="tmw-loader-prompt-line"></span>
+      </button>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════
+         MAIN SITE — Hidden beneath loader, revealed after animation
+         aria-hidden removed by JS after reveal completes
+    ════════════════════════════════════════════════ -->
+    <main id="tmw-site" aria-hidden="true">
+
+      <!-- ─── Hero Section ─── -->
+      <section class="tmw-hero" aria-label="Hero">
+
+        <!-- Foreground: dark image layer that clips, rotates, and scales away -->
+        <div class="tmw-hero-fg">
+          <div class="tmw-hero-fg-img">
+            <img
+              src="/images/hero.jpg"
+              alt="Cinematic production still — Tubelight Media Works"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+
+          <div class="tmw-hero-fg-header">
+            <h1>Stories made<br/>to be seen.</h1>
+          </div>
+
+          <!-- Overlay layers for phase transitions -->
+          <div class="tmw-hero-overlay-dark" aria-hidden="true"></div>
+          <div class="tmw-hero-overlay-accent" aria-hidden="true"></div>
+        </div>
+
+        <!-- Background: text columns revealed as foreground pulls away -->
+        <div class="tmw-hero-bg" aria-hidden="true">
+          <div class="tmw-hero-bg-col">
+            <div class="tmw-hero-bg-copy">
+              <h3>Motion</h3>
+              <p>
+                Every frame drawn from deliberate light and engineered shadow.
+                Stories that exist between the signal and the silence that follows.
+              </p>
+            </div>
+          </div>
+          <div class="tmw-hero-bg-col">
+            <div class="tmw-hero-bg-copy">
+              <h3>Vision</h3>
+              <p>
+                Where the image stops moving and the emotion takes over.
+                Work built to outlast the moment it was made for.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outro: two images wipe in from top/bottom, headline reveals -->
+        <div class="tmw-hero-outro" aria-hidden="true">
+          <div class="tmw-hero-outro-img">
+            <img
+              src="/images/hero-outro-1.jpg"
+              alt="Production still"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="tmw-hero-outro-img">
+            <img
+              src="/images/hero-outro-2.jpg"
+              alt="Production still"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="tmw-hero-outro-header">
+            <h3>Production with a point of view.</h3>
+          </div>
+        </div>
+
+      </section>
+      <!-- ─── / Hero Section ─── -->
+
+    </main>
+
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

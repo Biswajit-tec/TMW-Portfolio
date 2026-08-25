@@ -1,0 +1,128 @@
+/* ═══════════════════════════════════════════════════════════════════
+   reveal.css — Reveal Loader styles, scoped to #tmw-loader
+   No styles here should bleed into the main site.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── Loader container ─────────────────────────────────────────────── */
+#tmw-loader {
+  position:        fixed;
+  inset:           0;
+  z-index:         1000;
+  width:           100%;
+  height:          100dvh;
+
+  /* Subtle dark bg visible before the WebGL canvas initialises */
+  background-color: var(--tmw-black);
+
+  display:         flex;
+  flex-direction:  column;
+  justify-content: space-between;
+  align-items:     center;
+  padding:         var(--tmw-pad);
+
+  pointer-events:  all;
+
+  /* Opacity transition used by JS for the final fade-out */
+  transition: opacity 0.7s var(--tmw-ease-out);
+
+  /* Prevent FOUC while Three.js initialises */
+  will-change: opacity;
+}
+
+
+/* ─── WebGL Canvas ──────────────────────────────────────────────────── */
+#tmw-loader-canvas {
+  position: absolute;
+  inset:    0;
+  width:    100%;
+  height:   100%;
+  z-index:  1;
+  /* Prevent canvas from stealing pointer events from the overlay */
+  pointer-events: none;
+}
+
+
+/* ─── Brand wordmark (top) ──────────────────────────────────────────── */
+.tmw-loader-ui {
+  position:       relative;
+  z-index:        2;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            0.35rem;
+  /* Individual children (brand, year) start invisible via their own opacity rules;
+     JS animates them independently so we must NOT set opacity here */
+}
+
+.tmw-loader-brand {
+  color:          var(--tmw-white);
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-label);
+  font-weight:    500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space:    nowrap;
+}
+
+.tmw-loader-year {
+  color:          var(--tmw-white);
+  font-family:    var(--tmw-font);
+  font-size:      calc(var(--tmw-size-label) * 0.85);
+  font-weight:    400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity:        0; /* JS controls independently */
+}
+
+
+/* ─── Enter prompt (bottom) ─────────────────────────────────────────── */
+.tmw-loader-prompt {
+  position:       relative;
+  z-index:        2;
+
+  display:        flex;
+  align-items:    center;
+  gap:            1rem;
+
+  /* Initial state: invisible — JS fades in with a delay */
+  opacity:        0;
+
+  cursor:         pointer;
+  padding:        0.75rem 1.25rem;
+  border-radius:  2px;
+
+  /* Subtle focus ring for keyboard users */
+  outline:        none;
+}
+
+.tmw-loader-prompt:focus-visible {
+  outline:        2px solid var(--tmw-white);
+  outline-offset: 4px;
+}
+
+.tmw-loader-prompt-text {
+  color:          var(--tmw-white);
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-label);
+  font-weight:    400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  white-space:    nowrap;
+}
+
+.tmw-loader-prompt-line {
+  display:          block;
+  width:            2.5rem;
+  height:           1px;
+  background-color: var(--tmw-white);
+  opacity:          0.5;
+  flex-shrink:      0;
+}
+
+
+/* ─── Mobile overrides ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .tmw-loader-prompt-line {
+    width: 1.5rem;
+  }
+}

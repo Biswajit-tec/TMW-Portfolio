@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════════════════════════
+   globals.css — Tubelight Media Works design system
+   Global reset + design tokens. All site-wide defaults live here.
+   Component styles are kept in their own scoped files.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── Font Import ──────────────────────────────────────────────────── */
+@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+
+
+/* ─── Design Tokens ────────────────────────────────────────────────── */
+:root {
+  /* Colour palette */
+  --tmw-cream:       #dcdbd5;   /* warm parchment – bg text panels  */
+  --tmw-dark:        #1a0401;   /* deep dark brown – primary bg      */
+  --tmw-accent:      #e12c1a;   /* cinematic crimson – accent flash  */
+  --tmw-black:       #0a0703;   /* near-black – loader bg            */
+  --tmw-white:       #f5f4f0;   /* warm off-white – loader text      */
+
+  /* Typography */
+  --tmw-font:        'PP Neue Montreal', 'Helvetica Neue', Helvetica, sans-serif;
+
+  /* Type scale (fluid) */
+  --tmw-size-hero:   clamp(2.4rem, 7vw, 11rem);
+  --tmw-size-h3:     clamp(2rem, 5vw, 8rem);
+  --tmw-size-body:   clamp(0.75rem, 1vw, 0.9rem);
+  --tmw-size-label:  clamp(0.65rem, 0.8vw, 0.8rem);
+
+  /* Spacing */
+  --tmw-pad:         clamp(1.25rem, 2.5vw, 2.5rem);
+
+  /* Easing */
+  --tmw-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --tmw-ease-inout:  cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Transitions */
+  --tmw-transition:  0.6s var(--tmw-ease-out);
+}
+
+
+/* ─── Reset ────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin:      0;
+  padding:     0;
+  box-sizing:  border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+body {
+  width:            100%;
+  min-height:       100dvh;
+  background-color: var(--tmw-black);
+  color:            var(--tmw-cream);
+  font-family:      var(--tmw-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* overflow-y is toggled by main.js (hidden during loader, auto after) */
+}
+
+img,
+video {
+  display:    block;
+  max-width:  100%;
+  height:     auto;
+}
+
+button {
+  background: none;
+  border:     none;
+  cursor:     pointer;
+  font:       inherit;
+  color:      inherit;
+}
+
+a {
+  color:           inherit;
+  text-decoration: none;
+}
+
+
+/* ─── Reduced-motion overrides ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+  }
+}
