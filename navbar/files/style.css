@@ -1,0 +1,380 @@
+/* =====================================================
+   FONTS
+   ===================================================== */
+@font-face {
+   font-family: 'Display';
+   src: url('fonts/font.woff2') format('woff2');
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'DisplayItalic';
+   src: url('fonts/font2.woff2') format('woff2');
+   font-display: swap;
+}
+
+/* =====================================================
+   TOKENS
+   ===================================================== */
+:root {
+   /* Colors */
+   --c-bg:      #e5e3dc;
+   --c-fg:      #0a0a0a;
+   --c-light:   #e2e2dc;
+   --c-overlay: #0a0a0a;
+
+   /* Typography */
+   --ff-display: 'Display', Georgia, serif;
+   --ff-italic:  'DisplayItalic', Georgia, serif;
+
+   /* Sizing */
+   --toggle-size: 6.25rem;   /* 100px — stays fixed (no growth on open) */
+
+   /* Motion */
+   --ease-smooth: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* =====================================================
+   RESET
+   ===================================================== */
+*, *::before, *::after {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+html, body {
+   width: 100%;
+   height: 100%;
+}
+
+body {
+   position: relative;
+   overflow: hidden;
+   background: var(--c-bg);
+   color: var(--c-fg);
+   font-family: var(--ff-display);
+   -webkit-font-smoothing: antialiased;
+}
+
+ul { list-style: none; }
+
+a {
+   color: inherit;
+   text-decoration: none;
+   -webkit-tap-highlight-color: transparent;
+}
+
+button {
+   font: inherit;
+   color: inherit;
+   background: none;
+   border: 0;
+   padding: 0;
+   cursor: pointer;
+   -webkit-tap-highlight-color: transparent;
+}
+
+/* =====================================================
+   BLOCK: hero
+   ===================================================== */
+.hero {
+   min-height: 100dvh;
+   display: grid;
+   place-items: center;
+   grid-template-rows: 1fr auto;
+   background: url('img/bg-img.png') no-repeat center / cover;
+   padding: 2rem;
+}
+
+.hero__title {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 100%;
+   font-family: var(--ff-display);
+   font-size: clamp(64px, 13vw, 180px);
+   font-weight: 500;
+   line-height: 0.9;
+}
+
+.hero__row {
+   display: inline-flex;
+   align-items: baseline;
+   gap: clamp(20px, 4vw, 60px);
+}
+
+.hero__row--top    { margin-right: 25%; }
+.hero__row--bottom { margin-left:  10%; }
+
+.hero__row em {
+   font-family: var(--ff-italic);
+   font-style: italic;
+   font-weight: 100;
+   font-size: clamp(44px, 7vw, 100px);
+}
+
+.hero__row--bottom {
+   font-size: clamp(80px, 15vw, 200px);
+   line-height: 0.9;
+}
+
+.hero__caption {
+   font-family: var(--ff-display);
+   font-size: clamp(18px, 2vw, 30px);
+}
+
+/* =====================================================
+   BLOCK: menu-toggle
+   ===================================================== */
+.menu-toggle {
+   position: fixed;
+   top: 2rem;
+   right: 2rem;
+   z-index: 30;
+   width: var(--toggle-size);
+   height: var(--toggle-size);
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+}
+
+/* The two organic blob outlines (pure CSS morph).
+   They DO NOT grow when the menu opens — only their
+   border color flips to light for contrast. */
+.menu-toggle__outline {
+   position: absolute;
+   inset: 0;
+   border: 1px solid var(--c-fg);
+   /* Smooth color change when .is-active toggles */
+   transition: border-color 500ms var(--ease-smooth);
+}
+
+.menu-toggle__outline--a {
+   border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+   animation: blobMorph 4s linear infinite;
+}
+
+.menu-toggle__outline--b {
+   border-radius: 53% 47% 43% 57% / 51% 39% 61% 49%;
+}
+
+@keyframes blobMorph {
+   0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+   50%      { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+/* Active → outlines flip to light color. Size UNCHANGED. */
+.menu-toggle.is-active .menu-toggle__outline {
+   border-color: var(--c-light);
+}
+
+/* Hamburger icon inside the button */
+.menu-toggle__icon {
+   position: relative;
+   z-index: 2;
+   width: 1.5rem;
+   height: 1.5rem;
+}
+
+.menu-toggle__line {
+   position: absolute;
+   right: 0;
+   display: block;
+   height: 1px;
+   background-color: var(--c-fg);
+   transform-origin: center;
+   /* Single transition declaration handles all morph props */
+   transition:
+      transform        500ms var(--ease-smooth),
+      top              500ms var(--ease-smooth),
+      width            500ms var(--ease-smooth),
+      background-color 500ms var(--ease-smooth);
+}
+
+.menu-toggle__line--top {
+   top: 50%;
+   width: 1.5rem;
+   transform: translateY(-50%);
+}
+
+.menu-toggle__line--bottom {
+   top: calc(50% - 0.3rem);
+   width: 1.125rem;
+   transform: translateY(-50%);
+}
+
+/* Active state — form an X and switch to light color */
+.menu-toggle.is-active .menu-toggle__line {
+   background-color: var(--c-light);
+}
+
+.menu-toggle.is-active .menu-toggle__line--top {
+   transform: translateY(-50%) rotate(45deg);
+}
+
+.menu-toggle.is-active .menu-toggle__line--bottom {
+   top: 50%;
+   width: 1.5rem;
+   transform: translateY(-50%) rotate(-45deg);
+}
+
+/* =====================================================
+   BLOCK: overlay (SVG wave)
+   The overlay sits ABOVE the viewport by default
+   (translateY(-100%)). Opening the menu translates it
+   to y: 0 — that's the whole animation. The wave curve
+   is baked into the SVG path itself.
+   ===================================================== */
+.overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   /* Extra 10% so the curved "tail" extends below the viewport */
+   height: 110vh;
+   z-index: 10;
+   pointer-events: none;
+   /* Start off-screen above */
+   transform: translateY(-100%);
+   will-change: transform;
+}
+
+.overlay__svg {
+   width: 100%;
+   height: 100%;
+   display: block;
+}
+
+.overlay__path {
+   fill: var(--c-overlay);
+}
+
+/* =====================================================
+   BLOCK: menu
+   No "revealer" divs. Each .menu-item clips its link
+   via overflow:hidden while the link sits below
+   (top: 100%) until GSAP slides it to top: 0.
+   ===================================================== */
+.menu {
+   position: fixed;
+   inset: 0;
+   z-index: 20;
+   display: flex;
+   visibility: hidden;
+   pointer-events: none;
+}
+
+.menu.is-open {
+   pointer-events: auto;
+}
+
+.menu__col {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   height: 100%;
+   padding: 5rem 0;
+}
+
+.menu__col--primary {
+   flex: 3;
+   align-items: center;
+   justify-content: center;
+}
+
+.menu__col--secondary {
+   flex: 2;
+   align-items: center;
+  row-gap: 200px;
+}
+
+
+.menu__list {
+   display: flex;
+   flex-direction: column;
+   gap: 1.25rem;
+}
+
+.menu__col--primary .menu__list {
+   gap: 1.5rem;
+}
+
+.menu__list--top,
+.menu__list--bottom {
+   gap: 1.875rem;
+}
+
+/* One menu item — clips the link via overflow */
+.menu-item {
+   position: relative;
+   overflow: hidden;
+   /* Give the container a height so the clip works cleanly */
+   line-height: 1;
+}
+
+/* Small visual nudge (was .menu-item--offset-sm / lg in the original) */
+.menu-item--offset-sm .menu-link { margin-left: 1.5rem; }
+
+/* The link itself — starts BELOW the clip, GSAP slides it to 0 */
+.menu-link {
+   position: relative;
+   top: 100%;          /* hidden below its parent */
+   display: inline-flex;
+   align-items: baseline;
+   gap: 1.25rem;
+   color: var(--c-light);
+}
+
+.menu-link--primary {
+   font-family: var(--ff-display);
+   font-size: clamp(60px, 8vw, 125px);
+   font-weight: 500;
+   text-transform: uppercase;
+   letter-spacing: -0.01em;
+   line-height: 0.9;
+}
+
+.menu-link--secondary {
+   font-family: var(--ff-italic);
+   font-style: italic;
+   font-size: clamp(28px, 3vw, 38px);
+   line-height: 1;
+}
+
+.menu-link__num {
+   font-family: var(--ff-italic);
+   font-style: italic;
+   font-size: 1.25rem;
+   font-weight: 400;
+   opacity: 0.6;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 900px) {
+   .menu-toggle {
+      top: 1rem;
+      right: 1rem;
+      --toggle-size: 5rem;
+   }
+
+   .menu {
+      flex-direction: column;
+   }
+
+   .menu__col--primary,
+   .menu__col--secondary {
+      flex: 1;
+   }
+
+   .hero__row--top,
+   .hero__row--bottom {
+      margin: 0;
+   }
+
+   .hero__caption {
+      margin-left: 1rem;
+   }
+}

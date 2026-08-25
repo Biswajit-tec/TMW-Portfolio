@@ -1,0 +1,213 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ending.css — Closing / Ending Section, Tubelight Media Works.
+   All selectors scoped to .tmw-ending-* to prevent global collisions.
+
+   VISUAL DESIGN INTENT:
+   Emerges continuously from Project End's deep dark finish.
+   A cinematic statement ("The next frame starts here.") anchors the
+   closing chapter. As the user scrolls into the section, the hero
+   production visual smoothly contracts from an expansive wide frame
+   into an anchored card container, while the synchronized Lottie
+   character moves dynamically across the space.
+════════════════════════════════════════════════════════════════════ */
+
+#tmw-ending {
+  position: relative;
+  width: 100%;
+  background-color: var(--tmw-black);
+  color: var(--tmw-white);
+  overflow: hidden;
+}
+
+/* ─── Pinned Scroll Stage ────────────────────────────────────────── */
+.tmw-ending-stage {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--tmw-pad);
+  overflow: hidden;
+  background-color: #0d0a07;
+}
+
+/* Subtle background vignette */
+.tmw-ending-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(225, 44, 26, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ─── Center Editorial Content ──────────────────────────────────── */
+.tmw-ending-content {
+  position: relative;
+  width: 60%;
+  max-width: 900px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  z-index: 2;
+}
+
+.tmw-ending-headline {
+  font-family: var(--tmw-serif);
+  font-size: clamp(2.8rem, 6.5vw, 7.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--tmw-white);
+  margin: 0;
+}
+
+.tmw-ending-subtext {
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-body);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tmw-cream);
+  opacity: 0.8;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+/* ─── Call To Action ─────────────────────────────────────────────── */
+.tmw-ending-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--tmw-black);
+  background-color: var(--tmw-white);
+  border: 1px solid var(--tmw-white);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all var(--tmw-transition);
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.tmw-ending-cta:hover {
+  background-color: var(--tmw-cream);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Floating / Dynamic Media Container ─────────────────────────── */
+.tmw-ending-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Lottie Container */
+.tmw-ending-lottie {
+  position: relative;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 0.75rem;
+  transform: translateX(1.5rem);
+  will-change: transform;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.tmw-ending-lottie svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Hero Image Container (transitions wide → card) */
+.tmw-ending-hero-img {
+  position: relative;
+  width: 60%;
+  max-width: 800px;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  transform-origin: top right;
+  will-change: width, transform;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tmw-ending-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── Mobile & Tablet Responsive Adaptations ─────────────────────── */
+@media (max-width: 1000px) {
+  .tmw-ending-content {
+    width: 90%;
+    gap: 1.5rem;
+  }
+
+  .tmw-ending-headline {
+    font-size: clamp(2.4rem, 8.5vw, 4.5rem);
+  }
+
+  .tmw-ending-media {
+    padding: 1.5rem;
+  }
+
+  .tmw-ending-lottie {
+    width: 4.5rem;
+    height: 4.5rem;
+    transform: translateX(0.5rem);
+  }
+
+  .tmw-ending-hero-img {
+    width: 85%;
+  }
+}
+
+@media (max-width: 600px) {
+  .tmw-ending-content {
+    width: 100%;
+  }
+
+  .tmw-ending-cta {
+    padding: 0.85rem 2rem;
+  }
+
+  .tmw-ending-hero-img {
+    width: 90%;
+  }
+}
+
+/* ─── Reduced Motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tmw-ending-hero-img {
+    width: 320px !important;
+    will-change: auto;
+  }
+
+  .tmw-ending-lottie {
+    transform: none !important;
+    will-change: auto;
+  }
+}

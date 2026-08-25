@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Purity of Noise</title>
+
+   <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+   <!-- ===== HERO ===== -->
+   <section class="hero">
+      <h1 class="hero__title">
+         <span class="hero__row hero__row--top">
+            <em>the</em> PURITY
+         </span>
+         <span class="hero__row hero__row--bottom">
+            <em>of</em> NOISE
+         </span>
+      </h1>
+
+      <p class="hero__caption">"Everyday life is her sound"</p>
+   </section>
+
+   <!-- ===== TOGGLE BUTTON =====
+        Two morphing blob outlines + the hamburger icon.
+        Stays the SAME size when open — only its color flips. -->
+   <button class="menu-toggle" id="js-toggle" type="button"
+           aria-label="Open navigation" aria-expanded="false">
+      <span class="menu-toggle__outline menu-toggle__outline--a"></span>
+      <span class="menu-toggle__outline menu-toggle__outline--b"></span>
+
+      <span class="menu-toggle__icon">
+         <span class="menu-toggle__line menu-toggle__line--top"></span>
+         <span class="menu-toggle__line menu-toggle__line--bottom"></span>
+      </span>
+   </button>
+
+   <!-- ===== SVG WAVE OVERLAY =====
+        The path has a fixed wave shape baked in — we don't morph it.
+        Instead, the whole .overlay element translates from above the
+        viewport down into place. That gives a perfectly smooth
+        animation (one transform property interpolating linearly)
+        with zero path-shape interpolation jitter. -->
+   <div class="overlay" aria-hidden="true">
+      <svg class="overlay__svg" viewBox="0 0 1000 1100" preserveAspectRatio="none">
+         <!-- Covers the top 1000 units + a curved "wave" hanging 100 units below. -->
+         <path class="overlay__path"
+               d="M 0 0 L 1000 0 L 1000 1000 Q 500 1200 0 1000 Z"></path>
+      </svg>
+   </div>
+
+   <!-- ===== MENU =====
+        No extra "revealer" divs — each menu-item uses
+        overflow:hidden to clip the link while it sits below. -->
+   <nav class="menu" id="js-menu" aria-hidden="true">
+
+      <div class="menu__col menu__col--primary">
+         <ul class="menu__list">
+            <li class="menu-item menu-item--offset-sm">
+               <a class="menu-link menu-link--primary" href="#">
+                  <span class="menu-link__num">I</span>
+                  <span class="menu-link__text">Home</span>
+               </a>
+            </li>
+            <li class="menu-item">
+               <a class="menu-link menu-link--primary" href="#">
+                  <span class="menu-link__num">II</span>
+                  <span class="menu-link__text">Reviews</span>
+               </a>
+            </li>
+            <li class="menu-item menu-item--offset-sm">
+               <a class="menu-link menu-link--primary" href="#">
+                  <span class="menu-link__num">III</span>
+                  <span class="menu-link__text">Author</span>
+               </a>
+            </li>
+         </ul>
+      </div>
+
+      <div class="menu__col menu__col--secondary">
+         <ul class="menu__list menu__list--top">
+            <li class="menu-item">
+               <a class="menu-link menu-link--secondary" href="#">Projects</a>
+            </li>
+            <li class="menu-item">
+               <a class="menu-link menu-link--secondary" href="#">Team</a>
+            </li>
+            <li class="menu-item">
+               <a class="menu-link menu-link--secondary" href="#">Product</a>
+            </li>
+         </ul>
+
+         <ul class="menu__list menu__list--bottom">
+            <li class="menu-item">
+               <a class="menu-link menu-link--secondary" href="#">Contact</a>
+            </li>
+         </ul>
+      </div>
+   </nav>
+
+   <!-- GSAP -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+   <script src="script.js"></script>
+</body>
+</html>

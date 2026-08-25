@@ -28,13 +28,15 @@
  * No component has knowledge of another; orchestration lives only here.
  */
 
-import { initRevealLoader }    from './components/reveal/RevealLoader.js';
-import { initHeroSection }     from './components/hero/HeroSection.js';
-import { initAboutSection }    from './components/about/AboutSection.js';
-import { initProjectSection }  from './components/project/ProjectSection.js';
-import { initProjectEndSection } from './components/project-end/ProjectEndSection.js';
-import { ScrollTrigger }       from 'gsap/ScrollTrigger';
-import gsap                    from 'gsap';
+import { initRevealLoader }     from './components/reveal/RevealLoader.js';
+import { initHeroSection }      from './components/hero/HeroSection.js';
+import { initAboutSection }     from './components/about/AboutSection.js';
+import { initProjectSection }   from './components/project/ProjectSection.js';
+import { initProjectEndSection }  from './components/project-end/ProjectEndSection.js';
+import { initEndingSection }    from './components/ending/EndingSection.js';
+import { initFooterSection }    from './components/footer/FooterSection.js';
+import { ScrollTrigger }        from 'gsap/ScrollTrigger';
+import gsap                     from 'gsap';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,21 +62,24 @@ async function bootstrap() {
   document.getElementById('tmw-site')?.removeAttribute('aria-hidden');
 
   // ── Section inits — sequential, each builds on the same scroll system ──
-  // About: calls ScrollTrigger.refresh() internally (measures hero pin height)
+  // About: 3D card flip
   initAboutSection();
 
   // Project: Flip + marquee + horizontal scroll
-  // (No Lenis param — operates within the global Lenis→ScrollTrigger binding)
   initProjectSection();
 
   // Project End: gallery collapse + wordmark + word fade
-  // (No Lenis param — same reason)
   initProjectEndSection();
 
+  // Ending: closing statement + shrinking hero image + lottie sync
+  initEndingSection();
+
+  // Footer: massive typography + particle explosion physics
+  initFooterSection();
+
   // ── Final refresh: authoritative measurement with full page height ──────
-  // All section pins (hero 5×vh, about 4×vh, project 5×vh, project-end 4×vh)
-  // are now registered. Refresh ensures correct start/end positions for all.
   ScrollTrigger.refresh();
 }
 
 bootstrap();
+

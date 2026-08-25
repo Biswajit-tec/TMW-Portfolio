@@ -1,0 +1,234 @@
+/* ═══════════════════════════════════════════════════════════════════
+   footer.css — Final Footer & Particle Burst, Tubelight Media Works.
+   All selectors scoped to .tmw-footer-* to prevent global collisions.
+
+   VISUAL DESIGN INTENT:
+   The final resting frame of the cinematic journey.
+   Features massive, bold TUBELIGHT MEDIA WORKS branding typography,
+   comprehensive studio metadata, and the signature 15-frame production
+   still particle explosion bursting upward across the footer.
+════════════════════════════════════════════════════════════════════ */
+
+.tmw-footer {
+  position: relative;
+  width: 100%;
+  min-height: 85svh;
+  background-color: #070503;
+  color: var(--tmw-white);
+  padding: clamp(2rem, 4vw, 4rem) var(--tmw-pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Top Metadata Columns ───────────────────────────────────────── */
+.tmw-footer-top {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tmw-cream);
+  z-index: 2;
+}
+
+.tmw-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tmw-footer-col-title {
+  color: var(--tmw-white);
+  font-weight: 500;
+}
+
+.tmw-footer-col-desc {
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* ─── Massive Branding Signature ─────────────────────────────────── */
+.tmw-footer-brand-wrap {
+  width: 100%;
+  padding: 3rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  user-select: none;
+}
+
+.tmw-footer-brand {
+  font-family: var(--tmw-font);
+  font-size: clamp(2.6rem, 11vw, 13.5rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--tmw-white);
+  margin: 0;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(220, 219, 213, 0.75) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Bottom Info & Navigation Bar ───────────────────────────────── */
+.tmw-footer-bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tmw-cream);
+  z-index: 2;
+}
+
+.tmw-footer-copyright {
+  opacity: 0.6;
+  margin: 0;
+}
+
+.tmw-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tmw-footer-link {
+  color: var(--tmw-cream);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity var(--tmw-transition), color var(--tmw-transition);
+}
+
+.tmw-footer-link:hover {
+  opacity: 1;
+  color: var(--tmw-white);
+}
+
+.tmw-footer-back-to-top {
+  background: none;
+  border: none;
+  color: var(--tmw-cream);
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--tmw-transition), color var(--tmw-transition), transform var(--tmw-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.tmw-footer-back-to-top:hover {
+  opacity: 1;
+  color: var(--tmw-white);
+  transform: translateY(-2px);
+}
+
+/* ─── Particle Explosion Container ───────────────────────────────── */
+.tmw-footer-explosion {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 220%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.tmw-footer-particle-img {
+  position: absolute;
+  bottom: -220px;
+  left: 50%;
+  width: clamp(100px, 14vw, 170px);
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transform: translate3d(-50%, 0, 0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* ─── Responsive Adaptations ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .tmw-footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .tmw-footer-col:last-child {
+    grid-column: span 2;
+  }
+
+  .tmw-footer-brand {
+    font-size: clamp(2.2rem, 10vw, 8rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .tmw-footer {
+    min-height: 75svh;
+    padding: 2rem var(--tmw-pad);
+  }
+
+  .tmw-footer-top {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .tmw-footer-col:last-child {
+    grid-column: auto;
+  }
+
+  .tmw-footer-brand {
+    font-size: clamp(1.8rem, 9.5vw, 4.5rem);
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .tmw-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .tmw-footer-links {
+    gap: 1.25rem;
+  }
+
+  .tmw-footer-particle-img {
+    width: 110px;
+  }
+}
+
+/* ─── Reduced Motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tmw-footer-explosion {
+    display: none !important;
+  }
+}

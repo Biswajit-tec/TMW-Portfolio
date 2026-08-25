@@ -89,3 +89,25 @@ export const PROJECTS = {
     footer:   'Tubelight Media Works',
   },
 };
+
+export const ENDING = {
+  /** Closing statement before the final footer */
+  headline: 'The next frame\nstarts here.',
+  subtext: 'Have a story to tell? Let\'s make it move.',
+  cta: 'Start a project',
+  ctaHref: '#contact',
+};
+
+export const FOOTER = {
+  brand: 'TUBELIGHT MEDIA WORKS',
+  tagline: 'Production House',
+  disciplines: 'Film · Commercials · Branded Content · Moving Image',
+  meta: 'Est. MMXXV · Global Production',
+  copyright: '© 2026 Tubelight Media Works. All rights reserved.',
+  links: [
+    { label: 'Instagram', href: 'https://instagram.com' },
+    { label: 'Vimeo', href: 'https://vimeo.com' },
+    { label: 'Email', href: 'mailto:contact@tubelightmediaworks.com' },
+  ],
+};
+
