@@ -9,8 +9,9 @@
  *   Progress 35%:    cards separate with gap + individual rounded corners
  *   Progress 70%:    3D card flip (rotationY 180°) + outer cards tilt ±15°
  *
- * Mobile (<1000px) — gsap.matchMedia() clears all inline GSAP styles;
- * CSS takes over with a clean static vertical stack.
+ * Mobile (<1000px) — CSS lays the cards out as a vertical stack, and each
+ * card gets its own ScrollTrigger that flips it (rotationY 180°) as it
+ * scrolls into view, so the copy on the card backs is reachable there too.
  *
  * Called from main.js AFTER the reveal loader Promise resolves,
  * so ScrollTrigger.refresh() can correctly measure the full page height
@@ -32,26 +33,50 @@ export function initAboutSection() {
   let isGapAnimationCompleted  = false;
   let isFlipAnimationCompleted = false;
 
+  // Retained so a re-init can revert the previous context instead of
+  // stacking a new matchMedia (and its triggers) on every resize.
+  let mm = null;
+
   // ─── initAnimations — creates / re-creates ScrollTrigger on resize ────
   function initAnimations() {
-    // Kill only the About sticky trigger (preserve Hero's trigger)
+    // Kill every About trigger — the desktop sticky pin AND the per-card
+    // mobile flips — while leaving Hero/Project triggers untouched.
     ScrollTrigger.getAll()
-      .filter(t => t.vars?.id === 'tmw-about-sticky')
+      .filter(t => String(t.vars?.id || '').startsWith('tmw-about-'))
       .forEach(t => t.kill());
 
-    const mm = gsap.matchMedia();
+    if (mm) mm.revert();
+    mm = gsap.matchMedia();
 
-    // ── Mobile: clear GSAP inline styles, let CSS handle layout ──────────
+    // ── Mobile: vertical stack, each card flips as it scrolls into view ──
     mm.add('(max-width: 999px)', () => {
-      gsap.set(
-        ['.tmw-about-card', '.tmw-about-cards', '.tmw-about-header h2'],
-        { clearProps: 'all' }
-      );
-      // Explicitly clear the desktop seam-fix properties
+      // Drop desktop-only inline styles (width/gap/tilt) so CSS can lay the
+      // stack out cleanly — but do NOT clear the cards' own transform here,
+      // since the per-card flip below owns it.
+      gsap.set(['.tmw-about-cards', '.tmw-about-header h2'], { clearProps: 'all' });
       gsap.set(['#tmw-card-2', '#tmw-card-3'], { marginLeft: '', zIndex: '' });
+      gsap.set('.tmw-about-card', { clearProps: 'all' });
+
       isGapAnimationCompleted  = false;
       isFlipAnimationCompleted = false;
-      return () => {};
+
+      const cards = gsap.utils.toArray('.tmw-about-card');
+
+      // One trigger per card: flip to the copy side on the way down,
+      // flip back to the image on the way up.
+      cards.forEach((card, i) => {
+        ScrollTrigger.create({
+          id:      `tmw-about-card-flip-${i}`,
+          trigger: card,
+          start:   'top 70%',
+          onEnter:     () => gsap.to(card, { rotationY: 180, duration: 0.9, ease: 'power3.inOut' }),
+          onLeaveBack: () => gsap.to(card, { rotationY: 0,   duration: 0.9, ease: 'power3.inOut' }),
+        });
+      });
+
+      return () => {
+        gsap.set(cards, { clearProps: 'all' });
+      };
     });
 
     // ── Desktop: 3-phase scroll animation, pinned ─────────────────────────
