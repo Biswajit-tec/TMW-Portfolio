@@ -1,0 +1,245 @@
+/* ═══════════════════════════════════════════════════════════════════
+   project-end.css — Project End section, Tubelight Media Works.
+   All selectors scoped to .tmw-pe-* to prevent global collisions.
+
+   VISUAL DESIGN INTENT:
+   Dark background (#0f0f0f) flows continuously from the Project outro.
+   A 3×3 gallery of images fills the viewport and slowly collapses
+   (scale 1→0.5) as you scroll, while a TMW wordmark grows from
+   its initial large scale to a settled brand mark at bottom-left.
+   An editorial headline fades in word-by-word.
+   At 85% scroll progress, a soft dark overlay begins — a clean
+   resting state that allows future sections to follow naturally.
+
+   ARCHITECTURE:
+   No standalone scroll system. All animation driven by ScrollTrigger
+   through the existing Lenis integration (HeroSection.js).
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── Section wrapper ────────────────────────────────────────────────── */
+#tmw-project-end {
+  position:         relative;
+  width:            100%;
+  background-color: var(--tmw-black);
+}
+
+/* ─── Image reset ───────────────────────────────────────────────────── */
+#tmw-project-end img {
+  display:    block;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+
+
+/* ─── Hero (the pinned viewport) ────────────────────────────────────── */
+.tmw-pe-hero {
+  position:         relative;
+  width:            100%;
+  height:           100svh;
+  overflow:         hidden;
+  background-color: #0f0f0f;
+}
+
+.tmw-pe-inner {
+  position:   relative;
+  width:      100%;
+  height:     100%;
+  will-change: transform;
+}
+
+
+/* ─── Gallery grid ───────────────────────────────────────────────────── */
+.tmw-pe-gallery {
+  position:  absolute;
+  top:       50%;
+  left:      50%;
+  transform: translate(-50%, -50%) scale(1);
+  /* 3 cols × ~3×vw + gaps;  3 rows × ~3×svh + gaps */
+  width:     calc(300% + 2rem);
+  height:    calc(300svh + 2rem);
+  display:   flex;
+  gap:       1rem;
+  will-change: transform;
+}
+
+.tmw-pe-col {
+  flex:            1;
+  display:         flex;
+  flex-direction:  column;
+  height:          calc(300svh + 2rem);
+  gap:             1rem;
+}
+
+.tmw-pe-item {
+  position: relative;
+  flex:     1;
+  overflow: hidden;
+}
+
+/* Images start slightly zoomed — JS de-zooms as gallery collapses */
+.tmw-pe-item img {
+  transform:  scale(1.25);
+  will-change: transform;
+}
+
+
+/* ─── Header (central text overlay) ─────────────────────────────────── */
+.tmw-pe-header {
+  position:       absolute;
+  top:            50%;
+  left:           50%;
+  transform:      translate(-50%, -50%);
+  text-align:     center;
+  width:          45%;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            2rem;
+  color:          var(--tmw-white);
+  z-index:        2;
+}
+
+.tmw-pe-header h3 {
+  font-family: var(--tmw-serif);
+  font-size:   clamp(1.5rem, 2.5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color:       var(--tmw-white);
+}
+
+/* SplitText word targets — JS controls opacity */
+.tmw-pe-word {
+  display:    inline-block;
+  will-change: opacity;
+}
+
+
+/* ─── CTA button ─────────────────────────────────────────────────────── */
+.tmw-pe-cta {
+  display:          inline-block;
+  padding:          0.85rem 2rem;
+  background-color: var(--tmw-white);
+  color:            var(--tmw-black);
+  font-family:      var(--tmw-font);
+  font-size:        var(--tmw-size-label);
+  font-weight:      500;
+  letter-spacing:   0.2em;
+  text-transform:   uppercase;
+  border-radius:    2px;
+  text-decoration:  none;
+  opacity:          0;  /* JS-controlled via headerFadeTargets */
+  will-change:      opacity;
+  transition:       background-color 0.3s ease;
+}
+
+.tmw-pe-cta:hover {
+  background-color: var(--tmw-cream);
+}
+
+
+/* ─── Footer label ───────────────────────────────────────────────────── */
+.tmw-pe-footer {
+  position:   absolute;
+  bottom:     2rem;
+  right:      2rem;
+  color:      var(--tmw-white);
+  z-index:    2;
+  will-change: transform, filter, opacity;
+}
+
+.tmw-pe-footer h5 {
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-label);
+  font-weight:    400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity:        0.5;
+}
+
+
+/* ─── Exit overlay ───────────────────────────────────────────────────── */
+.tmw-pe-overlay {
+  position:         absolute;
+  inset:            0;
+  background-color: var(--tmw-black);
+  opacity:          0;
+  pointer-events:   none;
+  will-change:      opacity;
+  z-index:          3;
+}
+
+
+/* ─── TMW wordmark ──────────────────────────────────────────────────── */
+/*
+   position: fixed — floats over the entire viewport.
+   Starts at scale(6) bottom-left and shrinks to scale(1)
+   while traveling up, arriving as a settled brand mark.
+   JS controls scale, translateY, and opacity.
+   z-index: 100 — above the pinned gallery (z-index default).
+*/
+.tmw-pe-wordmark {
+  position:         fixed;
+  bottom:           2rem;
+  left:             2rem;
+  font-family:      var(--tmw-font);
+  font-size:        clamp(0.7rem, 0.9vw, 0.85rem);
+  font-weight:      600;
+  letter-spacing:   0.35em;
+  text-transform:   uppercase;
+  color:            var(--tmw-white);
+  transform-origin: bottom left;
+  will-change:      transform, opacity;
+  z-index:          100;
+  opacity:          0;    /* JS controls: 0 until section enters, 0 again when it exits */
+  user-select:      none;
+  pointer-events:   none;
+}
+
+
+/* ─── Mobile ≤999px ──────────────────────────────────────────────────── */
+@media (max-width: 999px) {
+  /* Header: full width, padded */
+  .tmw-pe-header {
+    width:   100%;
+    padding: 0 2rem;
+  }
+
+  /* Footer: bottom-centre on mobile */
+  .tmw-pe-footer {
+    right:      unset;
+    left:       50%;
+    bottom:     20svh;
+    transform:  translateX(-50%);
+    text-align: center;
+  }
+}
+
+
+/* ─── Reduced motion ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* Gallery at resting scale, images not zoomed */
+  .tmw-pe-gallery {
+    transform:  translate(-50%, -50%) scale(0.75) !important;
+    will-change: auto;
+  }
+
+  .tmw-pe-item img {
+    transform:  scale(1) !important;
+    will-change: auto;
+  }
+
+  /* Wordmark visible immediately at final scale */
+  .tmw-pe-wordmark {
+    opacity:   1 !important;
+    transform: scale(1) translateY(0) !important;
+    will-change: auto;
+  }
+
+  /* Header text immediately visible */
+  .tmw-pe-header h3,
+  .tmw-pe-word,
+  .tmw-pe-cta {
+    opacity: 1 !important;
+  }
+}

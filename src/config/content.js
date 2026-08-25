@@ -39,3 +39,53 @@ export const NAV = {
     { label: 'Contact', href: '#contact' },
   ],
 };
+
+export const ABOUT = {
+  intro: {
+    /** Intro full-screen headline — first About section */
+    headline: 'We make films\nfor a world\nthat moves.',
+  },
+  sticky: {
+    /** Sticky section header — above the card animation */
+    header: 'What we do.',
+    /** Card backs — revealed on scroll via 3D flip */
+    cards: [
+      { number: '( 01 )', title: 'Film &amp; Branded Content' },
+      { number: '( 02 )', title: 'Visual Campaigns' },
+      { number: '( 03 )', title: 'Moving Image' },
+    ],
+  },
+  outro: {
+    /** Outro full-screen statement */
+    headline: 'We are Tubelight\nMedia Works.',
+  },
+};
+
+export const PROJECTS = {
+  intro: {
+    /** Full-viewport headline — cream bg, first beat of the projects chapter */
+    headline: 'Work that\nspeaks first.',
+  },
+  slides: [
+    {
+      number:   '01',
+      title:    'After Light',
+      category: 'Film · 2025',
+    },
+    {
+      number:   '02',
+      title:    'Parallel',
+      category: 'Branded Content · 2024',
+    },
+  ],
+  outro: {
+    /** Dark-bg editorial statement — bridge into Project End */
+    headline: 'Every frame\nis a decision.',
+  },
+  end: {
+    /** Project End section — spotlight gallery + CTA */
+    headline: 'Selected work from\n2023 — 2025.',
+    cta:      'Start a project',
+    footer:   'Tubelight Media Works',
+  },
+};

@@ -1,13 +1,21 @@
 /**
- * RevealLoader.js — WebGL cinematic reveal loader for Tubelight Media Works.
+ * RevealLoader.js — Cinematic auto-reveal mask for Tubelight Media Works.
  *
- * Renders a full-screen black plane with a Perlin-noise radial dissolve
- * (Three.js ShaderMaterial). The user clicks to trigger the reveal.
+ * Architecture (MASK model):
+ *   - The hero is already rendered and positioned beneath this loader.
+ *   - The WebGL canvas renders a solid-black plane that COVERS the hero.
+ *   - As uTransition (0→1), the plane dissolves, progressively revealing
+ *     the hero underneath — no separate "hero appears after loader" step.
+ *   - After the first WebGL frame, the loader's CSS background is removed
+ *     so transparent WebGL pixels show the hero, not the loader background.
  *
- * Returns a Promise that resolves when the dissolve + fade-out complete,
- * signalling to main.js that the main site can be handed control.
+ * Timing:
+ *   t=0s    Three.js renders (solid black, covers hero)
+ *   t=0.4s  Brand wordmark fades in
+ *   t=2.0s  Auto-dissolve begins; brand text fades out simultaneously
+ *   t=5.0s  Dissolve complete; loader removed from DOM flow → Promise resolves
  *
- * Cleans up: RAF loop, resize listener, Three.js renderer/geometry/material.
+ * Returns: Promise<void> — resolves when loader is fully removed.
  */
 
 import * as THREE from 'three';
@@ -16,27 +24,30 @@ import { vertexShader, fragmentShader } from './shaders.js';
 import { BRAND } from '../../config/content.js';
 
 export function initRevealLoader() {
-  // ─── DOM refs ─────────────────────────────────────────────────────────────
-  const loaderEl   = document.getElementById('tmw-loader');
-  const canvas     = document.getElementById('tmw-loader-canvas');
-  const promptEl   = document.querySelector('.tmw-loader-prompt');
-  const brandEl    = document.querySelector('.tmw-loader-brand');
+  const loaderEl = document.getElementById('tmw-loader');
+  const canvas   = document.getElementById('tmw-loader-canvas');
+  const brandEl  = document.querySelector('.tmw-loader-brand');
+  const yearEl   = document.querySelector('.tmw-loader-year');
 
-  // Apply brand text from content config
-  if (brandEl)  brandEl.textContent  = BRAND.name;
-  if (promptEl) {
-    const textSpan = promptEl.querySelector('.tmw-loader-prompt-text');
-    if (textSpan) textSpan.textContent = BRAND.loaderPrompt;
-  }
+  if (brandEl) brandEl.textContent = BRAND.name;
+  if (yearEl)  yearEl.textContent  = BRAND.established;
 
-  // ─── Reduced-motion check ─────────────────────────────────────────────────
+  // ─── Reduced motion: skip dissolve, reveal immediately ────────────────
   const prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
 
-  // ─── Three.js setup ───────────────────────────────────────────────────────
-  const scene    = new THREE.Scene();
-  const camera   = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  if (prefersReducedMotion) {
+    if (loaderEl) {
+      loaderEl.style.pointerEvents = 'none';
+      loaderEl.style.display       = 'none';
+    }
+    return Promise.resolve();
+  }
+
+  // ─── Three.js setup ──────────────────────────────────────────────────
+  const scene  = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -47,45 +58,26 @@ export function initRevealLoader() {
     uTransition:  { value: 0.0 },
     uResolution:  { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     uTime:        { value: 0.0 },
-    // Warm amber glow complements the hero's crimson/dark palette
-    uBorderColor: { value: new THREE.Color('#c87941') },
+    uBorderColor: { value: new THREE.Color('#c87941') }, // warm amber
   };
 
   const geometry = new THREE.PlaneGeometry(2, 2);
   const material = new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader,
-    uniforms,
-    transparent: true,
-    depthWrite: false,
-    depthTest:  false,
+    vertexShader, fragmentShader, uniforms,
+    transparent: true, depthWrite: false, depthTest: false,
   });
+  scene.add(new THREE.Mesh(geometry, material));
 
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
-  // ─── Resize handler ───────────────────────────────────────────────────────
+  // ─── Resize handler ──────────────────────────────────────────────────
   const handleResize = () => {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = window.innerWidth, h = window.innerHeight;
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     uniforms.uResolution.value.set(w, h);
   };
   window.addEventListener('resize', handleResize);
 
-  // ─── RAF render loop ─────────────────────────────────────────────────────
-  const clock = new THREE.Clock();
-  let rafId;
-
-  const tick = () => {
-    uniforms.uTime.value = clock.getElapsedTime();
-    renderer.render(scene, camera);
-    rafId = requestAnimationFrame(tick);
-  };
-  tick();
-
-  // ─── Cleanup ──────────────────────────────────────────────────────────────
+  // ─── Three.js cleanup ────────────────────────────────────────────────
   const cleanup = () => {
     cancelAnimationFrame(rafId);
     window.removeEventListener('resize', handleResize);
@@ -94,122 +86,75 @@ export function initRevealLoader() {
     material.dispose();
   };
 
-  // ─── Prompt entrance animation ───────────────────────────────────────────
-  if (!prefersReducedMotion) {
-    // Stagger brand + prompt in after a cinematic pause
-    gsap.fromTo(
-      '.tmw-loader-brand',
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: 1.2, delay: 0.6, ease: 'power2.out' }
-    );
-    gsap.fromTo(
-      '.tmw-loader-year',
-      { opacity: 0 },
-      { opacity: 0.4, duration: 1.0, delay: 0.9, ease: 'power2.out' }
-    );
-    gsap.fromTo(
-      promptEl,
-      { opacity: 0, y: 16 },
-      { opacity: 1, y: 0, duration: 1.0, delay: 1.8, ease: 'power2.out' }
-    );
-    // Subtle pulse on prompt to guide the eye
-    gsap.to(promptEl, {
-      opacity: 0.7,
-      duration: 1.4,
-      delay: 3.2,
-      ease: 'sine.inOut',
-      repeat: -1,
-      yoyo: true,
-    });
-  } else {
-    // Reduced motion: show everything immediately at full opacity
-    if (brandEl)  brandEl.style.opacity  = '1';
-    if (promptEl) promptEl.style.opacity = '1';
-  }
+  // ─── RAF render loop ─────────────────────────────────────────────────
+  const clock = new THREE.Clock();
+  let rafId;
+  let firstFrame = true;
 
-  // ─── Return a Promise that resolves when reveal is complete ───────────────
+  const tick = () => {
+    uniforms.uTime.value = clock.getElapsedTime();
+    renderer.render(scene, camera);
+
+    if (firstFrame) {
+      firstFrame = false;
+      // WebGL is now rendering a solid-black plane via shader.
+      // Drop the loader's CSS background-color so transparent WebGL pixels
+      // will reveal the hero (not the loader div's own background).
+      if (loaderEl) loaderEl.style.backgroundColor = 'transparent';
+    }
+
+    rafId = requestAnimationFrame(tick);
+  };
+  tick();
+
+  // ─── Brand text entrance ─────────────────────────────────────────────
+  gsap.fromTo(brandEl,
+    { opacity: 0, y: 10 },
+    { opacity: 1, y: 0, duration: 0.9, delay: 0.4, ease: 'power2.out' }
+  );
+  gsap.fromTo(yearEl,
+    { opacity: 0 },
+    { opacity: 0.4, duration: 0.7, delay: 0.7, ease: 'power2.out' }
+  );
+
+  // ─── Promise: resolves when dissolve + removal is complete ───────────
   return new Promise((resolve) => {
-    let isRevealed = false;
+    let resolved = false;
 
-    const triggerReveal = () => {
-      if (isRevealed) return;
-      isRevealed = true;
+    const safeResolve = () => {
+      if (resolved) return;
+      resolved = true;
+      if (loaderEl) {
+        loaderEl.style.pointerEvents = 'none';
+        loaderEl.style.display       = 'none';
+      }
+      cleanup();
+      resolve();
+    };
 
-      // Kill the prompt pulse
-      gsap.killTweensOf(promptEl);
-
-      // Fade out prompt
-      gsap.to(promptEl, {
+    // ── Auto-dissolve after 2 s cinematic pause ────────────────────────
+    const dissolveTimer = setTimeout(() => {
+      // Fade out brand text simultaneously with dissolve start
+      gsap.to([brandEl, yearEl], {
         opacity: 0,
-        y: prefersReducedMotion ? 0 : -16,
-        duration: 0.4,
-        ease: 'power2.inOut',
+        y:       -8,
+        duration: 0.45,
+        ease:    'power2.in',
       });
 
-      if (prefersReducedMotion) {
-        // Skip WebGL dissolve — just fade the loader out
-        gsap.to(loaderEl, {
-          opacity: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          onComplete: () => {
-            if (loaderEl) {
-              loaderEl.style.pointerEvents = 'none';
-              loaderEl.style.display       = 'none';
-            }
-            cleanup();
-            resolve();
-          },
-        });
-        return;
-      }
-
-      // Full WebGL dissolve (3 s)
+      // WebGL radial dissolve (3 s)
       gsap.to(uniforms.uTransition, {
-        value: 1.0,
+        value:    1.0,
         duration: 3.0,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          // Fade the entire loader element out smoothly
-          gsap.to(loaderEl, {
-            opacity: 0,
-            duration: 0.7,
-            ease: 'power2.out',
-            onComplete: () => {
-              if (loaderEl) {
-                loaderEl.style.pointerEvents = 'none';
-                loaderEl.style.display       = 'none';
-              }
-              cleanup();
-              resolve();
-            },
-          });
-        },
+        ease:     'power2.inOut',
+        onComplete: safeResolve,
       });
-    };
+    }, 2000);
 
-    // Click anywhere to reveal
-    window.addEventListener('click', triggerReveal, { once: true });
-
-    // Keyboard accessibility: Enter or Space also trigger reveal
-    const handleKey = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        triggerReveal();
-        window.removeEventListener('keydown', handleKey);
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-
-    // Safety valve — auto-reveal after 90 s so users never get stuck
-    const safetyTimer = setTimeout(() => {
-      if (!isRevealed) triggerReveal();
-    }, 90_000);
-
-    // Store cleanup ref so we can cancel it on early trigger
-    const originalTrigger = triggerReveal;
-    // Patch triggerReveal to also clear the safety timer
-    // (using a flag is simpler — isRevealed guard already covers this)
-    void safetyTimer; // referenced above; no further action needed
+    // Safety valve — never trap the user longer than 10 s
+    setTimeout(() => {
+      clearTimeout(dissolveTimer);
+      safeResolve();
+    }, 10_000);
   });
 }

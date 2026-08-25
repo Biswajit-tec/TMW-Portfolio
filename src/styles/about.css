@@ -1,0 +1,305 @@
+/* ═══════════════════════════════════════════════════════════════════
+   about.css — About section styles for Tubelight Media Works.
+   All selectors scoped to .tmw-about-* / #tmw-card-*.
+   Uses --tmw-serif (Instrument Serif) for deliberate typographic contrast
+   with the PP Neue Montreal used in the Hero.
+════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── Section base ──────────────────────────────────────────────────── */
+.tmw-about-intro,
+.tmw-about-sticky,
+.tmw-about-outro {
+  position:         relative;
+  width:            100%;
+  background-color: var(--tmw-black);
+  color:            var(--tmw-white);
+  overflow:         hidden;
+}
+
+/* About-specific card colour tokens */
+.tmw-about-sticky {
+  --about-card-1: #b2b2b2;
+  --about-card-2: #ce2017;
+  --about-card-3: #2f2f2f;
+}
+
+
+/* ─── Images (default block reset) ─────────────────────────────────── */
+.tmw-about-intro img,
+.tmw-about-sticky img,
+.tmw-about-outro img {
+  display:    block;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+
+
+/* ─── Serif typography ──────────────────────────────────────────────── */
+.tmw-about-intro  h2,
+.tmw-about-header h2,
+.tmw-about-outro  h2 {
+  font-family: var(--tmw-serif);
+  font-size:   clamp(2.2rem, 4vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  color:       var(--tmw-white);
+}
+
+.tmw-about-card-back p {
+  font-family: var(--tmw-serif);
+  font-size:   clamp(1.4rem, 2vw, 2rem);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.tmw-about-card-back span {
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-label);
+  font-weight:    400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+
+/* ─── Intro + Outro ─────────────────────────────────────────────────── */
+.tmw-about-intro,
+.tmw-about-outro {
+  height:          100svh;
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+  text-align:      center;
+  padding:         var(--tmw-pad);
+}
+
+.tmw-about-intro h2,
+.tmw-about-outro h2 {
+  max-width: 14em; /* prevent full-width stretch on wide monitors */
+  margin:    0 auto;
+}
+
+
+/* ─── Sticky card section ───────────────────────────────────────────── */
+.tmw-about-sticky {
+  height:          100svh;
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+  padding:         var(--tmw-pad);
+}
+
+/* Section header — absolute, centred at 20% from top */
+.tmw-about-header {
+  position:  absolute;
+  top:       20%;
+  left:      50%;
+  transform: translate(-50%, -50%);
+}
+
+.tmw-about-header h2 {
+  position:    relative;
+  text-align:  center;
+  will-change: transform, opacity;
+  /* Initial state set by CSS; JS animates via GSAP inline styles */
+  transform:   translateY(40px);
+  opacity:     0;
+}
+
+
+/* ─── Card container ────────────────────────────────────────────────── */
+.tmw-about-cards {
+  position:         relative;
+  width:            75%;    /* JS shrinks to 60% on scroll */
+  display:          flex;
+  column-gap:       0;      /* explicit 0 — prevents flex sub-pixel gaps */
+  perspective:      1000px;
+  will-change:      width;
+  /* Same colour as the section background — makes any hairline
+     rendering artifact between cards completely invisible */
+  background-color: var(--tmw-black);
+}
+
+
+/* ─── Individual cards ──────────────────────────────────────────────── */
+.tmw-about-card {
+  position:         relative;
+  flex:             1;
+  aspect-ratio:     5 / 7;
+  transform-style:  preserve-3d;
+  transform-origin: top center;
+  will-change:      transform;
+}
+
+/* Default border radii — together they read as ONE rounded rectangle */
+#tmw-card-1 { border-radius: 20px 0 0 20px; z-index: 1; }
+#tmw-card-2 { border-radius: 0; z-index: 2; margin-left: -1px; }
+#tmw-card-3 { border-radius: 0 20px 20px 0; z-index: 3; margin-left: -1px; }
+/* The -1px margins pull cards 2+3 by 1 pixel so browser sub-pixel
+   rounding can never open a visible gap between them.
+   JS gap animation (gap: 20px) opens visual spacing to ~19px — imperceptible. */
+
+
+/* ─── Card faces ────────────────────────────────────────────────────── */
+.tmw-about-card-front,
+.tmw-about-card-back {
+  position:            absolute;
+  inset:               0;
+  width:               100%;
+  height:              100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius:       inherit;
+  overflow:            hidden;
+}
+
+/* Back face starts rotated 180° — becomes visible when card flips */
+.tmw-about-card-back {
+  display:         flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items:     center;
+  text-align:      center;
+  transform:       rotateY(180deg);
+  padding:         2.5rem 2rem;
+  gap:             1rem;
+}
+
+.tmw-about-card-back span {
+  position: absolute;
+  top:      2rem;
+  left:     2rem;
+  opacity:  0.45;
+}
+
+/* Card back colours */
+#tmw-card-1 .tmw-about-card-back {
+  background-color: var(--about-card-1);
+  color:            var(--tmw-black);
+}
+#tmw-card-2 .tmw-about-card-back {
+  background-color: var(--about-card-2);
+  color:            var(--tmw-white);
+}
+#tmw-card-3 .tmw-about-card-back {
+  background-color: var(--about-card-3);
+  color:            var(--tmw-white);
+}
+
+
+/* ─── Mobile (≤999px) ───────────────────────────────────────────────── */
+@media (max-width: 999px) {
+
+  /* Intro + Outro: full-width headings */
+  .tmw-about-intro h2,
+  .tmw-about-outro h2 {
+    max-width: 100%;
+    font-size: clamp(2rem, 8vw, 3.2rem);
+  }
+
+  /* Sticky section: convert to a natural-height stacked layout */
+  .tmw-about-sticky {
+    height:         max-content;
+    padding:        4rem var(--tmw-pad) 5rem;
+    flex-direction: column;
+    align-items:    center;
+  }
+
+  /* Header: back to normal flow */
+  .tmw-about-header {
+    position:      relative;
+    top:           auto;
+    left:          auto;
+    transform:     none;
+    margin-bottom: 3rem;
+    text-align:    center;
+    width:         100%;
+  }
+
+  /* Show header at full opacity on mobile (no JS animation) */
+  .tmw-about-header h2 {
+    opacity:   1;
+    transform: none;
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+  }
+
+  /* Card container: vertical stack */
+  .tmw-about-cards {
+    width:          100%;
+    flex-direction: column;
+    gap:            1.5rem;
+    transform:      none;
+    perspective:    none;
+  }
+
+  /* Cards: flat, no 3D, centred */
+  .tmw-about-card {
+    width:           100%;
+    max-width:       420px;
+    margin:          0 auto;   /* overrides the desktop -1px margin-left */
+    margin-left:     auto;     /* explicit reset of negative margin */
+    z-index:         auto;     /* reset desktop z-index stacking */
+    border-radius:   20px !important;
+    transform-style: flat;
+    transform:       none !important;
+    aspect-ratio:    4 / 5;
+  }
+
+  /* Front face: static, show the image */
+  .tmw-about-card-front {
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+  }
+
+  /* Back face: hidden on mobile — content shown as a footer label */
+  .tmw-about-card-back {
+    display: none;
+  }
+
+  /* Service label — visible only on mobile, overlaid at bottom of card */
+  .tmw-about-card::after {
+    content:    attr(data-label);
+    position:   absolute;
+    bottom:     0;
+    left:       0;
+    right:      0;
+    padding:    1rem 1.25rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    font-family:    var(--tmw-font);
+    font-size:      var(--tmw-size-label);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color:          var(--tmw-white);
+    border-radius:  0 0 20px 20px;
+  }
+}
+
+
+/* ─── Tablet (640–999px) — fine-tune the mobile layout ─────────────── */
+@media (min-width: 640px) and (max-width: 999px) {
+  .tmw-about-cards {
+    flex-direction: row;
+    flex-wrap:      nowrap;
+    gap:            1rem;
+  }
+
+  .tmw-about-card {
+    max-width: none;
+    flex:      1;
+    aspect-ratio: 2 / 3;
+  }
+}
+
+
+/* ─── Reduced motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tmw-about-header h2 {
+    opacity:   1 !important;
+    transform: none !important;
+  }
+
+  .tmw-about-card {
+    transform:     none !important;
+  }
+}

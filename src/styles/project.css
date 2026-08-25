@@ -1,0 +1,303 @@
+/* ═══════════════════════════════════════════════════════════════════
+   project.css — Projects section, Tubelight Media Works.
+   All selectors scoped to .tmw-project-* to prevent global collisions.
+
+   VISUAL DESIGN INTENT:
+   The Project section opens on cream (#edf1e8) — a deliberate visual
+   "breath" after the About chapter's deep black outro. This contrast
+   signals a new chapter (the work showcase) without an abrupt cut.
+
+   The background transitions to dark during the horizontal-scroll
+   sequence (driven by JS), establishing the dark tone that flows
+   continuously into the Project End section.
+
+   SCROLL ARCHITECTURE:
+   All ScrollTrigger animations operate within the existing
+   Lenis → ScrollTrigger.update binding established by HeroSection.js.
+   No secondary scroll system is introduced.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── Local token ────────────────────────────────────────────────────── */
+:root {
+  --tmw-project-light: #edf1e8;
+}
+
+/* ─── Image reset (override globals.css height:auto) ────────────────── */
+.tmw-project-container img {
+  display:    block;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+
+/* ─── Container (JS animates background-color) ──────────────────────── */
+.tmw-project-container {
+  position:         relative;
+  width:            100%;
+  background-color: var(--tmw-project-light);
+  will-change:      background-color;
+}
+
+
+/* ─── Intro ──────────────────────────────────────────────────────────── */
+.tmw-project-intro {
+  position:    relative;
+  width:       100%;
+  height:      100svh;
+  padding:     var(--tmw-pad);
+  display:     flex;
+  align-items: center;
+  text-align:  center;
+}
+
+.tmw-project-intro h2 {
+  font-family: var(--tmw-serif);
+  font-size:   clamp(2.4rem, 6vw, 7.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color:       var(--tmw-black);
+  width:       75%;
+  margin:      0 auto;
+}
+
+
+/* ─── Marquee ────────────────────────────────────────────────────────── */
+.tmw-project-marquee {
+  position: relative;
+  width:    100%;
+  height:   50svh;
+  overflow: hidden;
+}
+
+.tmw-project-marquee-wrapper {
+  position:  absolute;
+  top:       50%;
+  left:      50%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  width:     150%;
+  height:    100%;
+}
+
+.tmw-project-marquee-images {
+  position:   absolute;
+  top:        50%;
+  left:       50%;
+  /* JS overrides x; this is the CSS fallback position */
+  transform:  translate(-75%, -50%);
+  width:      200%;
+  height:     100%;
+  display:    flex;
+  justify-content: space-between;
+  align-items:     center;
+  gap:        1rem;
+  will-change: transform;
+}
+
+.tmw-project-marquee-img {
+  flex:         1;
+  width:        100%;
+  aspect-ratio: 5 / 3;
+  overflow:     hidden;
+}
+
+
+/* ─── Horizontal scroll ──────────────────────────────────────────────── */
+.tmw-project-hscroll {
+  position: relative;
+  width:    100%;
+  height:   100svh;
+  overflow: hidden;
+}
+
+.tmw-project-hscroll-wrapper {
+  position:   relative;
+  width:      300%;
+  height:     100svh;
+  display:    flex;
+  will-change: transform;
+}
+
+
+/* ─── Slides ─────────────────────────────────────────────────────────── */
+.tmw-project-slide {
+  flex:    1;
+  height:  100%;
+  display: flex;
+  gap:     2rem;
+  padding: 2rem;
+}
+
+/* Spacer (first panel — gives Flip animation time to complete) */
+.tmw-project-spacer {
+  background-color: transparent;
+}
+
+/* Content slides: dark bg, white text */
+.tmw-project-slide:not(.tmw-project-spacer) {
+  background-color: var(--tmw-black);
+  color:            var(--tmw-white);
+}
+
+/* Columns */
+.tmw-project-col {
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+}
+
+.tmw-project-col--text { flex: 3; }
+.tmw-project-col--img  { flex: 2; }
+
+/* Slide info block */
+.tmw-project-slide-info {
+  width:          75%;
+  display:        flex;
+  flex-direction: column;
+  gap:            1rem;
+}
+
+.tmw-project-slide-num {
+  display:        block;
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-label);
+  font-weight:    400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity:        0.4;
+}
+
+.tmw-project-slide-title {
+  font-family:    var(--tmw-font);
+  font-size:      clamp(2rem, 3.5vw, 5rem);
+  font-weight:    500;
+  line-height:    1.05;
+  letter-spacing: -0.025em;
+  color:          var(--tmw-white);
+  margin:         0;
+}
+
+.tmw-project-slide-cat {
+  display:        block;
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-label);
+  font-weight:    400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity:        0.5;
+}
+
+/* Slide image sizing */
+.tmw-project-col--img img {
+  width:  75%;
+  height: 75%;
+}
+
+
+/* ─── Outro ──────────────────────────────────────────────────────────── */
+.tmw-project-outro {
+  position:         relative;
+  width:            100%;
+  height:           100svh;
+  padding:          var(--tmw-pad);
+  display:          flex;
+  justify-content:  center;
+  align-items:      center;
+  text-align:       center;
+  background-color: var(--tmw-black);
+}
+
+.tmw-project-outro h2 {
+  font-family: var(--tmw-serif);
+  font-size:   clamp(2.4rem, 6vw, 7.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color:       var(--tmw-white);
+  width:       75%;
+  margin:      0 auto;
+}
+
+
+/* ─── Mobile ≤767px ──────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Wider heading on small screens */
+  .tmw-project-intro h2,
+  .tmw-project-outro h2 {
+    width:     100%;
+    font-size: clamp(2.2rem, 9vw, 4rem);
+  }
+
+  /* Marquee: wider wrapper for better visual density on mobile */
+  .tmw-project-marquee-wrapper {
+    width: 300%;
+  }
+
+  /* Slides: stack text (top) / image (bottom) within the 100vw panel */
+  /* The pin + horizontal translate mechanic is IDENTICAL to desktop. */
+  /* Only the internal layout of each slide adapts for readability.   */
+  .tmw-project-slide {
+    flex-direction: column;
+    padding:        3rem var(--tmw-pad) var(--tmw-pad);
+    gap:            1.5rem;
+  }
+
+  .tmw-project-col--text {
+    flex:            none;
+    height:          38%;
+    align-items:     flex-start;
+    justify-content: flex-end;
+  }
+
+  .tmw-project-col--img {
+    flex:   none;
+    height: 62%;
+    width:  100%;
+    align-items: flex-start;
+  }
+
+  .tmw-project-slide-info {
+    width: 100%;
+    gap:   0.6rem;
+  }
+
+  .tmw-project-slide-title {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+  }
+
+  /* Slide image: fill the column on mobile */
+  .tmw-project-col--img img {
+    width:  100%;
+    height: 100%;
+  }
+}
+
+
+/* ─── Tablet 768–999px ───────────────────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 999px) {
+  .tmw-project-slide {
+    padding: 3rem;
+    gap:     1.5rem;
+  }
+
+  .tmw-project-slide-info {
+    width: 90%;
+  }
+
+  .tmw-project-col--img img {
+    width:  90%;
+    height: 80%;
+  }
+}
+
+
+/* ─── Reduced motion ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* Static marquee position (centred) — no scroll-driven x animation */
+  .tmw-project-marquee-images {
+    transform:  translate(-62.5%, -50%) !important;
+    will-change: auto;
+  }
+  .tmw-project-hscroll-wrapper {
+    will-change: auto;
+  }
+}

@@ -4,8 +4,10 @@
    Component styles are kept in their own scoped files.
 ════════════════════════════════════════════════════════════════════ */
 
-/* ─── Font Import ──────────────────────────────────────────────────── */
+/* ─── Font Imports ─────────────────────────────────────────────────── */
 @import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+/* Instrument Serif — editorial serif used for the About section */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
 
 
 /* ─── Design Tokens ────────────────────────────────────────────────── */
@@ -19,6 +21,7 @@
 
   /* Typography */
   --tmw-font:        'PP Neue Montreal', 'Helvetica Neue', Helvetica, sans-serif;
+  --tmw-serif:       'Instrument Serif', Georgia, 'Times New Roman', serif;
 
   /* Type scale (fluid) */
   --tmw-size-hero:   clamp(2.4rem, 7vw, 11rem);

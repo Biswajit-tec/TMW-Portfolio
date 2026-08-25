@@ -48,15 +48,19 @@ export function initHeroSection() {
     return lenis;
   }
 
-  // ─── Hero entrance animation (triggers once after loader resolves) ─────────
+  // ─── Hero entrance animation ──────────────────────────────────────────
+  // Delay 3.2s from page load = 1.2s into the 2s-delayed 3s dissolve.
+  // At that point the WebGL canvas center is clearing, so the headline
+  // appears to be born out of the dissolve rather than appearing afterward.
   const heroHeadline = document.querySelector('.tmw-hero-fg-header h1');
   if (heroHeadline) {
     gsap.fromTo(
       heroHeadline,
       { opacity: 0, y: 28 },
-      { opacity: 1, y: 0, duration: 1.4, delay: 0.2, ease: 'power3.out' }
+      { opacity: 1, y: 0, duration: 1.4, delay: 3.2, ease: 'power3.out' }
     );
   }
+
 
   // ─── SplitText — outro headline ───────────────────────────────────────────
   const outroHeaderSplit = SplitText.create('.tmw-hero-outro-header h3', {
