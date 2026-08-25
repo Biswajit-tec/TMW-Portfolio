@@ -35,6 +35,7 @@ import { initProjectSection }   from './components/project/ProjectSection.js';
 import { initProjectEndSection }  from './components/project-end/ProjectEndSection.js';
 import { initEndingSection }    from './components/ending/EndingSection.js';
 import { initFooterSection }    from './components/footer/FooterSection.js';
+import { initNavbar }           from './components/navbar/NavbarSection.js';
 import { ScrollTrigger }        from 'gsap/ScrollTrigger';
 import gsap                     from 'gsap';
 
@@ -48,7 +49,10 @@ async function bootstrap() {
   // initHeroSection() creates the single Lenis instance and registers
   // lenis.on('scroll', ScrollTrigger.update). All subsequent ScrollTrigger
   // instances automatically use Lenis-smoothed positions.
-  initHeroSection();
+  const lenis = initHeroSection();
+
+  // ── Navbar initialises with the shared Lenis instance ─────────────────
+  const { revealNavbar } = initNavbar(lenis);
 
   // ── Reveal: auto-dissolves after 2s, acts as a mask over the hero ─────
   try {
@@ -56,6 +60,9 @@ async function bootstrap() {
   } catch (err) {
     console.warn('[TMW] Reveal loader error — proceeding to site.', err);
   }
+
+  // ── Reveal navbar toggle button once intro completes ──────────────────
+  revealNavbar();
 
   // ── Unlock scroll, make site accessible ───────────────────────────────
   document.body.style.overflowY = '';
@@ -82,4 +89,5 @@ async function bootstrap() {
 }
 
 bootstrap();
+
 

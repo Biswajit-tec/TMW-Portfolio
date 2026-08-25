@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/src/styles/project-end.css" />
     <link rel="stylesheet" href="/src/styles/ending.css" />
     <link rel="stylesheet" href="/src/styles/footer.css" />
+    <link rel="stylesheet" href="/src/styles/navbar.css" />
   </head>
 
   <body>
@@ -41,6 +42,92 @@
 
 
     <!-- ═══════════════════════════════════════════════
+         NAVBAR COMPONENT
+         Morphing blob toggle button, SVG wave overlay,
+         and two-column high-fashion editorial menu.
+    ════════════════════════════════════════════════ -->
+
+    <!-- Interactive Blob Toggle Button -->
+    <button class="tmw-menu-toggle" id="tmw-menu-toggle" type="button"
+            aria-label="Open navigation" aria-expanded="false">
+      <span class="tmw-menu-toggle__outline tmw-menu-toggle__outline--a"></span>
+      <span class="tmw-menu-toggle__outline tmw-menu-toggle__outline--b"></span>
+
+      <span class="tmw-menu-toggle__icon">
+        <span class="tmw-menu-toggle__line tmw-menu-toggle__line--top"></span>
+        <span class="tmw-menu-toggle__line tmw-menu-toggle__line--bottom"></span>
+      </span>
+    </button>
+
+    <!-- SVG Wave Overlay (translateY -100% → 0) -->
+    <div class="tmw-nav-overlay" aria-hidden="true">
+      <svg class="tmw-nav-overlay__svg" viewBox="0 0 1000 1100" preserveAspectRatio="none">
+        <path class="tmw-nav-overlay__path"
+              d="M 0 0 L 1000 0 L 1000 1000 Q 500 1200 0 1000 Z"></path>
+      </svg>
+    </div>
+
+    <!-- Two-Column Editorial Menu -->
+    <nav class="tmw-nav-menu" id="tmw-nav-menu" aria-label="Main navigation" aria-hidden="true">
+
+      <!-- Primary Column: Roman Numeral Editorial Links -->
+      <div class="tmw-nav-menu__col tmw-nav-menu__col--primary">
+        <ul class="tmw-nav-menu__list">
+          <li class="tmw-nav-menu-item tmw-nav-menu-item--offset-sm">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-hero">
+              <span class="tmw-nav-menu-link__num">I</span>
+              <span class="tmw-nav-menu-link__text">Home</span>
+            </a>
+          </li>
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-about">
+              <span class="tmw-nav-menu-link__num">II</span>
+              <span class="tmw-nav-menu-link__text">About</span>
+            </a>
+          </li>
+          <li class="tmw-nav-menu-item tmw-nav-menu-item--offset-sm">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-projects-chapter">
+              <span class="tmw-nav-menu-link__num">III</span>
+              <span class="tmw-nav-menu-link__text">Projects</span>
+            </a>
+          </li>
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-ending">
+              <span class="tmw-nav-menu-link__num">IV</span>
+              <span class="tmw-nav-menu-link__text">Closing</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Secondary Column: Action & Channels -->
+      <div class="tmw-nav-menu__col tmw-nav-menu__col--secondary">
+        <ul class="tmw-nav-menu__list tmw-nav-menu__list--top">
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="#tmw-ending">Start a Project</a>
+          </li>
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="#tmw-projects-chapter">Showcase</a>
+          </li>
+        </ul>
+
+        <ul class="tmw-nav-menu__list tmw-nav-menu__list--bottom">
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="#tmw-footer">Contact</a>
+          </li>
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+          </li>
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="https://vimeo.com" target="_blank" rel="noopener noreferrer">Vimeo</a>
+          </li>
+        </ul>
+      </div>
+
+    </nav>
+
+
+    <!-- ═══════════════════════════════════════════════
          MAIN SITE — Rendered immediately beneath the loader.
          aria-hidden removed by JS after reveal completes.
          Hero is fully initialised before the loader dissolves;
@@ -50,7 +137,7 @@
 
 
       <!-- ─── Hero Section ─────────────────────────────────────────── -->
-      <section class="tmw-hero" aria-label="Hero">
+      <section id="tmw-hero" class="tmw-hero" aria-label="Hero">
 
         <!-- Foreground: dark image layer that clips, rotates, and scales away -->
         <div class="tmw-hero-fg">

@@ -33,11 +33,23 @@ export const HERO = {
 };
 
 export const NAV = {
-  links: [
-    { label: 'Work', href: '#work' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+  primary: [
+    { num: 'I',   label: 'Home',     href: '#tmw-hero' },
+    { num: 'II',  label: 'About',    href: '#tmw-about' },
+    { num: 'III', label: 'Projects', href: '#tmw-projects-chapter' },
+    { num: 'IV',  label: 'Closing',  href: '#tmw-ending' },
   ],
+  secondary: {
+    top: [
+      { label: 'Start a Project', href: '#tmw-ending' },
+      { label: 'Showcase',        href: '#tmw-projects-chapter' },
+    ],
+    bottom: [
+      { label: 'Contact',         href: '#tmw-footer' },
+      { label: 'Instagram',       href: 'https://instagram.com', external: true },
+      { label: 'Vimeo',           href: 'https://vimeo.com',     external: true },
+    ],
+  },
 };
 
 export const ABOUT = {

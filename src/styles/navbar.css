@@ -1,0 +1,321 @@
+/* ═══════════════════════════════════════════════════════════════════
+   navbar.css — Primary Navigation Component for Tubelight Media Works.
+   All styles scoped to .tmw-menu-* and .tmw-nav-* to avoid global collisions.
+
+   VISUAL DESIGN INTENT:
+   Faithfully preserves the purchased component's organic morphing blob
+   toggle button, smooth GPU-accelerated SVG wave overlay transition,
+   and two-column high-fashion editorial menu.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── Fonts ─────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Display';
+  src: url('/fonts/font.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DisplayItalic';
+  src: url('/fonts/font2.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* ─── Tokens ────────────────────────────────────────────────────────── */
+:root {
+  --tmw-nav-toggle-size: 6.25rem;   /* 100px fixed size desktop */
+  --tmw-nav-ease: cubic-bezier(0.76, 0, 0.24, 1);
+  --tmw-nav-c-overlay: #0a0703;
+  --tmw-nav-c-light: #e2e2dc;
+  --tmw-nav-ff-display: 'Display', 'Instrument Serif', Georgia, serif;
+  --tmw-nav-ff-italic: 'DisplayItalic', 'Instrument Serif', Georgia, serif;
+}
+
+/* ─── Toggle Button ─────────────────────────────────────────────────── */
+.tmw-menu-toggle {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 900;
+  width: var(--tmw-nav-toggle-size);
+  height: var(--tmw-nav-toggle-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  opacity: 0;                    /* main.js coordinates graceful entrance */
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.tmw-menu-toggle.is-ready {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Organic Morphing Blob Outlines */
+.tmw-menu-toggle__outline {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(245, 244, 240, 0.85);
+  transition: border-color 500ms var(--tmw-nav-ease);
+}
+
+.tmw-menu-toggle__outline--a {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: tmwBlobMorph 4s linear infinite;
+}
+
+.tmw-menu-toggle__outline--b {
+  border-radius: 53% 47% 43% 57% / 51% 39% 61% 49%;
+}
+
+@keyframes tmwBlobMorph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50%      { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+.tmw-menu-toggle.is-active .tmw-menu-toggle__outline {
+  border-color: rgba(245, 244, 240, 0.6);
+}
+
+/* Hamburger Icon Lines */
+.tmw-menu-toggle__icon {
+  position: relative;
+  z-index: 2;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.tmw-menu-toggle__line {
+  position: absolute;
+  right: 0;
+  display: block;
+  height: 1px;
+  background-color: var(--tmw-white);
+  transform-origin: center;
+  transition:
+    transform        500ms var(--tmw-nav-ease),
+    top              500ms var(--tmw-nav-ease),
+    width            500ms var(--tmw-nav-ease),
+    background-color 500ms var(--tmw-nav-ease);
+}
+
+.tmw-menu-toggle__line--top {
+  top: 50%;
+  width: 1.5rem;
+  transform: translateY(-50%);
+}
+
+.tmw-menu-toggle__line--bottom {
+  top: calc(50% - 0.35rem);
+  width: 1.125rem;
+  transform: translateY(-50%);
+}
+
+/* Active State: Forms an 'X' */
+.tmw-menu-toggle.is-active .tmw-menu-toggle__line {
+  background-color: var(--tmw-white);
+}
+
+.tmw-menu-toggle.is-active .tmw-menu-toggle__line--top {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.tmw-menu-toggle.is-active .tmw-menu-toggle__line--bottom {
+  top: 50%;
+  width: 1.5rem;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+/* ─── SVG Wave Overlay ──────────────────────────────────────────────── */
+.tmw-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 110vh;
+  z-index: 850;
+  pointer-events: none;
+  transform: translateY(-100%);
+  will-change: transform;
+}
+
+.tmw-nav-overlay__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tmw-nav-overlay__path {
+  fill: var(--tmw-nav-c-overlay);
+}
+
+/* ─── Menu Container ────────────────────────────────────────────────── */
+.tmw-nav-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 860;
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.tmw-nav-menu.is-open {
+  pointer-events: auto;
+}
+
+.tmw-nav-menu__col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 5rem 0;
+}
+
+.tmw-nav-menu__col--primary {
+  flex: 3;
+  align-items: center;
+  justify-content: center;
+}
+
+.tmw-nav-menu__col--secondary {
+  flex: 2;
+  align-items: center;
+  justify-content: center;
+  row-gap: clamp(50px, 12vh, 160px);
+}
+
+.tmw-nav-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tmw-nav-menu__col--primary .tmw-nav-menu__list {
+  gap: 1.5rem;
+}
+
+.tmw-nav-menu__list--top,
+.tmw-nav-menu__list--bottom {
+  gap: 1.875rem;
+}
+
+/* Clipped Menu Item Container */
+.tmw-nav-menu-item {
+  position: relative;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.tmw-nav-menu-item--offset-sm .tmw-nav-menu-link {
+  margin-left: 1.5rem;
+}
+
+/* Menu Links (GSAP slides top: 100% → 0) */
+.tmw-nav-menu-link {
+  position: relative;
+  top: 100%;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  color: var(--tmw-nav-c-light);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tmw-nav-menu-link:hover,
+.tmw-nav-menu-link:focus-visible {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.tmw-nav-menu-link--primary {
+  font-family: var(--tmw-nav-ff-display);
+  font-size: clamp(48px, 7.5vw, 120px);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+}
+
+.tmw-nav-menu-link--secondary {
+  font-family: var(--tmw-nav-ff-italic);
+  font-style: italic;
+  font-size: clamp(24px, 2.5vw, 36px);
+  line-height: 1;
+}
+
+.tmw-nav-menu-link__num {
+  font-family: var(--tmw-nav-ff-italic);
+  font-style: italic;
+  font-size: 1.25rem;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+/* ─── Responsive Adaptations ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .tmw-menu-toggle {
+    top: 1.25rem;
+    right: 1.25rem;
+    --tmw-nav-toggle-size: 4.5rem;
+  }
+
+  .tmw-nav-menu {
+    flex-direction: column;
+    padding: 6rem 2rem 3rem;
+    overflow-y: auto;
+  }
+
+  .tmw-nav-menu__col {
+    padding: 1rem 0;
+    height: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .tmw-nav-menu__col--primary {
+    flex: none;
+  }
+
+  .tmw-nav-menu__col--secondary {
+    flex: none;
+    row-gap: 2rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+  }
+
+  .tmw-nav-menu-item--offset-sm .tmw-nav-menu-link {
+    margin-left: 0;
+  }
+
+  .tmw-nav-menu-link--primary {
+    font-size: clamp(38px, 10vw, 64px);
+  }
+
+  .tmw-nav-menu-link--secondary {
+    font-size: clamp(20px, 5vw, 28px);
+  }
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tmw-menu-toggle__outline--a {
+    animation: none;
+  }
+
+  .tmw-nav-menu-link {
+    transition: none;
+  }
+}
