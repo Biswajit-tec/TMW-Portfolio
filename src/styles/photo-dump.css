@@ -1,0 +1,242 @@
+/* ═══════════════════════════════════════════════════════════════════
+   photo-dump.css — 3D Perspective Grid interlude, Tubelight Media Works.
+   All selectors scoped to .tmw-pd-* to prevent global collisions.
+
+   VISUAL DESIGN INTENT:
+   Emerges from the deep dark of Project End with a controlled fade.
+   Five consecutive 3D-perspective image grids scroll-drive through
+   cinematic spatial animations — the purchased Scroll3DGrid experience,
+   adapted to the TMW dark palette and global scroll architecture.
+
+   The section uses a near-black background (#0a0703 = --tmw-black) so
+   it continues seamlessly from Project End's exit overlay. Editorial
+   title lines are set in the TMW serif and echo the cinematic
+   production-house tone.
+
+   SPACING PHILOSOPHY:
+   Between grids, the spacing gap exists to give the user a moment of
+   stillness before the next animation begins. This "breathing room"
+   is intentional — but must not become dead scroll. The 40vh gap on
+   desktop gives ~300px of rest at 1440px height. On mobile 20vh gives
+   ~150px — enough to register the transition without tedious waiting.
+
+   ARCHITECTURE:
+   CSS grid variables are set as inline styles by PhotoDumpSection.js
+   (matching the original component's inline approach) so the animation
+   logic can reconfigure grids without specificity battles.
+   Default values are defined here as custom properties scoped to
+   .tmw-pd-grid; JS overrides them per animation type.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── Section wrapper ─────────────────────────────────────────────── */
+#tmw-photo-dump {
+  position:         relative;
+  width:            100%;
+  background-color: var(--tmw-black);
+  color:            var(--tmw-white);
+  overflow:         hidden;
+  /* Entrance opacity driven by PhotoDumpSection.js scrubbed tween.
+     CSS starts at 0; JS fromTo scrubs it to 1. On reduced-motion,
+     JS immediately sets opacity:1 and skips the scroll animation. */
+  opacity:          0;
+  will-change:      opacity;
+}
+
+/* ─── Eyebrow label ──────────────────────────────────────────────── */
+.tmw-pd-eyebrow {
+  display:        block;
+  text-align:     center;
+  padding:        6rem var(--tmw-pad) 3rem;
+  font-family:    var(--tmw-font);
+  font-size:      var(--tmw-size-label);
+  font-weight:    400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color:          var(--tmw-cream);
+  /* JS animates opacity/y; CSS resting value used for reduced-motion */
+  opacity:        0;
+  will-change:    opacity, transform;
+}
+
+/* SPACING PHILOSOPHY (updated):
+   The 40vh (and original 100vh) gaps between grids were dead scroll —
+   the user sat on black with only the floating title visible, with no
+   images or animation. The grids themselves are typically >1svh tall at
+   their natural image-grid height, providing enough visual separation.
+   The position:absolute titles are centered within each grid block and
+   remain readable without external margin.
+   Mobile gets a small 5vh bump only to prevent cramping on tiny screens
+   where the grid height shrinks significantly. */
+
+/* ─── Individual content sections ───────────────────────────────── */
+.tmw-pd-content {
+  position:      relative;
+  /* No bottom margin needed — grid height is the separation. */
+}
+
+/* Grids 2–5 have this class. Zero gap: natural block height is sufficient. */
+.tmw-pd-content--spacing {
+  /* intentionally blank — no additional spacing */
+}
+
+/* ─── Editorial titles ───────────────────────────────────────────── */
+.tmw-pd-title {
+  position:    absolute;
+  height:      100vh;
+  width:       100vw;
+  top:         50%;
+  left:        50%;
+  margin:      -50vh 0 0 -50vw;
+  padding:     0 10vw;
+  display:     grid;
+  place-items: center;
+  text-align:  center;
+  font-family: var(--tmw-serif);
+  font-weight: 300;
+  font-size:   clamp(1.8rem, 4vw, 5rem);
+  color:       var(--tmw-white);
+  opacity:     0.75;
+  pointer-events: none;
+  /* Ensures title is above the 3D-transformed grid items */
+  z-index:     1;
+}
+
+.tmw-pd-title--top     { align-items: start; }
+.tmw-pd-title--bottom  { align-items: end; }
+.tmw-pd-title--left    { justify-items: start; text-align: left; }
+.tmw-pd-title--right   { justify-items: end;   text-align: right; }
+
+/* ─── Grid container ─────────────────────────────────────────────── */
+.tmw-pd-grid {
+  display:     grid;
+  place-items: center;
+  padding:     2rem;
+  width:       100%;
+  /* Perspective driven by --tmw-pd-perspective (set inline by JS) */
+  perspective: var(--tmw-pd-perspective, 1500px);
+}
+
+/* ─── Grid wrap (3D stage) ───────────────────────────────────────── */
+.tmw-pd-grid-wrap {
+  height:                  var(--tmw-pd-grid-height, auto);
+  width:                   var(--tmw-pd-grid-width,  100%);
+  display:                 grid;
+  grid-template-columns:   repeat(var(--tmw-pd-columns, 4), 1fr);
+  gap:                     var(--tmw-pd-gap, 2vw);
+  transform-style:         preserve-3d;
+}
+
+/* ─── Individual grid item ───────────────────────────────────────── */
+.tmw-pd-grid-item {
+  aspect-ratio:  var(--tmw-pd-item-ratio, 1.5);
+  width:         100%;
+  height:        auto;
+  overflow:      hidden;
+  position:      relative;
+  border-radius: 4px;
+  display:       grid;
+  place-items:   center;
+}
+
+/* ─── Inner image cell (over-sized for pan/scale animations) ─────── */
+.tmw-pd-grid-item-inner {
+  position:            relative;
+  width:               calc(1 / var(--tmw-pd-inner-scale, 1) * 100%);
+  height:              calc(1 / var(--tmw-pd-inner-scale, 1) * 100%);
+  background-size:     cover;
+  background-position: 50% 50%;
+  background-color:    #111;  /* placeholder while image loads */
+}
+
+/* ─── Closing space before Footer ───────────────────────── */
+/* Minimal breathing gap — just enough to not feel abrupt into footer */
+.tmw-pd-close {
+  height:           8vh;
+  background-color: var(--tmw-black);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* JS sets opacity:1 and returns early — this is a CSS safety net */
+  #tmw-photo-dump {
+    opacity: 1 !important;
+  }
+
+  .tmw-pd-eyebrow {
+    opacity: 0.5 !important;
+    transform: none !important;
+  }
+
+  .tmw-pd-grid-wrap {
+    transform: none !important;
+  }
+
+  .tmw-pd-grid-item {
+    transform:  none !important;
+    filter:     none !important;
+  }
+
+  .tmw-pd-grid-item-inner {
+    transform: none !important;
+  }
+}
+
+/* ─── Mobile ≤768px ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .tmw-pd-eyebrow {
+    /* Tighter vertical rhythm on mobile */
+    padding: 4rem var(--tmw-pad) 2rem;
+    font-size: clamp(0.6rem, 3vw, var(--tmw-size-label));
+  }
+
+  .tmw-pd-grid {
+    padding: 0.75rem;
+  }
+
+  /* Cap column count to 4 on mobile — JS type2 uses 6, type3/5 use 8.
+     At 375px, 8 columns at 2vw gap = too small to read; 4 is still dynamic. */
+  .tmw-pd-grid-wrap {
+    grid-template-columns: repeat(min(var(--tmw-pd-columns, 4), 4), 1fr);
+    gap: var(--tmw-pd-gap, 1.5vw);
+  }
+
+  .tmw-pd-title {
+    font-size:  clamp(1.2rem, 5.5vw, 2rem);
+    padding:    0 6vw;
+    /* On mobile, title fits better at larger relative size */
+  }
+
+  .tmw-pd-content,
+  .tmw-pd-content--spacing {
+    margin-bottom: 5vh;
+  }
+
+  .tmw-pd-close {
+    height: 6vh;
+  }
+}
+
+/* ─── Small mobile (≤430px) — art-direct the tightest viewports ─── */
+@media (max-width: 430px) {
+  .tmw-pd-content--spacing {
+    margin-bottom: 3vh;
+  }
+
+  .tmw-pd-title {
+    font-size: clamp(1.1rem, 5vw, 1.8rem);
+  }
+
+  /* On very small screens, cap to 3 columns for types with 4+ default */
+  .tmw-pd-grid-wrap {
+    grid-template-columns: repeat(min(var(--tmw-pd-columns, 3), 3), 1fr);
+  }
+}
+
+/* ─── Tablet 769–1024px ──────────────────────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tmw-pd-grid-wrap {
+    grid-template-columns: repeat(min(var(--tmw-pd-columns, 4), 5), 1fr);
+  }
+
+  /* Tablet: 0 gap same as desktop — grids are large enough to self-separate */
+}

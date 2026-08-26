@@ -37,11 +37,11 @@ export const NAV = {
     { num: 'I',   label: 'Home',     href: '#tmw-hero' },
     { num: 'II',  label: 'About',    href: '#tmw-about' },
     { num: 'III', label: 'Projects', href: '#tmw-projects-chapter' },
-    { num: 'IV',  label: 'Closing',  href: '#tmw-ending' },
+    { num: 'IV',  label: 'Archive',  href: '#tmw-photo-dump' },
   ],
   secondary: {
     top: [
-      { label: 'Start a Project', href: '#tmw-ending' },
+      { label: 'Start a Project', href: '#tmw-footer' },
       { label: 'Showcase',        href: '#tmw-projects-chapter' },
     ],
     bottom: [
@@ -102,12 +102,21 @@ export const PROJECTS = {
   },
 };
 
-export const ENDING = {
-  /** Closing statement before the final footer */
-  headline: 'The next frame\nstarts here.',
-  subtext: 'Have a story to tell? Let\'s make it move.',
-  cta: 'Start a project',
-  ctaHref: '#contact',
+export const PHOTO_DUMP = {
+  /** Editorial eyebrow label above the first grid */
+  eyebrow: 'Selected Frames',
+  /** Section aria-label */
+  ariaLabel: 'Visual Archive',
+  /** Number of grid chapters (maps to animation type1–type5 cycled) */
+  gridCount: 5,
+  /** Editorial titles per grid */
+  titles: [
+    'Frame by frame.\nEvery light, deliberate.',
+    'Made to outlast\nthe moment.',
+    'The signal and\nthe silence after.',
+    'Where emotion\novertakes image.',
+    'Production with\na point of view.',
+  ],
 };
 
 export const FOOTER = {

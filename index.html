@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/src/styles/about.css" />
     <link rel="stylesheet" href="/src/styles/project.css" />
     <link rel="stylesheet" href="/src/styles/project-end.css" />
-    <link rel="stylesheet" href="/src/styles/ending.css" />
+    <link rel="stylesheet" href="/src/styles/photo-dump.css" />
     <link rel="stylesheet" href="/src/styles/footer.css" />
     <link rel="stylesheet" href="/src/styles/navbar.css" />
   </head>
@@ -92,9 +92,9 @@
             </a>
           </li>
           <li class="tmw-nav-menu-item">
-            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-ending">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-photo-dump">
               <span class="tmw-nav-menu-link__num">IV</span>
-              <span class="tmw-nav-menu-link__text">Closing</span>
+              <span class="tmw-nav-menu-link__text">Archive</span>
             </a>
           </li>
         </ul>
@@ -104,7 +104,7 @@
       <div class="tmw-nav-menu__col tmw-nav-menu__col--secondary">
         <ul class="tmw-nav-menu__list tmw-nav-menu__list--top">
           <li class="tmw-nav-menu-item">
-            <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="#tmw-ending">Start a Project</a>
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="#tmw-footer">Start a Project</a>
           </li>
           <li class="tmw-nav-menu-item">
             <a class="tmw-nav-menu-link tmw-nav-menu-link--secondary" href="#tmw-projects-chapter">Showcase</a>
@@ -464,22 +464,136 @@
 
 
       <!-- ═══════════════════════════════════════════════════════════════
-           ENDING / CLOSING SECTION
-           The emotional narrative conclusion of the experience.
+           PHOTO DUMP — 3D Perspective Grid Visual Interlude
+           Replaces the former Ending section.
+           Five scroll-driven 3D image grid chapters serve as the
+           editorial atmosphere chapter between Project End and Footer.
+           Animations driven by PhotoDumpSection.js via the global
+           Lenis + GSAP ScrollTrigger system. No new scroll instance.
       ══════════════════════════════════════════════════════════════════ -->
-      <section id="tmw-ending" aria-label="Closing Statement">
-        <div class="tmw-ending-stage">
+      <section id="tmw-photo-dump" aria-label="Visual Archive">
 
-          <!-- Center editorial copy & action -->
-          <div class="tmw-ending-content">
-            <h2 class="tmw-ending-headline">The next frame<br/>starts here.</h2>
-            <p class="tmw-ending-subtext">Have a story to tell? Let's make it move.</p>
-            <a href="#contact" class="tmw-ending-cta">Start a project</a>
+        <span class="tmw-pd-eyebrow" aria-hidden="true">Selected Frames</span>
+
+        <!-- ── Grid 1: type1 — horizontal scatter, Y-rotation stage ── -->
+        <div class="tmw-pd-content">
+          <div class="tmw-pd-grid">
+            <div class="tmw-pd-grid-wrap">
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/1.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/2.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/3.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/4.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/5.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/6.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/7.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/8.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/9.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/10.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/11.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/12.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/13.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/14.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/15.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/16.jpg)"></div></div>
+            </div>
           </div>
-
+          <h3 class="tmw-pd-title tmw-pd-title--right tmw-pd-title--top">Frame by frame.<br>Every light, deliberate.</h3>
         </div>
+
+        <!-- ── Grid 2: type2 — X-rotation depth, wide 6-col layout ── -->
+        <div class="tmw-pd-content tmw-pd-content--spacing">
+          <div class="tmw-pd-grid">
+            <div class="tmw-pd-grid-wrap">
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/17.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/18.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/19.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/20.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/21.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/22.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/23.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/24.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/25.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/26.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/27.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/28.jpg)"></div></div>
+            </div>
+          </div>
+          <h3 class="tmw-pd-title">Made to outlast<br>the moment.</h3>
+        </div>
+
+        <!-- ── Grid 3: type3 — Z-depth emergence, 8-col spread ─────── -->
+        <div class="tmw-pd-content tmw-pd-content--spacing">
+          <div class="tmw-pd-grid">
+            <div class="tmw-pd-grid-wrap">
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/29.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/30.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/31.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/32.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/33.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/34.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/35.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/36.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/37.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/38.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/39.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/40.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/41.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/42.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/43.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/44.jpg)"></div></div>
+            </div>
+          </div>
+          <h3 class="tmw-pd-title tmw-pd-title--left tmw-pd-title--bottom">The signal and<br>the silence after.</h3>
+        </div>
+
+        <!-- ── Grid 4: type4 — angled 3-col tower, rotationX flip ─── -->
+        <div class="tmw-pd-content tmw-pd-content--spacing">
+          <div class="tmw-pd-grid">
+            <div class="tmw-pd-grid-wrap">
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/1.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/8.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/15.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/22.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/29.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/36.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/43.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/3.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/10.jpg)"></div></div>
+            </div>
+          </div>
+          <h3 class="tmw-pd-title tmw-pd-title--right">Where emotion<br>overtakes image.</h3>
+        </div>
+
+        <!-- ── Grid 5: type5 — rows split apart, tilted plane ─────── -->
+        <div class="tmw-pd-content tmw-pd-content--spacing">
+          <div class="tmw-pd-grid">
+            <div class="tmw-pd-grid-wrap">
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/5.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/12.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/19.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/26.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/33.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/40.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/47.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/7.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/14.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/21.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/28.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/35.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/42.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/49.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/4.jpg)"></div></div>
+              <div class="tmw-pd-grid-item"><div class="tmw-pd-grid-item-inner" style="background-image:url(/images/photo-dump/11.jpg)"></div></div>
+            </div>
+          </div>
+          <h3 class="tmw-pd-title">Production with<br>a point of view.</h3>
+        </div>
+
+        <!-- Breathing space before Footer ──────────────────────── -->
+        <div class="tmw-pd-close" aria-hidden="true"></div>
+
       </section>
-      <!-- ─── / Ending Section ──────────────────────────────────────── -->
+      <!-- ─── / Photo Dump Section ─────────────────────────────────── -->
 
 
       <!-- ═══════════════════════════════════════════════════════════════
@@ -487,7 +601,7 @@
            The final resting frame of the website.
            Features massive TUBELIGHT MEDIA WORKS typography and
            comprehensive studio metadata. Flows continuously from the
-           Ending section above with no visual seam.
+           Photo Dump section above with no visual seam.
       ══════════════════════════════════════════════════════════════════ -->
       <footer id="tmw-footer" class="tmw-footer" aria-label="Site Footer">
 

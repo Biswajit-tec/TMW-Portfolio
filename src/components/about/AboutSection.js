@@ -4,10 +4,11 @@
  * Adapted from the purchased three-card flip component.
  * All selectors scoped to `.tmw-about-*` / `#tmw-card-*`.
  *
- * Desktop (≥1000px) — ScrollTrigger pinned (4× viewport height):
- *   Progress 10–25%: section header fades + translates in; container narrows
- *   Progress 35%:    cards separate with gap + individual rounded corners
- *   Progress 70%:    3D card flip (rotationY 180°) + outer cards tilt ±15°
+ * Desktop (≥1000px) — ScrollTrigger pinned (2.5× viewport height):
+ *   Progress 10–30%: section header fades + translates in; container narrows
+ *   Progress 40%:    cards separate with gap + individual rounded corners
+ *   Progress 65%:    3D card flip (rotationY 180°) + outer cards tilt ±15°
+ *   Progress 65–100%: cards rest in flipped state (intentional stillness)°
  *
  * Mobile (<1000px) — CSS lays the cards out as a vertical stack, and each
  * card gets its own ScrollTrigger that flips it (rotationY 180°) as it
@@ -89,7 +90,7 @@ export function initAboutSection() {
         id:         'tmw-about-sticky',
         trigger:    '.tmw-about-sticky',
         start:      'top top',
-        end:        `+=${window.innerHeight * 4}px`,
+        end:        `+=${window.innerHeight * 2.5}px`,
         scrub:      1,
         pin:        true,
         pinSpacing: true,
@@ -97,9 +98,9 @@ export function initAboutSection() {
         onUpdate: self => {
           const p = self.progress;
 
-          // ── Phase 1 (10–25%): header fades in; container width 75→60% ─
-          if (p >= 0.1 && p <= 0.25) {
-            const hp = gsap.utils.mapRange(0.1, 0.25, 0, 1, p);
+          // ── Phase 1 (10–30%): header fades in; container width 75→60% ─
+          if (p >= 0.1 && p <= 0.3) {
+            const hp = gsap.utils.mapRange(0.1, 0.3, 0, 1, p);
             gsap.set(stickyHeader, {
               y:       gsap.utils.mapRange(0, 1, 40, 0, hp),
               opacity: gsap.utils.mapRange(0, 1, 0, 1, hp),
@@ -110,16 +111,16 @@ export function initAboutSection() {
             gsap.set(stickyHeader, { y: 0, opacity: 1 });
           }
 
-          if (p <= 0.25) {
+          if (p <= 0.3) {
             gsap.set(cardContainer, {
-              width: `${gsap.utils.mapRange(0, 0.25, 75, 60, p)}%`,
+              width: `${gsap.utils.mapRange(0, 0.3, 75, 60, p)}%`,
             });
           } else {
             gsap.set(cardContainer, { width: '60%' });
           }
 
-          // ── Phase 2 (35%+): cards separate + get individual border radii ─
-          if (p >= 0.35 && !isGapAnimationCompleted) {
+          // ── Phase 2 (40%+): cards separate + get individual border radii ─
+          if (p >= 0.4 && !isGapAnimationCompleted) {
             // Clear the -1px overlap now that cards are visually separating
             gsap.to(['#tmw-card-2', '#tmw-card-3'], { marginLeft: '0px', duration: 0.5, ease: 'power3.out' });
             gsap.to(cardContainer, { gap: '20px', duration: 0.5, ease: 'power3.out' });
@@ -129,7 +130,7 @@ export function initAboutSection() {
               ease: 'power3.out',
             });
             isGapAnimationCompleted = true;
-          } else if (p < 0.35 && isGapAnimationCompleted) {
+          } else if (p < 0.4 && isGapAnimationCompleted) {
             // Restore the -1px overlap as cards come back together
             gsap.to(cardContainer, { gap: '0px', duration: 0.5, ease: 'power3.out' });
             gsap.to(['#tmw-card-2', '#tmw-card-3'], { marginLeft: '-1px', duration: 0.5, ease: 'power3.out' });
@@ -139,8 +140,8 @@ export function initAboutSection() {
             isGapAnimationCompleted = false;
           }
 
-          // ── Phase 3 (70%+): 3D card flip + outer cards tilt ──────────────
-          if (p >= 0.7 && !isFlipAnimationCompleted) {
+          // ── Phase 3 (65%+): 3D card flip + outer cards tilt ──────────────
+          if (p >= 0.65 && !isFlipAnimationCompleted) {
             gsap.to('.tmw-about-card', {
               rotationY: 180,
               duration:  0.75,
@@ -154,7 +155,7 @@ export function initAboutSection() {
               ease:      'power3.inOut',
             });
             isFlipAnimationCompleted = true;
-          } else if (p < 0.7 && isFlipAnimationCompleted) {
+          } else if (p < 0.65 && isFlipAnimationCompleted) {
             gsap.to('.tmw-about-card', {
               rotationY: 0,
               duration:  0.75,

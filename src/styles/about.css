@@ -77,7 +77,10 @@
 /* ─── Intro + Outro ─────────────────────────────────────────────────── */
 .tmw-about-intro,
 .tmw-about-outro {
-  height:          100svh;
+  /* 60svh: enough vertical presence to feel cinematic without dead-scrolling
+     through static text. At 1440px height = 864px — still a full "card".
+     Was 100svh: the extra 40svh was pure dead scroll (no animation, no change). */
+  height:          60svh;
   display:         flex;
   justify-content: center;
   align-items:     center;
@@ -221,6 +224,14 @@
 
 /* ─── Mobile (≤999px) ───────────────────────────────────────────────── */
 @media (max-width: 999px) {
+
+  /* Intro + Outro: tighter on mobile — 52svh gives enough presence
+     without forcing the user to scroll through dead static-text space.
+     On mobile the scroll-to-content ratio feels even longer at 100svh. */
+  .tmw-about-intro,
+  .tmw-about-outro {
+    height: 52svh;
+  }
 
   /* Intro + Outro: full-width headings */
   .tmw-about-intro h2,
