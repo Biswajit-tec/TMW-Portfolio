@@ -1,0 +1,89 @@
+/* src/styles/info.css — Styles for the new text-heavy information sections */
+
+.tmw-info-section {
+  background-color: #0a0703; /* Match dark theme */
+  color: #f4f0e6;
+  padding: 10rem 5%;
+  position: relative;
+  z-index: 10;
+}
+
+.tmw-info-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+}
+
+.tmw-info-block {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  border-top: 1px solid rgba(244, 240, 230, 0.15);
+  padding-top: 4rem;
+}
+
+.tmw-info-title {
+  /* Attempting to use the site's serif, fallback to typical serif */
+  font-family: "Times New Roman", Times, serif; 
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.tmw-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tmw-info-list--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem 3rem;
+}
+
+.tmw-info-list li {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Standard clean sans */
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.4;
+  opacity: 0.7;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.tmw-info-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  opacity: 0.5;
+}
+
+.tmw-info-list li:hover {
+  opacity: 1;
+  transform: translateX(10px);
+}
+
+.tmw-info-highlight {
+  display: block;
+  font-size: 0.85em;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+@media (max-width: 1000px) {
+  .tmw-info-block {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
