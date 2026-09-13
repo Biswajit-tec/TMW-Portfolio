@@ -141,7 +141,7 @@
 
 .tmw-project-hscroll-wrapper {
   position:   relative;
-  width:      300%;
+  width:      400%;
   height:     100svh;
   display:    flex;
   will-change: transform;
@@ -231,6 +231,7 @@
 .tmw-project-col--img img {
   width:  75%;
   height: 75%;
+  object-fit: contain;
 }
 
 
@@ -309,6 +310,7 @@
   .tmw-project-col--img img {
     width:  100%;
     height: 100%;
+    object-fit: contain;
   }
 }
 
@@ -327,6 +329,7 @@
   .tmw-project-col--img img {
     width:  90%;
     height: 80%;
+    object-fit: contain;
   }
 }
 

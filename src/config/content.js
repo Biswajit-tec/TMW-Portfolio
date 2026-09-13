@@ -81,13 +81,13 @@ export const PROJECTS = {
   slides: [
     {
       number:   '01',
-      title:    'After Light',
+      title:    'Short Films',
       category: 'Film · 2025',
     },
     {
       number:   '02',
-      title:    'Parallel',
-      category: 'Branded Content · 2024',
+      title:    'Vertical Films',
+      category: 'Film · 2025',
     },
   ],
   outro: {

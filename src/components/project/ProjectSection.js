@@ -224,20 +224,20 @@ export function initProjectSection() {
           const hProg = (p - 0.2) / 0.75;
 
           // Slides translate left
-          gsap.set(hscrollWrapper, { x: `${-66.67 * hProg}%` });
+          gsap.set(hscrollWrapper, { x: `${-75 * hProg}%` });
 
           // Clone parallax: fixed @ 100vw width, translates in % of its own width
-          // At full progress (hProg=1): translateX(-200%) = -200vw (2 slide-widths left)
+          // At full progress (hProg=1): translateX(-300%) = -300vw (3 slide-widths left)
           if (pinnedClone) {
-            gsap.set(pinnedClone, { x: `${-((66.67 / 100) * 3 * hProg) * 100}%` });
+            gsap.set(pinnedClone, { x: `${-((75 / 100) * 4 * hProg) * 100}%` });
           }
         }
 
         // Clamp final state (prevents drift past last position)
         if (p > 0.95) {
           if (flipAnimation) flipAnimation.progress(1);
-          gsap.set(hscrollWrapper, { x: '-66.67%' });
-          if (pinnedClone) gsap.set(pinnedClone, { x: '-200%' });
+          gsap.set(hscrollWrapper, { x: '-75%' });
+          if (pinnedClone) gsap.set(pinnedClone, { x: '-300%' });
         }
       },
     });
