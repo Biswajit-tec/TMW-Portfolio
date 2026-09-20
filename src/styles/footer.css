@@ -59,25 +59,27 @@
 /* ─── Massive Branding Signature ─────────────────────────────────── */
 .tmw-footer-brand-wrap {
   width: 100%;
-  padding: 3rem 0;
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   z-index: 2;
   user-select: none;
+  overflow: hidden;
 }
 
 .tmw-footer-brand {
   font-family: var(--tmw-font);
-  font-size: clamp(2.6rem, 11vw, 13.5rem);
+  font-size: clamp(1.4rem, 6.7vw, 9.5rem);
   font-weight: 700;
-  line-height: 0.88;
-  letter-spacing: -0.04em;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
   color: var(--tmw-white);
   margin: 0;
   white-space: nowrap;
+  max-width: 100%;
   background: linear-gradient(180deg, #ffffff 0%, rgba(220, 219, 213, 0.75) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -186,7 +188,7 @@
   }
 
   .tmw-footer-brand {
-    font-size: clamp(2.2rem, 10vw, 8rem);
+    font-size: clamp(1.4rem, 6.7vw, 6.5rem);
   }
 }
 
@@ -206,9 +208,8 @@
   }
 
   .tmw-footer-brand {
-    font-size: clamp(1.8rem, 9.5vw, 4.5rem);
-    white-space: normal;
-    word-break: break-word;
+    font-size: clamp(1.1rem, 6.5vw, 3.8rem);
+    white-space: nowrap;
   }
 
   .tmw-footer-bottom {

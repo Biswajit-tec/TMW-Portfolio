@@ -54,11 +54,23 @@ export function initFooterSection() {
     resetDelay:      500,
   };
 
-  const imageParticleCount = 15;
-  const imagePaths = Array.from(
-    { length: imageParticleCount },
-    (_, i) => `/images/footer/img${i + 1}.jpg`
-  );
+  const imagePaths = [
+    '/images/uploaded/performer-lights.jpg',
+    '/images/uploaded/cinema-bw-couple.jpg',
+    '/images/uploaded/office-360.jpg',
+    '/images/uploaded/corporate-interview.jpg',
+    '/images/uploaded/industrial-craft.jpg',
+    '/images/uploaded/concert-stage.jpg',
+    '/images/project/img-7.jpg',
+    '/images/project/img-1.jpg',
+    '/images/hero.jpg',
+    '/images/about/card_cover_1.jpg',
+    '/images/project/slide-1.jpg',
+    '/images/project/slide-2.jpg',
+    '/images/project/img-4.jpg',
+    '/images/project/img-10.jpg',
+    '/images/hero-outro-2.jpg',
+  ];
 
   class Particle {
     constructor(element) {
