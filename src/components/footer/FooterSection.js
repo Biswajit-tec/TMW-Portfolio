@@ -55,21 +55,21 @@ export function initFooterSection() {
   };
 
   const imagePaths = [
-    '/images/uploaded/performer-lights.jpg',
-    '/images/uploaded/cinema-bw-couple.jpg',
-    '/images/uploaded/office-360.jpg',
-    '/images/uploaded/corporate-interview.jpg',
-    '/images/uploaded/industrial-craft.jpg',
-    '/images/uploaded/concert-stage.jpg',
-    '/images/project/img-7.jpg',
-    '/images/project/img-1.jpg',
-    '/images/hero.jpg',
-    '/images/about/card_cover_1.jpg',
-    '/images/project/slide-1.jpg',
-    '/images/project/slide-2.jpg',
-    '/images/project/img-4.jpg',
-    '/images/project/img-10.jpg',
-    '/images/hero-outro-2.jpg',
+    '/images/gdrive/img_1.jpg',
+    '/images/gdrive/img_2.jpg',
+    '/images/gdrive/img_3.jpg',
+    '/images/gdrive/img_4.jpg',
+    '/images/gdrive/img_5.jpg',
+    '/images/gdrive/img_6.jpg',
+    '/images/gdrive/img_7.jpg',
+    '/images/gdrive/img_8.jpg',
+    '/images/gdrive/img_9.jpg',
+    '/images/gdrive/img_10.jpg',
+    '/images/gdrive/img_11.jpg',
+    '/images/gdrive/img_12.jpg',
+    '/images/gdrive/img_13.jpg',
+    '/images/gdrive/img_14.jpg',
+    '/images/gdrive/img_15.jpg',
   ];
 
   class Particle {
