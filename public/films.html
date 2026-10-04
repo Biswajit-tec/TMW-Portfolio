@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tubelight Media Works — Film Production. Stories built for the big screen and beyond." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Films — Tubelight Media Works</title>
+    <link rel="stylesheet" href="/src/styles/globals.css" />
+    <style>
+      .tmw-domain-page {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--tmw-black);
+        color: var(--tmw-cream);
+        padding: clamp(1.5rem, 4vw, 4rem);
+        text-align: center;
+        gap: 2rem;
+      }
+      .tmw-domain-page__eyebrow {
+        font-family: var(--tmw-font);
+        font-size: clamp(0.65rem, 1vw, 0.8rem);
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(245, 244, 240, 0.45);
+      }
+      .tmw-domain-page__title {
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-size: clamp(3.5rem, 10vw, 10rem);
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        margin: 0;
+      }
+      .tmw-domain-page__desc {
+        max-width: 50ch;
+        font-family: var(--tmw-font);
+        font-size: clamp(0.85rem, 1.2vw, 1rem);
+        line-height: 1.7;
+        color: rgba(245, 244, 240, 0.6);
+      }
+      .tmw-domain-page__badge {
+        display: inline-block;
+        font-family: var(--tmw-font);
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        border: 0.075rem dashed rgba(245, 244, 240, 0.3);
+        border-radius: 0.25rem;
+        padding: 0.6em 1.2em;
+        color: rgba(245, 244, 240, 0.4);
+      }
+      .tmw-domain-page__back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        font-family: var(--tmw-font);
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--tmw-cream);
+        border: 0.075rem dashed rgba(245, 244, 240, 0.6);
+        border-radius: 0.25rem;
+        padding: 0.8em 1.4em;
+        transition: background-color 200ms ease, color 200ms ease;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .tmw-domain-page__back:hover {
+        background-color: var(--tmw-cream);
+        color: var(--tmw-black);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="tmw-domain-page">
+      <p class="tmw-domain-page__eyebrow">Tubelight Media Works</p>
+      <h1 class="tmw-domain-page__title">Films</h1>
+      <p class="tmw-domain-page__desc">
+        Stories built for the big screen and beyond — from development and
+        production to images that stay with you long after the frame ends.
+      </p>
+      <span class="tmw-domain-page__badge">Page coming soon</span>
+      <a href="/" class="tmw-domain-page__back">← Back to site</a>
+    </main>
+  </body>
+</html>

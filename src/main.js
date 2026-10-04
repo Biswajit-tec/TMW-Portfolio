@@ -6,16 +6,17 @@
  *   2. initHeroSection() — hero renders immediately beneath the reveal canvas.
  *      Creates the SINGLE Lenis instance for the entire site.
  *      Registers lenis.on('scroll', ScrollTrigger.update) — every ScrollTrigger
- *      instance on the page (hero, about, project, project-end, photo-dump)
+ *      instance on the page (hero, expertise, about, project, project-end, photo-dump)
  *      automatically uses Lenis-smoothed positions via this one binding.
  *   3. initRevealLoader() — WebGL mask auto-dissolves after 2s. Resolves ~5s.
  *   4. Unlock scroll, expose site to screen readers.
- *   5. initAboutSection()      — ScrollTrigger refresh after loader removal.
- *   6. initProjectSection()    — Flip + horizontal scroll, no Lenis param needed.
- *   7. initProjectEndSection() — Gallery collapse + wordmark, no Lenis param needed.
- *   8. initPhotoDumpSection()  — 3D perspective grid interlude. Uses global scroll.
- *   9. initFooterSection()     — Particle burst + back-to-top interaction.
- *  10. ScrollTrigger.refresh() — final authoritative refresh with full page height.
+ *   5. initExpertiseSection()  — Scroll-pinned Films/Brands/Sports chapter.
+ *   6. initAboutSection()      — ScrollTrigger refresh after loader removal.
+ *   7. initProjectSection()    — Flip + horizontal scroll, no Lenis param needed.
+ *   8. initProjectEndSection() — Gallery collapse + wordmark, no Lenis param needed.
+ *   9. initPhotoDumpSection()  — 3D perspective grid interlude. Uses global scroll.
+ *  10. initFooterSection()     — Particle burst + back-to-top interaction.
+ *  11. ScrollTrigger.refresh() — final authoritative refresh with full page height.
  *
  * SCROLL ARCHITECTURE:
  *   One Lenis instance. One ScrollTrigger.update binding. All sections share it.
@@ -32,6 +33,7 @@
 
 import { initRevealLoader }       from './components/reveal/RevealLoader.js';
 import { initHeroSection }        from './components/hero/HeroSection.js';
+import { initExpertiseSection }   from './components/expertise/ExpertiseSection.js';
 import { initAboutSection }       from './components/about/AboutSection.js';
 import { initProjectSection }     from './components/project/ProjectSection.js';
 import { initProjectEndSection }  from './components/project-end/ProjectEndSection.js';
@@ -71,6 +73,9 @@ async function bootstrap() {
   document.getElementById('tmw-site')?.removeAttribute('aria-hidden');
 
   // ── Section inits — sequential, each builds on the same scroll system ──
+  // Expertise: pinned scroll-driven Films / Brands / Sports chapter
+  initExpertiseSection();
+
   // About: 3D card flip
   initAboutSection();
 

@@ -1,0 +1,330 @@
+/* ═══════════════════════════════════════════════════════════════════
+   expertise.css — Tubelight Media Works · Expertise Section
+   Scroll-driven editorial chapter: FILMS · BRANDS · SPORTS
+   Visual language preserved from the purchased slider component.
+   All selectors scoped to .tmw-ex-* to prevent collisions.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── DeFonte Display Font (migrated from slider/files/public) ────── */
+@font-face {
+  font-family: 'De Fonte Plus';
+  src: url('/fonts/DeFonte-DemiGras.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── SVG filter for the title blur-composite effect ─────────────── */
+/* Used on titles to give the blur a more liquid feel (from the component) */
+.tmw-ex-filter-host {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Section wrapper ────────────────────────────────────────────── */
+#tmw-expertise {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--tmw-black);
+  color: var(--tmw-cream);
+}
+
+/* ─── Full-bleed image layer ─────────────────────────────────────── */
+.tmw-ex-images {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.tmw-ex-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: clip-path;
+  overflow: hidden;
+}
+
+.tmw-ex-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+  /* Slight oversize so the inner translate never reveals a gap */
+  transform-origin: center center;
+}
+
+/* Subtle dim so white text remains legible over the image */
+.tmw-ex-images::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 7, 3, 0.35) 0%,
+    rgba(10, 7, 3, 0.15) 40%,
+    rgba(10, 7, 3, 0.55) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Eyebrow label ───────────────────────────────────────────────── */
+.tmw-ex-eyebrow {
+  position: absolute;
+  top: var(--tmw-pad);
+  left: var(--tmw-pad);
+  z-index: 10;
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 244, 240, 0.6);
+  opacity: 0; /* animated in by JS */
+}
+
+/* ─── Counter ─────────────────────────────────────────────────────── */
+.tmw-ex-counter {
+  position: absolute;
+  top: var(--tmw-pad);
+  right: var(--tmw-pad);
+  z-index: 10;
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  letter-spacing: 0.15em;
+  color: rgba(245, 244, 240, 0.4);
+}
+
+/* ─── Content panels (stacked, all present in DOM) ───────────────── */
+.tmw-ex-panels {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Each panel occupies the full viewport */
+.tmw-ex-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--tmw-pad);
+  pointer-events: none;
+}
+
+/* ─── Title (giant display type, centred like the component) ─────── */
+.tmw-ex-title-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.tmw-ex-title {
+  font-family: 'De Fonte Plus', 'Instrument Serif', Georgia, serif;
+  font-size: clamp(4rem, 12vw, 13rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--tmw-cream);
+  /* SVG filter for the composite blur — same as the purchased component */
+  filter: url(#tmw-blur-matrix) blur(0.25px);
+  -webkit-filter: url(#tmw-blur-matrix) blur(0.25px);
+  pointer-events: none;
+}
+
+/* Individual words — blurred and hidden by JS, revealed on activation */
+.tmw-ex-word {
+  display: inline-block;
+  filter: blur(75px);
+  -webkit-filter: blur(75px);
+  opacity: 0;
+  will-change: filter, opacity;
+}
+
+/* ─── Meta block (description + CTA) ─────────────────────────────── */
+.tmw-ex-meta {
+  position: absolute;
+  bottom: clamp(3rem, 6vh, 5rem);
+  left: var(--tmw-pad);
+  right: var(--tmw-pad);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  pointer-events: auto; /* CTA must be clickable */
+}
+
+.tmw-ex-desc {
+  max-width: 40ch;
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-body);
+  line-height: 1.65;
+  color: rgba(245, 244, 240, 0.75);
+  letter-spacing: 0.01em;
+}
+
+/* ─── CTA Link ─────────────────────────────────────────────────────── */
+.tmw-ex-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tmw-cream);
+  /* Matches the purchased component's dashed button border treatment */
+  border: 0.075rem dashed rgba(245, 244, 240, 0.6);
+  border-radius: 0.25rem;
+  padding: 0.9em 1.4em;
+  white-space: nowrap;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.tmw-ex-cta:hover,
+.tmw-ex-cta:focus-visible {
+  background-color: var(--tmw-cream);
+  color: var(--tmw-black);
+  border-color: var(--tmw-cream);
+  outline: none;
+}
+
+.tmw-ex-cta:focus-visible {
+  outline: 2px solid var(--tmw-cream);
+  outline-offset: 3px;
+}
+
+.tmw-ex-cta-arrow {
+  display: inline-block;
+  transition: transform 200ms ease;
+}
+.tmw-ex-cta:hover .tmw-ex-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ─── Progress dots ───────────────────────────────────────────────── */
+.tmw-ex-progress {
+  position: absolute;
+  right: var(--tmw-pad);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tmw-ex-dot {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background-color: rgba(245, 244, 240, 0.3);
+  transition: background-color 400ms ease, transform 400ms ease;
+}
+
+.tmw-ex-dot--active {
+  background-color: var(--tmw-cream);
+  transform: scale(1.5);
+}
+
+/* ─── Domain label (bottom-right editorial tag) ───────────────────── */
+.tmw-ex-domain-label {
+  position: absolute;
+  bottom: var(--tmw-pad);
+  right: var(--tmw-pad);
+  font-family: var(--tmw-font);
+  font-size: var(--tmw-size-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 244, 240, 0.35);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ─── Responsive: Mobile ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .tmw-ex-title {
+    font-size: clamp(3rem, 18vw, 6rem);
+    line-height: 0.9;
+  }
+
+  .tmw-ex-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    bottom: clamp(2rem, 5vh, 3rem);
+    gap: 1rem;
+  }
+
+  .tmw-ex-desc {
+    max-width: 100%;
+    font-size: 0.78rem;
+  }
+
+  .tmw-ex-cta {
+    font-size: 0.68rem;
+    padding: 0.8em 1.2em;
+  }
+
+  .tmw-ex-progress {
+    right: 0.75rem;
+    gap: 0.4rem;
+  }
+
+  .tmw-ex-counter {
+    display: none;
+  }
+}
+
+/* ─── Responsive: Tablet ─────────────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tmw-ex-title {
+    font-size: clamp(5rem, 11vw, 9rem);
+  }
+
+  .tmw-ex-meta {
+    bottom: 4rem;
+  }
+}
+
+/* ─── Responsive: Desktop ────────────────────────────────────────── */
+@media (min-width: 1440px) {
+  .tmw-ex-title {
+    font-size: clamp(9rem, 13vw, 16rem);
+  }
+}
+
+/* ─── Reduced-motion: no animations, show static content ────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tmw-ex-word {
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+  }
+
+  .tmw-ex-meta {
+    opacity: 1 !important;
+  }
+
+  .tmw-ex-img {
+    clip-path: none !important;
+  }
+
+  .tmw-ex-eyebrow {
+    opacity: 1 !important;
+  }
+}

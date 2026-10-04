@@ -32,12 +32,51 @@ export const HERO = {
   outroHeadline: 'Production with a point of view.',
 };
 
+/**
+ * EXPERTISE — Three primary studio domains.
+ * Each entry drives one scroll-pinned chapter in ExpertiseSection.js.
+ * Descriptions are temporary placeholder copy; replace when client supplies final text.
+ */
+export const EXPERTISE = {
+  eyebrow: 'Expertise',
+  domains: [
+    {
+      id:          'films',
+      title:       'Films',
+      description: 'Stories built for the big screen and beyond — from development and production to images that stay with you long after the frame ends.',
+      image:       '/images/expertise/films.jpg',
+      imageAlt:    'Film production still — Tubelight Media Works',
+      cta:         'Explore Films',
+      href:        '/films',
+    },
+    {
+      id:          'brands',
+      title:       'Brands',
+      description: 'Commercial storytelling with a cinematic eye — bringing brands, campaigns and ideas into sharp visual focus.',
+      image:       '/images/expertise/brands.jpg',
+      imageAlt:    'Brand campaign production — Tubelight Media Works',
+      cta:         'Explore Brands',
+      href:        '/brands',
+    },
+    {
+      id:          'sports',
+      title:       'Sports',
+      description: 'Capturing the pace, emotion and energy of sport through moving images built to make every moment count.',
+      image:       '/images/expertise/sports.jpg',
+      imageAlt:    'Sports production still — Tubelight Media Works',
+      cta:         'Explore Sports',
+      href:        '/sports',
+    },
+  ],
+};
+
 export const NAV = {
   primary: [
-    { num: 'I',   label: 'Home',     href: '#tmw-hero' },
-    { num: 'II',  label: 'About',    href: '#tmw-about' },
-    { num: 'III', label: 'Projects', href: '#tmw-projects-chapter' },
-    { num: 'IV',  label: 'Archive',  href: '#tmw-photo-dump' },
+    { num: 'I',   label: 'Home',      href: '#tmw-hero' },
+    { num: 'II',  label: 'Expertise', href: '#tmw-expertise' },
+    { num: 'III', label: 'About',     href: '#tmw-about' },
+    { num: 'IV',  label: 'Projects',  href: '#tmw-projects-chapter' },
+    { num: 'V',   label: 'Archive',   href: '#tmw-photo-dump' },
   ],
   secondary: {
     top: [

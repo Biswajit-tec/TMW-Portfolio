@@ -1,0 +1,7 @@
+# Tubelight Media Works — Domain Page Redirects
+# These rules make /films, /brands, /sports load without the .html extension.
+# Required for Netlify hosting. Vercel/other platforms have equivalent config.
+
+/films   /films.html   200
+/brands  /brands.html  200
+/sports  /sports.html  200

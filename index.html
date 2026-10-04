@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/src/styles/photo-dump.css" />
     <link rel="stylesheet" href="/src/styles/footer.css" />
     <link rel="stylesheet" href="/src/styles/navbar.css" />
+    <link rel="stylesheet" href="/src/styles/expertise.css" />
   </head>
 
   <body>
@@ -81,20 +82,26 @@
             </a>
           </li>
           <li class="tmw-nav-menu-item">
-            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-about">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-expertise">
               <span class="tmw-nav-menu-link__num">II</span>
-              <span class="tmw-nav-menu-link__text">About</span>
+              <span class="tmw-nav-menu-link__text">Expertise</span>
             </a>
           </li>
           <li class="tmw-nav-menu-item tmw-nav-menu-item--offset-sm">
-            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-projects-chapter">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-about">
               <span class="tmw-nav-menu-link__num">III</span>
+              <span class="tmw-nav-menu-link__text">About</span>
+            </a>
+          </li>
+          <li class="tmw-nav-menu-item">
+            <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-projects-chapter">
+              <span class="tmw-nav-menu-link__num">IV</span>
               <span class="tmw-nav-menu-link__text">Projects</span>
             </a>
           </li>
           <li class="tmw-nav-menu-item">
             <a class="tmw-nav-menu-link tmw-nav-menu-link--primary" href="#tmw-photo-dump">
-              <span class="tmw-nav-menu-link__num">IV</span>
+              <span class="tmw-nav-menu-link__num">V</span>
               <span class="tmw-nav-menu-link__text">Archive</span>
             </a>
           </li>
@@ -206,6 +213,131 @@
 
       </section>
       <!-- ─── / Hero Section ──────────────────────────────────────── -->
+
+
+      <!-- ─── Expertise Section ───────────────────────────────────────
+           Scroll-pinned chapter: FILMS → BRANDS → SPORTS.
+           Three domains revealed through a single viewport as user scrolls.
+           Primary interaction: scroll (no wheel hijacking).
+           Rendered by ExpertiseSection.js via the global Lenis+GSAP+ScrollTrigger system.
+      ─────────────────────────────────────────────────────────────────── -->
+
+      <!-- SVG filter host — required by the title blur-composite effect -->
+      <svg class="tmw-ex-filter-host" viewBox="0 0 0 0" aria-hidden="true" focusable="false">
+        <defs>
+          <filter id="tmw-blur-matrix">
+            <feColorMatrix in="SourceGraphic" type="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 255 -140">
+            </feColorMatrix>
+          </filter>
+        </defs>
+      </svg>
+
+      <section id="tmw-expertise" class="tmw-expertise" aria-label="Expertise — Films, Brands, Sports">
+
+        <!-- Eyebrow: section label -->
+        <span class="tmw-ex-eyebrow" aria-hidden="true">Tubelight — Expertise</span>
+
+        <!-- Counter: 01 / 03 etc -->
+        <span class="tmw-ex-counter" aria-hidden="true">01 / 03</span>
+
+        <!-- Image layer: all three images stacked, JS controls visibility -->
+        <div class="tmw-ex-images" aria-hidden="true">
+          <!-- Films image -->
+          <div class="tmw-ex-img" id="tmw-ex-img-films">
+            <img
+              src="/images/expertise/films.jpg"
+              alt="Film production still — Tubelight Media Works"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+          <!-- Brands image -->
+          <div class="tmw-ex-img" id="tmw-ex-img-brands">
+            <img
+              src="/images/expertise/brands.jpg"
+              alt="Brand campaign production — Tubelight Media Works"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <!-- Sports image -->
+          <div class="tmw-ex-img" id="tmw-ex-img-sports">
+            <img
+              src="/images/expertise/sports.jpg"
+              alt="Sports production still — Tubelight Media Works"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+
+        <!-- Content panels: all three in DOM, JS controls opacity/blur -->
+        <div class="tmw-ex-panels">
+
+          <!-- Panel 01: FILMS -->
+          <div class="tmw-ex-panel" id="tmw-ex-panel-films" aria-label="Films domain">
+            <div class="tmw-ex-title-wrap">
+              <h2 class="tmw-ex-title">Films</h2>
+            </div>
+            <div class="tmw-ex-meta">
+              <p class="tmw-ex-desc">
+                Stories built for the big screen and beyond — from development and
+                production to images that stay with you long after the frame ends.
+              </p>
+              <a href="/films" class="tmw-ex-cta" aria-label="Explore our film work">
+                Explore Films <span class="tmw-ex-cta-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Panel 02: BRANDS -->
+          <div class="tmw-ex-panel" id="tmw-ex-panel-brands" aria-label="Brands domain">
+            <div class="tmw-ex-title-wrap">
+              <h2 class="tmw-ex-title">Brands</h2>
+            </div>
+            <div class="tmw-ex-meta">
+              <p class="tmw-ex-desc">
+                Commercial storytelling with a cinematic eye — bringing brands,
+                campaigns and ideas into sharp visual focus.
+              </p>
+              <a href="/brands" class="tmw-ex-cta" aria-label="Explore our brand work">
+                Explore Brands <span class="tmw-ex-cta-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Panel 03: SPORTS -->
+          <div class="tmw-ex-panel" id="tmw-ex-panel-sports" aria-label="Sports domain">
+            <div class="tmw-ex-title-wrap">
+              <h2 class="tmw-ex-title">Sports</h2>
+            </div>
+            <div class="tmw-ex-meta">
+              <p class="tmw-ex-desc">
+                Capturing the pace, emotion and energy of sport through moving
+                images built to make every moment count.
+              </p>
+              <a href="/sports" class="tmw-ex-cta" aria-label="Explore our sports work">
+                Explore Sports <span class="tmw-ex-cta-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+        </div><!-- / .tmw-ex-panels -->
+
+        <!-- Progress dots (right edge) -->
+        <div class="tmw-ex-progress" aria-hidden="true" role="presentation">
+          <span class="tmw-ex-dot tmw-ex-dot--active"></span>
+          <span class="tmw-ex-dot"></span>
+          <span class="tmw-ex-dot"></span>
+        </div>
+
+        <!-- Domain label (bottom-right editorial tag) -->
+        <span class="tmw-ex-domain-label" aria-hidden="true">Films · Brands · Sports</span>
+
+      </section>
+      <!-- ─── / Expertise Section ─────────────────────────────────────── -->
 
 
       <!-- ─── About Section ────────────────────────────────────────── -->
