@@ -1,11 +1,11 @@
 /* ═══════════════════════════════════════════════════════════════════
    expertise.css — Tubelight Media Works · Expertise Section
    Scroll-driven editorial chapter: FILMS · BRANDS · SPORTS
-   Visual language preserved from the purchased slider component.
+   Sequential 3-Step Navigation & Full-Screen Clickable Targets
    All selectors scoped to .tmw-ex-* to prevent collisions.
 ════════════════════════════════════════════════════════════════════ */
 
-/* ─── DeFonte Display Font (migrated from slider/files/public) ────── */
+/* ─── DeFonte Display Font ────────────────────────────────────────── */
 @font-face {
   font-family: 'De Fonte Plus';
   src: url('/fonts/DeFonte-DemiGras.ttf') format('truetype');
@@ -14,8 +14,7 @@
   font-display: swap;
 }
 
-/* ─── SVG filter for the title blur-composite effect ─────────────── */
-/* Used on titles to give the blur a more liquid feel (from the component) */
+/* ─── SVG filter for liquid blur ──────────────────────────────────── */
 .tmw-ex-filter-host {
   position: absolute;
   z-index: -1;
@@ -31,6 +30,8 @@
   overflow: hidden;
   background-color: var(--tmw-black);
   color: var(--tmw-cream);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* ─── Full-bleed image layer ─────────────────────────────────────── */
@@ -56,7 +57,6 @@
   height: 100%;
   object-fit: cover;
   will-change: transform;
-  /* Slight oversize so the inner translate never reveals a gap */
   transform-origin: center center;
 }
 
@@ -67,9 +67,9 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(10, 7, 3, 0.35) 0%,
-    rgba(10, 7, 3, 0.15) 40%,
-    rgba(10, 7, 3, 0.55) 100%
+    rgba(10, 7, 3, 0.4) 0%,
+    rgba(10, 7, 3, 0.2) 40%,
+    rgba(10, 7, 3, 0.65) 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -80,13 +80,14 @@
   position: absolute;
   top: var(--tmw-pad);
   left: var(--tmw-pad);
-  z-index: 10;
+  z-index: 20;
   font-family: var(--tmw-font);
   font-size: var(--tmw-size-label);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(245, 244, 240, 0.6);
-  opacity: 0; /* animated in by JS */
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ─── Counter ─────────────────────────────────────────────────────── */
@@ -94,22 +95,22 @@
   position: absolute;
   top: var(--tmw-pad);
   right: var(--tmw-pad);
-  z-index: 10;
+  z-index: 20;
   font-family: var(--tmw-font);
   font-size: var(--tmw-size-label);
   letter-spacing: 0.15em;
-  color: rgba(245, 244, 240, 0.4);
-}
-
-/* ─── Content panels (stacked, all present in DOM) ───────────────── */
-.tmw-ex-panels {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
+  color: rgba(245, 244, 240, 0.5);
   pointer-events: none;
 }
 
-/* Each panel occupies the full viewport */
+/* ─── Content panels (stacked, controlled visibility) ─────────────── */
+.tmw-ex-panels {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
+/* Each panel occupies the full viewport and acts as a clickable target */
 .tmw-ex-panel {
   position: absolute;
   inset: 0;
@@ -118,10 +119,27 @@
   align-items: flex-start;
   justify-content: center;
   padding: var(--tmw-pad);
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
   pointer-events: none;
+  transition: background-color 300ms ease;
+  outline: none;
 }
 
-/* ─── Title (giant display type, centred like the component) ─────── */
+.tmw-ex-panel--active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.tmw-ex-panel:focus-visible {
+  outline: 2px solid rgba(245, 244, 240, 0.5);
+  outline-offset: -4px;
+}
+
+/* ─── Title (giant display type, perfectly positioned) ───────────── */
 .tmw-ex-title-wrap {
   width: 100%;
   display: flex;
@@ -138,19 +156,9 @@
   text-transform: uppercase;
   text-align: center;
   color: var(--tmw-cream);
-  /* SVG filter for the composite blur — same as the purchased component */
-  filter: url(#tmw-blur-matrix) blur(0.25px);
-  -webkit-filter: url(#tmw-blur-matrix) blur(0.25px);
   pointer-events: none;
-}
-
-/* Individual words — blurred and hidden by JS, revealed on activation */
-.tmw-ex-word {
-  display: inline-block;
-  filter: blur(75px);
-  -webkit-filter: blur(75px);
-  opacity: 0;
-  will-change: filter, opacity;
+  will-change: transform, opacity, filter;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
 }
 
 /* ─── Meta block (description + CTA) ─────────────────────────────── */
@@ -163,7 +171,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 1.5rem;
-  pointer-events: auto; /* CTA must be clickable */
+  pointer-events: none; /* Let clicks pass through to panel */
 }
 
 .tmw-ex-desc {
@@ -171,11 +179,12 @@
   font-family: var(--tmw-font);
   font-size: var(--tmw-size-body);
   line-height: 1.65;
-  color: rgba(245, 244, 240, 0.75);
+  color: rgba(245, 244, 240, 0.85);
   letter-spacing: 0.01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* ─── CTA Link ─────────────────────────────────────────────────────── */
+/* ─── CTA Link / Affordance ───────────────────────────────────────── */
 .tmw-ex-cta {
   display: inline-flex;
   align-items: center;
@@ -185,36 +194,36 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--tmw-cream);
-  /* Matches the purchased component's dashed button border treatment */
   border: 0.075rem dashed rgba(245, 244, 240, 0.6);
   border-radius: 0.25rem;
   padding: 0.9em 1.4em;
   white-space: nowrap;
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms ease;
   text-decoration: none;
   cursor: pointer;
   flex-shrink: 0;
+  pointer-events: auto;
+  background-color: rgba(10, 7, 3, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
+.tmw-ex-panel:hover .tmw-ex-cta,
 .tmw-ex-cta:hover,
 .tmw-ex-cta:focus-visible {
   background-color: var(--tmw-cream);
   color: var(--tmw-black);
   border-color: var(--tmw-cream);
-  outline: none;
-}
-
-.tmw-ex-cta:focus-visible {
-  outline: 2px solid var(--tmw-cream);
-  outline-offset: 3px;
 }
 
 .tmw-ex-cta-arrow {
   display: inline-block;
   transition: transform 200ms ease;
 }
+
+.tmw-ex-panel:hover .tmw-ex-cta-arrow,
 .tmw-ex-cta:hover .tmw-ex-cta-arrow {
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 /* ─── Progress dots ───────────────────────────────────────────────── */
@@ -223,15 +232,16 @@
   right: var(--tmw-pad);
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10;
+  z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  pointer-events: none;
 }
 
 .tmw-ex-dot {
-  width: 0.35rem;
-  height: 0.35rem;
+  width: 0.4rem;
+  height: 0.4rem;
   border-radius: 50%;
   background-color: rgba(245, 244, 240, 0.3);
   transition: background-color 400ms ease, transform 400ms ease;
@@ -239,7 +249,8 @@
 
 .tmw-ex-dot--active {
   background-color: var(--tmw-cream);
-  transform: scale(1.5);
+  transform: scale(1.6);
+  box-shadow: 0 0 8px rgba(220, 219, 213, 0.6);
 }
 
 /* ─── Domain label (bottom-right editorial tag) ───────────────────── */
@@ -251,15 +262,15 @@
   font-size: var(--tmw-size-label);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(245, 244, 240, 0.35);
-  z-index: 10;
+  color: rgba(245, 244, 240, 0.4);
+  z-index: 20;
   pointer-events: none;
 }
 
 /* ─── Responsive: Mobile ─────────────────────────────────────────── */
 @media (max-width: 767px) {
   .tmw-ex-title {
-    font-size: clamp(3rem, 18vw, 6rem);
+    font-size: clamp(3.2rem, 18vw, 6rem);
     line-height: 0.9;
   }
 
@@ -308,16 +319,17 @@
   }
 }
 
-/* ─── Reduced-motion: no animations, show static content ────────── */
+/* ─── Reduced-motion: static display fallback ────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .tmw-ex-word {
+  .tmw-ex-title {
     filter: none !important;
-    -webkit-filter: none !important;
     opacity: 1 !important;
+    transform: none !important;
   }
 
   .tmw-ex-meta {
     opacity: 1 !important;
+    transform: none !important;
   }
 
   .tmw-ex-img {

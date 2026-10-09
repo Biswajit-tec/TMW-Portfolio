@@ -74,7 +74,7 @@ async function bootstrap() {
 
   // ── Section inits — sequential, each builds on the same scroll system ──
   // Expertise: pinned scroll-driven Films / Brands / Sports chapter
-  initExpertiseSection();
+  initExpertiseSection(lenis);
 
   // About: 3D card flip
   initAboutSection();

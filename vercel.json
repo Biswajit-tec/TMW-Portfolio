@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/films", "destination": "/films.html" },
+    { "source": "/brands", "destination": "/brands.html" },
+    { "source": "/sports", "destination": "/sports.html" }
+  ]
+}
