@@ -70,6 +70,13 @@ export function initProjectSection() {
   const lightColor = cs.getPropertyValue('--tmw-project-light').trim() || '#edf1e8';
   const darkColor  = cs.getPropertyValue('--tmw-black').trim()         || '#0a0703';
 
+  // ── Reusable setters for the scrub handlers (no per-frame tween objects) ──
+  // Direct style writes: quickSetter can't be trusted to render transforms here.
+  // The marquee is vertically centred by CSS (translate(-75%, -50%)), so keep that Y.
+  const setMarqueeX  = (x) => { marqueeImages.style.transform  = `translate(${x}%, -50%)`; };
+  const setHscrollX  = (x) => { hscrollWrapper.style.transform = `translate3d(${x}%, 0, 0)`; };
+  let bgSettled = false;
+
   // ── Flip state ────────────────────────────────────────────────────────
   let pinnedClone   = null;
   let isCloneActive = false;
@@ -127,7 +134,7 @@ export function initProjectSection() {
         end:     'top top',
         scrub:   true,
         onUpdate: self => {
-          gsap.set(marqueeImages, { x: `${-75 + self.progress * 25}%` });
+          setMarqueeX(-75 + self.progress * 25);
         },
       });
     }
@@ -191,7 +198,8 @@ export function initProjectSection() {
         flipAnimation?.kill();
         flipAnimation = null;
         gsap.set(container,      { backgroundColor: lightColor });
-        gsap.set(hscrollWrapper, { x: '0%' });
+        bgSettled = false;
+        setHscrollX(0);
       },
     });
 
@@ -206,11 +214,14 @@ export function initProjectSection() {
         const p = self.progress;
 
         // Bg: light → dark over first 5% of scroll (chapter transition)
-        gsap.set(container, {
-          backgroundColor: p < 0.05
-            ? gsap.utils.interpolate(lightColor, darkColor, Math.min(p / 0.05, 1))
-            : darkColor,
-        });
+        // Background only changes during the first 5%; after that it is settled.
+        if (p < 0.05) {
+          bgSettled = false;
+          container.style.backgroundColor = gsap.utils.interpolate(lightColor, darkColor, p / 0.05);
+        } else if (!bgSettled) {
+          bgSettled = true;
+          container.style.backgroundColor = darkColor;
+        }
 
         // Flip progress: 0–20% expands clone from marquee → fullscreen
         if (p <= 0.2 && flipAnimation) {
@@ -224,7 +235,7 @@ export function initProjectSection() {
           const hProg = (p - 0.2) / 0.75;
 
           // Slides translate left
-          gsap.set(hscrollWrapper, { x: `${-75 * hProg}%` });
+          setHscrollX(-75 * hProg);
 
           // Clone parallax: fixed @ 100vw width, translates in % of its own width
           // At full progress (hProg=1): translateX(-300%) = -300vw (3 slide-widths left)
@@ -236,7 +247,7 @@ export function initProjectSection() {
         // Clamp final state (prevents drift past last position)
         if (p > 0.95) {
           if (flipAnimation) flipAnimation.progress(1);
-          gsap.set(hscrollWrapper, { x: '-75%' });
+          setHscrollX(-75);
           if (pinnedClone) gsap.set(pinnedClone, { x: '-300%' });
         }
       },

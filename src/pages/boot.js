@@ -4,20 +4,17 @@
  * back button, and cleanup. `init({ lenis })` builds the page's scroll animations and
  * may return a teardown function.
  */
-import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initPageTransition, navigateTo } from '../components/transition/PageTransition.js';
+import { createLenis, probeFrameRate } from '../utils/perf.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function bootDomainPage(init) {
   const run = () => {
-    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
-    lenis.on('scroll', ScrollTrigger.update);
-    const tick = (time) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    const lenis = createLenis({ lerp: 0.08 });
+    probeFrameRate();
 
     initPageTransition();
 
@@ -33,7 +30,7 @@ export function bootDomainPage(init) {
 
     window.addEventListener('pagehide', () => {
       teardown?.();
-      gsap.ticker.remove(tick);
+      lenis.destroyTicker();
       lenis.destroy();
       ScrollTrigger.getAll().forEach((st) => st.kill());
     });

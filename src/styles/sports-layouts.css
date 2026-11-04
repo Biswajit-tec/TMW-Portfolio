@@ -92,10 +92,6 @@
   grid-area: p1;
 }
 
-.project__mission p:child {
-  grid-area: p2;
-}
-
 .project__mission p {
   color: var(--color-text-alt);
 }

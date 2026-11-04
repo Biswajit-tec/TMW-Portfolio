@@ -16,6 +16,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EXPERTISE } from '../../config/content.js';
 import { navigateTo } from '../transition/PageTransition.js';
+import { perf } from '../../utils/perf.js';
+
+// Blur is a GPU filter pass over a huge text layer: off on weak devices, smaller on touch.
+const BLUR_MAX = perf.low ? 0 : perf.touch ? 10 : 25;
+const F = (px) => (BLUR_MAX ? `blur(${Math.min(px, BLUR_MAX)}px)` : 'none');
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -111,12 +116,12 @@ export function initExpertiseSection(lenis) {
       if (i === 0) {
         panel.classList.add('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'visible', opacity: 1, zIndex: 5, pointerEvents: 'auto' });
-        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' });
+        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: F(0) });
         if (meta)  gsap.set(meta,  { opacity: 1, y: 0 });
       } else {
         panel.classList.remove('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'hidden', opacity: 0, zIndex: 1, pointerEvents: 'none' });
-        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: 'blur(30px)' });
+        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: F(30) });
         if (meta)  gsap.set(meta,  { opacity: 0, y: 15 });
       }
     });
@@ -220,7 +225,7 @@ export function initExpertiseSection(lenis) {
       tl.to(outTitle, {
         y: -direction * 35,
         opacity: 0,
-        filter: 'blur(25px)',
+        filter: F(25),
         duration: 0.35,
         ease: 'power2.in',
       }, 0);
@@ -256,8 +261,8 @@ export function initExpertiseSection(lenis) {
     // Incoming text animation: starts as outgoing has exited
     if (inTitle) {
       tl.fromTo(inTitle,
-        { y: direction * 45, opacity: 0, filter: 'blur(25px)', scale: 1 },
-        { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 0.75, ease: 'power3.out' },
+        { y: direction * 45, opacity: 0, filter: F(25), scale: 1 },
+        { y: 0, opacity: 1, filter: F(0), scale: 1, duration: 0.75, ease: 'power3.out' },
         0.25
       );
     }
@@ -312,12 +317,12 @@ export function initExpertiseSection(lenis) {
       if (i === index) {
         panel.classList.add('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'visible', opacity: 1, zIndex: 5, pointerEvents: 'auto' });
-        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' });
+        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: F(0) });
         if (meta)  gsap.set(meta,  { opacity: 1, y: 0 });
       } else {
         panel.classList.remove('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'hidden', opacity: 0, zIndex: 1, pointerEvents: 'none' });
-        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: 'blur(30px)' });
+        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: F(30) });
         if (meta)  gsap.set(meta,  { opacity: 0, y: 15 });
       }
     });
@@ -488,7 +493,7 @@ export function initExpertiseSection(lenis) {
         scale: 1.08,
         y: -25,
         opacity: 0,
-        filter: 'blur(20px)',
+        filter: F(20),
         duration: 0.5,
         ease: 'power2.in',
       }, 0);

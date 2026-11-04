@@ -9,6 +9,7 @@
 @font-face {
   font-family: 'De Fonte Plus';
   src: url('/fonts/DeFonte-DemiGras.ttf') format('truetype');
+  font-display: swap;
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -157,7 +158,7 @@
   text-align: center;
   color: var(--tmw-cream);
   pointer-events: none;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
   text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
 }
 

@@ -52,6 +52,7 @@ function _rewrite(req, res, next, rootDir) {
 export default defineConfig({
   plugins: [domainPageMiddleware()],
   build: {
+    target: 'es2020',
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),

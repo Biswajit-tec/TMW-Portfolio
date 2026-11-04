@@ -6,6 +6,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
+import { perf } from '../../utils/perf.js';
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
@@ -30,7 +31,8 @@ function flipOnScroll(gallery, { flip, end = '+=300%', stagger = 0 }) {
 
   // Capture the switched layout, then revert and animate toward it.
   gallery.classList.add('gallery--switch');
-  const state = Flip.getState([items, caption], { props: 'filter, opacity' });
+  // Per-item filters (brightness) repaint every frame; weak devices tween opacity only.
+  const state = Flip.getState([items, caption], { props: perf.low ? 'opacity' : 'filter, opacity' });
   gallery.classList.remove('gallery--switch');
 
   const tl = Flip.to(state, {
