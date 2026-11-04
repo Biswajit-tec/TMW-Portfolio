@@ -20,17 +20,7 @@
     h1 { font-size: clamp(2.4rem, 7vw, 6rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
   }
 
-  .eyebrow, .meta {
-    display: block;
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    opacity: 0.6;
-  }
-  .meta { margin-bottom: 0.5rem; }
-
-  .credit { font-size: 14px; color: rgba(220, 219, 213, 0.6); margin-bottom: 4px; }
-  .credit:last-of-type { margin-bottom: 24px; }
+  .eyebrow { display: block; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.6; }
 
   .arch {
     display: flex;
@@ -43,25 +33,34 @@
   .arch__left {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
+    min-width: 340px;
 
     .arch__info {
-      max-width: 356px;
+      max-width: 480px;
       height: 100vh;
       display: grid;
       place-items: center;
 
-      h2.header { font-size: 42px; font-weight: 700; letter-spacing: -0.84px; }
+      h2.header {
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin-bottom: 0.9rem;
+      }
       p.desc {
-        color: rgba(220, 219, 213, 0.72);
-        font-size: 18px;
-        letter-spacing: -0.3px;
-        margin-block: 6px 20px;
-        line-height: normal;
+        color: rgba(245, 244, 240, 0.9);
+        font-size: 1.1rem;
+        letter-spacing: -0.01em;
+        margin-bottom: 1.4rem;
+        line-height: 1.5;
       }
       a.link {
         text-decoration: none;
-        padding: 16px 18px;
+        background-color: var(--accent, #D5FF37);
+        padding: 14px 20px;
+        margin-top: 1.5rem;
+        font-weight: 500;
         color: #121212;
         border-radius: 40px;
         display: flex;
@@ -113,4 +112,12 @@
 @media (max-width: 560px) {
   .tmw-reveal { padding: 10px; }
   .tmw-reveal .arch__right .img-wrapper { border-radius: 10px; height: 380px; }
+}
+
+.tmw-reveal .tmw-badge { margin-bottom: 1rem; }
+.tmw-reveal .tmw-chips { margin-bottom: 1rem; }
+
+@media (max-width: 768px) {
+  .tmw-reveal .arch__left .arch__info { max-width: none; }
+  .tmw-reveal .arch__left { min-width: 0; }
 }

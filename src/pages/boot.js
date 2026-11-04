@@ -1,7 +1,7 @@
 /**
  * boot.js — shared setup for the domain pages (films, brands, sports).
  * Lenis smooth scroll driven by the GSAP ticker, page-transition reveal,
- * back button, and cleanup. `init` builds the page's scroll animations and
+ * back button, and cleanup. `init({ lenis })` builds the page's scroll animations and
  * may return a teardown function.
  */
 import Lenis from 'lenis';
@@ -26,7 +26,7 @@ export function bootDomainPage(init) {
       navigateTo('/');
     });
 
-    const teardown = init();
+    const teardown = init({ lenis });
 
     // Re-measure once images have their final sizes (pins depend on it).
     window.addEventListener('load', () => ScrollTrigger.refresh());

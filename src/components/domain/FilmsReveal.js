@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Dark tints that the page background shifts through, one per image change.
 const BG_COLORS = ['#0b1219', '#190c13', '#1b1009'];
 
-export function initFilmsReveal() {
+export function initFilmsReveal({ lenis } = {}) {
   const root = document.querySelector('.tmw-reveal');
   if (!root) return;
 
@@ -24,6 +24,25 @@ export function initFilmsReveal() {
     infos.forEach((el, i) => (el.style.order = mobile ? i * 2 : ''));
     wrappers.forEach((el, i) => (el.style.order = mobile ? i * 2 + 1 : ''));
   };
+
+  // Category nav: jump to the first work of a type, highlight the type in view.
+  const navBtns = [...document.querySelectorAll('.tmw-domain-nav [data-cat]')];
+  const setActive = (cat) => navBtns.forEach((b) => b.classList.toggle('is-active', b.dataset.cat === cat));
+  navBtns.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const first = infos.find((el) => el.dataset.cat === btn.dataset.cat);
+      const mobile = window.matchMedia('(max-width: 768px)').matches;
+      lenis?.scrollTo(first, { offset: mobile ? -70 : 0, duration: 1.4 });
+    })
+  );
+  const navTriggers = infos.map((info) =>
+    ScrollTrigger.create({
+      trigger: info,
+      start: 'top 55%',
+      end: 'bottom 55%',
+      onToggle: (self) => self.isActive && setActive(info.dataset.cat),
+    })
+  );
 
   const mm = gsap.matchMedia();
 
@@ -58,5 +77,8 @@ export function initFilmsReveal() {
     });
   });
 
-  return () => mm.revert();
+  return () => {
+    mm.revert();
+    navTriggers.forEach((t) => t.kill());
+  };
 }

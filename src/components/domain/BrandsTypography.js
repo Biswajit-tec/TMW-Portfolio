@@ -61,7 +61,26 @@ function expand(el, { targets, flip, text }) {
   else tl.to(textBlock, vars, 0);
 }
 
-export function initBrandsTypography() {
+export function initBrandsTypography({ lenis } = {}) {
+  // Category nav: jump to a category, highlight the one in view.
+  const navBtns = [...document.querySelectorAll('.tmw-domain-nav [data-cat]')];
+  const groups = [...document.querySelectorAll('.brand-group')];
+  const setActive = (cat) => navBtns.forEach((b) => b.classList.toggle('is-active', b.dataset.cat === cat));
+  navBtns.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const group = groups.find((g) => g.dataset.cat === btn.dataset.cat);
+      lenis?.scrollTo(group, { offset: -40, duration: 1.4 });
+    })
+  );
+  groups.forEach((group) =>
+    ScrollTrigger.create({
+      trigger: group,
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onToggle: (self) => self.isActive && setActive(group.dataset.cat),
+    })
+  );
+
   // Flip measures the final layout, so wait for the images to size it.
   const loaded = [...document.querySelectorAll('.type__expand-img-inner')].map((el) => {
     const url = el.style.backgroundImage.slice(5, -2);
