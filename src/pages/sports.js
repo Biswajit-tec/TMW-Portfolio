@@ -1,24 +1,6 @@
-/**
- * sports.js — Route Controller for Sports Portfolio
- * Tubelight Media Works · Prepared for upcoming redesign
- */
+/** sports.js — Sports page: scroll-based layout animations (UI library scroll animation 21). */
+import { bootDomainPage } from './boot.js';
+import { initSportsLayouts } from '../components/domain/SportsLayouts.js';
+import '../styles/sports-layouts.css';
 
-import { initPageTransition, navigateTo } from '../components/transition/PageTransition.js';
-
-function initSportsPage() {
-  initPageTransition();
-
-  const backBtn = document.getElementById('tmw-film-back');
-  if (backBtn) {
-    backBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      navigateTo('/');
-    });
-  }
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initSportsPage);
-} else {
-  initSportsPage();
-}
+bootDomainPage(initSportsLayouts);

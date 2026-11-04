@@ -1,24 +1,6 @@
-/**
- * brands.js — Route Controller for Brands Portfolio
- * Tubelight Media Works · Prepared for upcoming redesign
- */
+/** brands.js — Brands page: image-expansion typography (UI library scroll animation 17). */
+import { bootDomainPage } from './boot.js';
+import { initBrandsTypography } from '../components/domain/BrandsTypography.js';
+import '../styles/brands-typography.css';
 
-import { initPageTransition, navigateTo } from '../components/transition/PageTransition.js';
-
-function initBrandsPage() {
-  initPageTransition();
-
-  const backBtn = document.getElementById('tmw-film-back');
-  if (backBtn) {
-    backBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      navigateTo('/');
-    });
-  }
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initBrandsPage);
-} else {
-  initBrandsPage();
-}
+bootDomainPage(initBrandsTypography);

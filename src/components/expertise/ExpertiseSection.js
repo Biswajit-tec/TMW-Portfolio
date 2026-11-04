@@ -63,6 +63,11 @@ export function initExpertiseSection(lenis) {
   // Navigation routes
   const domainRoutes = ['/films', '/brands', '/sports'];
 
+  // Department to restore when the visitor comes back from a domain page.
+  const stored = sessionStorage.getItem('tmw_return_domain');
+  sessionStorage.removeItem('tmw_return_domain');
+  let returnIndex = stored !== null && Number(stored) < domainRoutes.length ? Number(stored) : null;
+
   // State
   let activeDomainIndex   = 0;
   let isTransitioning     = false;
@@ -127,6 +132,7 @@ export function initExpertiseSection(lenis) {
   // Reset when navigating back via browser history
   window.addEventListener('pageshow', (event) => {
     _setInitialStates();
+    if (activeDomainIndex > 0) _snapToDomain(activeDomainIndex);
   });
 
   // ─── Transition between domains ──────────────────────────────────────────
@@ -447,6 +453,9 @@ export function initExpertiseSection(lenis) {
     const route = domainRoutes[index];
     if (!route) return;
 
+    // Remember the department so Back returns to it, not to the top of the site.
+    sessionStorage.setItem('tmw_return_domain', String(index));
+
     const activeImg = innerImgs[index];
     const activePanel = panels[index];
     const title = activePanel?.querySelector('.tmw-ex-title');
@@ -532,7 +541,8 @@ export function initExpertiseSection(lenis) {
 
     onEnter: () => {
       gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
-      _snapToDomain(0);
+      _snapToDomain(returnIndex ?? 0);
+      returnIndex = null;
       inExpertiseMode = true;
       lastTransitionTime = Date.now() + 250;
       if (lenis) lenis.stop();
@@ -557,6 +567,18 @@ export function initExpertiseSection(lenis) {
       if (lenis) lenis.start();
     },
   });
+
+  // ─── Returning from /films, /brands or /sports ────────────────────────────
+  // Jump straight to the department the visitor came from (after the final
+  // ScrollTrigger refresh in main.js has measured the page).
+  if (returnIndex !== null && lenis) {
+    requestAnimationFrame(() => {
+      const st = ScrollTrigger.getById('tmw-expertise-trigger');
+      if (!st) return;
+      lenis.scrollTo(st.start + 1, { immediate: true, force: true });
+      ScrollTrigger.update();
+    });
+  }
 
   // Global escape / external navigation unlock
   window.TMW_unlockExpertise = () => {

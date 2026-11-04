@@ -36,7 +36,9 @@ export function initRevealLoader() {
   const prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
-  const isTransitionReturning = sessionStorage.getItem('tmw_transition') === 'true';
+  const isTransitionReturning =
+    sessionStorage.getItem('tmw_transition') === 'true' ||
+    sessionStorage.getItem('tmw_return_domain') !== null;
 
   if (prefersReducedMotion || isTransitionReturning) {
     if (loaderEl) {

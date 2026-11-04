@@ -5,3 +5,9 @@ dist/
 !.env.example
 .DS_Store
 *.log
+
+# UI Library and Design files
+UI Library Components/
+Wesbite Design TMW.pdf
+Website Design*.pdf
+*.pdf
