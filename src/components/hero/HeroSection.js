@@ -18,7 +18,7 @@
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText }     from 'gsap/SplitText';
-import { createLenis, probeFrameRate } from '../../utils/perf.js';
+import { createLenis, probeFrameRate, scrubSmooth } from '../../utils/perf.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -112,7 +112,7 @@ export function initHeroSection() {
     end:     `+=${window.innerHeight * 5}px`,
     pin:     true,
     pinSpacing: true,
-    scrub:   1,
+    scrub:   scrubSmooth(),
 
     onUpdate: (self) => {
       const p = self.progress;

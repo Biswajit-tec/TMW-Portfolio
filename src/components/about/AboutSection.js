@@ -21,6 +21,7 @@
 
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { scrubSmooth } from '../../utils/perf.js';
 
 // ScrollTrigger is already registered by HeroSection; re-registering is a no-op
 gsap.registerPlugin(ScrollTrigger);
@@ -91,7 +92,7 @@ export function initAboutSection() {
         trigger:    '.tmw-about-sticky',
         start:      'top top',
         end:        `+=${window.innerHeight * 2.5}px`,
-        scrub:      1,
+        scrub:      scrubSmooth(),
         pin:        true,
         pinSpacing: true,
 

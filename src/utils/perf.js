@@ -8,6 +8,7 @@
  * CSS can do the same.
  */
 import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';   // stopped/smooth state rules (lenis.stop() didn't actually lock scrolling without it)
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -58,6 +59,9 @@ export function probeFrameRate() {
   setTimeout(() => requestAnimationFrame(sample), 1500);
 }
 
+/** ScrollTrigger scrub smoothing: Lenis already eases scrolling, so touch needs less extra lag. */
+export const scrubSmooth = () => (perf.touch ? 0.4 : 1);
+
 let configured = false;
 /** One Lenis instance driven by the GSAP ticker; native scrolling on touch and weak devices. */
 export function createLenis(options = {}) {
@@ -69,6 +73,12 @@ export function createLenis(options = {}) {
   const lenis = new Lenis({
     lerp: 0.1,
     smoothWheel: !perf.low && !reduced,
+    // Touch: drive scrolling through Lenis too, so phones get the same inertia as desktop
+    // and ScrollTrigger pins update in the same frame as the scroll (no pin jitter while
+    // flinging on iOS). Weak devices and reduced-motion keep plain native scrolling.
+    syncTouch: perf.touch && !perf.low && !reduced,
+    syncTouchLerp: 0.09,
+    touchInertiaExponent: 1.8,
     ...options,
   });
   lenis.on('scroll', ScrollTrigger.update);

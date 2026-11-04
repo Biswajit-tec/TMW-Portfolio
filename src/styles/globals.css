@@ -93,6 +93,7 @@
 }
 
 html {
+  overscroll-behavior-y: none;           /* no rubber-band flash of the page edge / pull-to-refresh jank */
   background-color: var(--tmw-black);   /* canvas colour: never white behind the page */
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
@@ -156,3 +157,10 @@ a {
 [data-perf='low'] .tmw-ex-title { text-shadow: none; }
 [data-perf='low'] .tmw-sports .gallery__item { filter: none !important; }
 [data-perf='low'] .tmw-footer-particle-img { box-shadow: none; }
+
+
+/* ─── Touch polish ───────────────────────────────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  html { -webkit-tap-highlight-color: transparent; }
+  a, button, [role='button'] { touch-action: manipulation; }   /* no 300 ms tap delay / double-tap zoom */
+}

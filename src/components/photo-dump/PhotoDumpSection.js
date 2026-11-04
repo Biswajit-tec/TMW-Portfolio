@@ -93,97 +93,85 @@ function getGrid(gridItems) {
   return elements;
 }
 
-// ── Phone tuning ──────────────────────────────────────────────────────────
-// The desktop grids use very wide stages (120–160 %), huge depth ranges and
-// brightness swings to 0 % / 200 %. On a ~390 px screen that reads as tiny,
-// dark, scattered thumbnails. These variants keep each effect's character but:
-//   • fill the screen width with 3 larger portrait tiles,
-//   • use a shallower depth range so tiles stay a readable size,
-//   • keep brightness between ~45 % and ~120 % (never black / blown out),
-//   • skip brightness tweens entirely on the low-power tier (GPU filter cost —
-//     the desktop variants below use the same `bright()` gate).
+// Brightness tween helper for the desktop 3D grids. Weak devices skip these per-tile GPU
+// filters entirely (the effect still plays, just without the light fade).
 const bright = (pct) => (perf.low ? {} : { filter: `brightness(${pct}%)` });
 
-function applyMobileAnimation(grid, type, timeline, gridWrap, gridItems, gridItemsInner) {
+// ── Touch devices (phones / tablets) ─────────────────────────────────────
+// The desktop grids rely on real 3D (perspective, translateZ up to -5000 px,
+// rotationX/Y) plus a brightness() filter on every tile. iOS Safari renders that
+// combination unreliably — tiles flatten, stall or vanish while scrolling — and it
+// is also heavy for phone GPUs. These variants keep each effect's character using
+// only 2D transforms (translate / scale / rotate) and opacity, which every mobile
+// browser composites smoothly:
+//   • 3 larger portrait tiles across the full width,
+//   • depth is suggested with scale + opacity instead of z / perspective,
+//   • no filters, no preserve-3d.
+function applyTouchAnimation(grid, type, timeline, gridWrap, gridItems, gridItemsInner) {
   const set = (k, v) => grid.style.setProperty(k, v);
-  // Common stage: 3 columns, full width, portrait tiles, tight gap.
-  set('--tmw-pd-grid-width', '100%');
-  set('--tmw-pd-columns',    '3');
-  set('--tmw-pd-gap',        '2.5vw');
-  set('--tmw-pd-item-ratio', '0.8');
+  set('--tmw-pd-grid-width',  '100%');
+  set('--tmw-pd-columns',     '3');
+  set('--tmw-pd-gap',         '2.5vw');
+  set('--tmw-pd-item-ratio',  '0.8');
   set('--tmw-pd-inner-scale', '0.5');
+  set('--tmw-pd-perspective', 'none');   // flat: no 3D context at all
+
+  const R = gsap.utils.random;
+  gsap.set(gridItems, { force3D: true });   // 2D motion, but on its own compositor layer
 
   switch (type) {
     case 'type1':
-      set('--tmw-pd-perspective', '900px');
       timeline
-        .set(gridWrap, { rotationY: 15 })
-        .set(gridItems, { z: () => gsap.utils.random(-300, 80) })
+        .set(gridItems, { scale: () => R(0.9, 1.05) })
         .fromTo(gridItems,
-          { xPercent: () => gsap.utils.random(-140, -60) },
-          { xPercent: () => gsap.utils.random(  60, 140) }, 0)
+          { xPercent: () => R(-140, -60), rotation: () => R(-4, 4) },
+          { xPercent: () => R(60, 140),   rotation: () => R(-4, 4) }, 0)
         .fromTo(gridItemsInner, { scale: 2 }, { scale: 0.5 }, 0);
       break;
 
     case 'type2':
-      // Only 12 tiles → keep them taller and let them drift less, so the stage
-      // never empties out while it is on screen.
-      set('--tmw-pd-perspective', '1200px');
       set('--tmw-pd-item-ratio', '0.7');
       timeline
-        .set(gridWrap, { rotationX: 6 })
-        .set(gridItems, { z: () => gsap.utils.random(-250, 150) })
         .fromTo(gridItems,
-          { yPercent: () => gsap.utils.random(8, 40), rotationY: -20, ...bright(120) },
-          { ease: 'power2', yPercent: () => gsap.utils.random(-40, -8), rotationY: 20, ...bright(75) }, 0)
-        .fromTo(gridWrap, { rotationZ: -3 }, { rotationX: -6, rotationZ: 4, scale: 1.08 }, 0)
+          { yPercent: () => R(8, 40),   scale: () => R(0.82, 0.95), rotation: () => R(-5, 5), opacity: 0.55 },
+          { ease: 'power2', yPercent: () => R(-40, -8), scale: () => R(1, 1.08), rotation: () => R(-3, 3), opacity: 1 }, 0)
+        .fromTo(gridWrap, { scale: 0.96 }, { scale: 1.06 }, 0)
         .fromTo(gridItemsInner, { scale: 2 }, { scale: 0.5 }, 0);
       break;
 
     case 'type3':
-      set('--tmw-pd-perspective', '1400px');
+      // "Depth emergence": tiles start small + faint, then grow and scatter outward.
       timeline
-        .set(gridItems, {
-          transformOrigin: '50% 0%',
-          z:         () => gsap.utils.random(-1800, -600),
-          rotationX: () => gsap.utils.random(-40, -15),
-          ...bright(45),
-        })
+        .set(gridItems, { scale: () => R(0.4, 0.62), opacity: 0.3, yPercent: () => R(-30, 30) })
         .to(gridItems, {
-          xPercent:  () => gsap.utils.random(-60, 60),
-          yPercent:  () => gsap.utils.random(-110, 110),
-          rotationX: 0,
-          ...bright(115),
+          scale: () => R(0.95, 1.08),
+          opacity: 1,
+          xPercent: () => R(-45, 45),
+          yPercent: () => R(-100, 100),
         }, 0)
-        .to(gridWrap, { z: 800 }, 0)
+        .fromTo(gridWrap, { scale: 0.92 }, { scale: 1.06 }, 0)
         .fromTo(gridItemsInner, { scale: 2 }, { scale: 0.5 }, 0);
       break;
 
     case 'type4':
-      set('--tmw-pd-perspective', '1800px');
       set('--tmw-pd-gap', '2vw');
       timeline
-        .set(gridWrap, { transformOrigin: '0% 50%', rotationY: 18, xPercent: -12 })
-        .set(gridItems, { transformOrigin: '50% 0%' })
-        .to(gridItems, { duration: 0.5, ease: 'power2',    z: 260, stagger: 0.04 }, 0)
-        .to(gridItems, { duration: 0.5, ease: 'power2.in', z: 0,   stagger: 0.04 }, 0.5)
         .fromTo(gridItems,
-          { rotationX: -50, ...bright(115) },
-          { duration: 1, rotationX: 50, ...bright(55), stagger: 0.04 }, 0);
+          { yPercent: 70, scale: 0.8, opacity: 0.25 },
+          { duration: 0.6, ease: 'power2.out', yPercent: 0, scale: 1, opacity: 1, stagger: 0.05 }, 0)
+        .to(gridItems, { duration: 0.6, ease: 'power2.in', yPercent: -35, scale: 0.92, stagger: 0.05 }, 0.7);
       break;
 
     case 'type5': {
       set('--tmw-pd-gap', '1.5vw');
-      set('--tmw-pd-perspective', '1500px');
       const gridObj = getGrid(gridItems);
       timeline
-        .set(gridWrap, { rotationX: 32 })
-        .to(gridWrap, { rotationX: 18 })
-        .fromTo(gridItems, { ...bright(50) }, { ...bright(105) }, 0)
+        .fromTo(gridWrap, { scale: 0.94 }, { scale: 1.04 }, 0)
+        .fromTo(gridItems, { opacity: 0.5 }, { opacity: 1 }, 0)
         .to(gridObj.rows('even'), { xPercent: -60, ease: 'power1' }, 0)
         .to(gridObj.rows('odd'),  { xPercent:  60, ease: 'power1' }, 0)
         .addLabel('rowsEnd', '>-=0.15')
-        .to(gridItems, { ease: 'power1', yPercent: () => gsap.utils.random(-50, 90) }, 'rowsEnd');
+        .to(gridItems, { ease: 'power1', yPercent: () => R(-50, 90) }, 'rowsEnd');
       break;
     }
 
@@ -226,7 +214,7 @@ function applyAnimation(grid, animationType, isMobile) {
     .forEach(v => grid.style.removeProperty(v));
 
   if (isMobile) {
-    applyMobileAnimation(grid, animationType, timeline, gridWrap, gridItems, gridItemsInner);
+    applyTouchAnimation(grid, animationType, timeline, gridWrap, gridItems, gridItemsInner);
     return;
   }
 
@@ -351,7 +339,8 @@ function buildPhotoDumpTriggers(section) {
   section.querySelectorAll('.tmw-pd-grid-item-inner').forEach(el => gsap.set(el, { clearProps: 'transform,scale' }));
 
   // Detect mobile breakpoint for responsive animation distances.
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  // Phones and any touch device (iPad too) get the flat 2D variants; 3D is desktop-only.
+  const isMobile = window.matchMedia('(max-width: 768px)').matches || perf.touch;
 
   // Apply animation per grid
   const animationTypes = ['type1', 'type2', 'type3', 'type4', 'type5'];

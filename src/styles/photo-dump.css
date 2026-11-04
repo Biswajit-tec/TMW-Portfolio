@@ -264,3 +264,10 @@
 
   /* Tablet: 0 gap same as desktop — grids are large enough to self-separate */
 }
+
+/* ─── Touch devices: no 3D context (iOS Safari flattens / drops it; JS uses 2D animation there) ─── */
+@media (hover: none) and (pointer: coarse) {
+  .tmw-pd-grid       { perspective: none; }
+  .tmw-pd-grid-wrap  { transform-style: flat; }
+  .tmw-pd-title      { height: 100svh; margin: -50svh 0 0 -50vw; }
+}

@@ -37,7 +37,7 @@
 
     .arch__info {
       max-width: 480px;
-      height: 100vh;
+      height: 100svh;
       display: grid;
       place-items: center;
 
@@ -73,7 +73,7 @@
 
   .arch__right {
     flex-shrink: 1;
-    height: 100vh;
+    height: 100svh;
     width: 100%;
     max-width: 440px;
     position: relative;
