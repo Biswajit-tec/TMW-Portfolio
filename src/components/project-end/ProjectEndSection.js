@@ -37,6 +37,7 @@ import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText }     from 'gsap/SplitText';
 import { perf }          from '../../utils/perf.js';
+import { onLayoutChange } from '../../utils/resize.js';
 
 // ScrollTrigger already registered by HeroSection; re-registering is a no-op.
 // SplitText already registered by HeroSection; same.
@@ -207,13 +208,6 @@ export function initProjectEndSection() {
 
   buildTriggers();
 
-  // ── Debounced resize: rebuild without stacking listeners ──────────────
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      buildTriggers();
-      ScrollTrigger.refresh();
-    }, 300);
-  });
+  // ── Layout change: rebuild via the shared, ordered handler (see utils/resize.js) ──
+  onLayoutChange(buildTriggers);
 }

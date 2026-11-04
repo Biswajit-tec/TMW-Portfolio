@@ -57,6 +57,7 @@
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { perf } from '../../utils/perf.js';
+import { onLayoutChange } from '../../utils/resize.js';
 
 // ScrollTrigger is already registered by main.js; re-registering is a no-op.
 gsap.registerPlugin(ScrollTrigger);
@@ -421,16 +422,8 @@ export function initPhotoDumpSection() {
     ScrollTrigger.refresh();
   });
 
-  // ── Debounced resize: rebuild triggers cleanly ───────────────────────
-  // On resize, clear all pd triggers + rebuild with new viewport dimensions.
-  // The clearProps in buildPhotoDumpTriggers() prevents stale inline
-  // transform values from conflicting with the re-initialized animations.
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      buildPhotoDumpTriggers(section);
-      ScrollTrigger.refresh();
-    }, 250);
-  });
+  // ── Layout change: rebuild via the shared, ordered handler (see utils/resize.js).
+  // clearProps in buildPhotoDumpTriggers() stops stale inline transforms conflicting
+  // with the re-initialised animations. ─────────────────────────────────────────────
+  onLayoutChange(() => buildPhotoDumpTriggers(section));
 }

@@ -18,7 +18,8 @@
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText }     from 'gsap/SplitText';
-import { createLenis, probeFrameRate, scrubSmooth } from '../../utils/perf.js';
+import { createLenis, probeFrameRate, scrubSmooth, perf } from '../../utils/perf.js';
+import { onLayoutChange } from '../../utils/resize.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -105,11 +106,19 @@ export function initHeroSection() {
   const setCopyR   = (x) => { bgCopyRight.style.transform = `translate3d(${x}%, 0, 0)`; };
   let lastP = -1;
 
+  let initialHeight = window.innerHeight;
+  // Rotation / split-view (a *width* change): take the new height as the touch baseline. The
+  // shared handler refreshes ScrollTrigger right after, which re-reads `end` below.
+  onLayoutChange(() => { initialHeight = window.innerHeight; });
+
   // ─── Scroll-triggered cinematic sequence ──────────────────────────────────
   ScrollTrigger.create({
     trigger: '.tmw-hero',
     start:   'top top',
-    end:     `+=${window.innerHeight * 5}px`,
+    // Desktop: follows the viewport on every refresh. Touch: fixed at its initial value, so the
+    // address bar growing/shrinking can never change the pin length mid-scroll.
+    end:     () => `+=${(perf.touch ? initialHeight : window.innerHeight) * 5}`,
+    invalidateOnRefresh: true,
     pin:     true,
     pinSpacing: true,
     scrub:   scrubSmooth(),
@@ -152,6 +161,7 @@ export function initHeroSection() {
           duration: 0.75,
           stagger:  0.1,
           ease:     'power3.out',
+          overwrite: 'auto',   // a quick reverse flick must not leave the slower tween winning
         });
       } else if (p < 0.9 && areOutroLinesRevealed) {
         areOutroLinesRevealed = false;
@@ -160,6 +170,7 @@ export function initHeroSection() {
           duration: 0.25,
           stagger:  -0.05,
           ease:     'power3.out',
+          overwrite: 'auto',
         });
       }
     },

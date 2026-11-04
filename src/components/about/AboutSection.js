@@ -22,6 +22,7 @@
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { scrubSmooth } from '../../utils/perf.js';
+import { onLayoutChange } from '../../utils/resize.js';
 
 // ScrollTrigger is already registered by HeroSection; re-registering is a no-op
 gsap.registerPlugin(ScrollTrigger);
@@ -71,8 +72,8 @@ export function initAboutSection() {
           id:      `tmw-about-card-flip-${i}`,
           trigger: card,
           start:   'top 70%',
-          onEnter:     () => gsap.to(card, { rotationY: 180, duration: 0.9, ease: 'power3.inOut' }),
-          onLeaveBack: () => gsap.to(card, { rotationY: 0,   duration: 0.9, ease: 'power3.inOut' }),
+          onEnter:     () => gsap.to(card, { rotationY: 180, duration: 0.9, ease: 'power3.inOut', overwrite: 'auto' }),
+          onLeaveBack: () => gsap.to(card, { rotationY: 0,   duration: 0.9, ease: 'power3.inOut', overwrite: 'auto' }),
         });
       });
 
@@ -123,21 +124,22 @@ export function initAboutSection() {
           // ── Phase 2 (40%+): cards separate + get individual border radii ─
           if (p >= 0.4 && !isGapAnimationCompleted) {
             // Clear the -1px overlap now that cards are visually separating
-            gsap.to(['#tmw-card-2', '#tmw-card-3'], { marginLeft: '0px', duration: 0.5, ease: 'power3.out' });
-            gsap.to(cardContainer, { gap: '20px', duration: 0.5, ease: 'power3.out' });
+            gsap.to(['#tmw-card-2', '#tmw-card-3'], { marginLeft: '0px', duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+            gsap.to(cardContainer, { gap: '20px', duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
             gsap.to(['#tmw-card-1', '#tmw-card-2', '#tmw-card-3'], {
               borderRadius: '20px',
               duration: 0.5,
               ease: 'power3.out',
+              overwrite: 'auto',
             });
             isGapAnimationCompleted = true;
           } else if (p < 0.4 && isGapAnimationCompleted) {
             // Restore the -1px overlap as cards come back together
-            gsap.to(cardContainer, { gap: '0px', duration: 0.5, ease: 'power3.out' });
-            gsap.to(['#tmw-card-2', '#tmw-card-3'], { marginLeft: '-1px', duration: 0.5, ease: 'power3.out' });
-            gsap.to('#tmw-card-1', { borderRadius: '20px 0 0 20px', duration: 0.5, ease: 'power3.out' });
-            gsap.to('#tmw-card-2', { borderRadius: '0',            duration: 0.5, ease: 'power3.out' });
-            gsap.to('#tmw-card-3', { borderRadius: '0 20px 20px 0', duration: 0.5, ease: 'power3.out' });
+            gsap.to(cardContainer, { gap: '0px', duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+            gsap.to(['#tmw-card-2', '#tmw-card-3'], { marginLeft: '-1px', duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+            gsap.to('#tmw-card-1', { borderRadius: '20px 0 0 20px', duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+            gsap.to('#tmw-card-2', { borderRadius: '0',            duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+            gsap.to('#tmw-card-3', { borderRadius: '0 20px 20px 0', duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
             isGapAnimationCompleted = false;
           }
 
@@ -148,12 +150,14 @@ export function initAboutSection() {
               duration:  0.75,
               ease:      'power3.inOut',
               stagger:   0.1,
+              overwrite: 'auto',
             });
             gsap.to(['#tmw-card-1', '#tmw-card-3'], {
               y:         30,
               rotationZ: i => [-15, 15][i],
               duration:  0.75,
               ease:      'power3.inOut',
+              overwrite: 'auto',
             });
             isFlipAnimationCompleted = true;
           } else if (p < 0.65 && isFlipAnimationCompleted) {
@@ -162,12 +166,14 @@ export function initAboutSection() {
               duration:  0.75,
               ease:      'power3.inOut',
               stagger:   -0.1,
+              overwrite: 'auto',
             });
             gsap.to(['#tmw-card-1', '#tmw-card-3'], {
               y:         0,
               rotationZ: 0,
               duration:  0.75,
               ease:      'power3.inOut',
+              overwrite: 'auto',
             });
             isFlipAnimationCompleted = false;
           }
@@ -184,15 +190,11 @@ export function initAboutSection() {
   // (hero pin adds 5×vh before the about sections)
   ScrollTrigger.refresh();
 
-  // ── Debounced resize: re-init triggers + refresh ───────────────────────
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      isGapAnimationCompleted  = false;
-      isFlipAnimationCompleted = false;
-      initAnimations();
-      ScrollTrigger.refresh();
-    }, 250);
+  // ── Layout change (rotation / window resize): rebuild via the shared, ordered handler.
+  // Height-only changes on touch devices (address bar) are ignored there. ──────────
+  onLayoutChange(() => {
+    isGapAnimationCompleted  = false;
+    isFlipAnimationCompleted = false;
+    initAnimations();
   });
 }

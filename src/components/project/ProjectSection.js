@@ -44,6 +44,7 @@
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip }          from 'gsap/Flip';
+import { onLayoutChange } from '../../utils/resize.js';
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
@@ -256,19 +257,14 @@ export function initProjectSection() {
 
   buildTriggers();
 
-  // ── Debounced resize: rebuild triggers without stacking event listeners ─
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      // Clean clone state — position is stale after resize
-      removeClone();
-      if (flipAnimation) {
-        flipAnimation.kill();
-        flipAnimation = null;
-      }
-      buildTriggers();
-      ScrollTrigger.refresh();
-    }, 300);
+  // ── Layout change: rebuild via the shared, ordered handler (see utils/resize.js) ──
+  onLayoutChange(() => {
+    // Clean clone state — position is stale after a layout change
+    removeClone();
+    if (flipAnimation) {
+      flipAnimation.kill();
+      flipAnimation = null;
+    }
+    buildTriggers();
   });
 }

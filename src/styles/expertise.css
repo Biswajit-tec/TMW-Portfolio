@@ -27,7 +27,8 @@
 #tmw-expertise {
   position: relative;
   width: 100%;
-  height: 100dvh;
+  height: 100vh;
+  height: 100svh;   /* svh, not dvh: dvh changes with the mobile address bar and shifts the pinned layout */
   overflow: hidden;
   background-color: var(--tmw-black);
   color: var(--tmw-cream);

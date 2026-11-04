@@ -18,6 +18,7 @@
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { perf, whenIdle } from '../../utils/perf.js';
+import { onLayoutChange } from '../../utils/resize.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -156,32 +157,37 @@ export function initFooterSection() {
   }));
 
   // ── ScrollTrigger Viewport Activation ────────────────────────────────
-  ScrollTrigger.getAll()
-    .filter(t => t.vars?.id?.startsWith('tmw-footer-'))
-    .forEach(t => t.kill());
+  // Built in a function so it can be recreated with the other sections, in document
+  // order, whenever the layout changes (see utils/resize.js).
+  function buildFooterTrigger() {
+    ScrollTrigger.getAll()
+      .filter(t => t.vars?.id?.startsWith('tmw-footer-'))
+      .forEach(t => t.kill());
 
-  ScrollTrigger.create({
-    id:       'tmw-footer-explosion-trigger',
-    trigger:  footer,
-    start:    'top 75%',
-    onEnter:  explode,
-    onEnterBack: () => {
-      if (!isExploding) explode();
-    },
-  });
+    ScrollTrigger.create({
+      id:       'tmw-footer-explosion-trigger',
+      trigger:  footer,
+      start:    'top 75%',
+      onEnter:  explode,
+      onEnterBack: () => {
+        if (!isExploding) explode();
+      },
+    });
+  }
+  buildFooterTrigger();
 
-  // ── Debounced Resize Handler ─────────────────────────────────────────
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      config.horizontalForce = window.innerWidth < 768 ? 16 : 26;
-      config.verticalForce   = window.innerWidth < 768 ? 14 : 18;
-      isExploding = false;
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
-    }, 250);
+  // ── Layout change (rotation / window resize) ─────────────────────────
+  // Address-bar-only changes on touch devices never reach here (utils/resize.js).
+  onLayoutChange(() => {
+    config.horizontalForce = window.innerWidth < 768 ? 16 : 26;
+    config.verticalForce   = window.innerWidth < 768 ? 14 : 18;
+    isExploding = false;
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+    explosionContainer.innerHTML = '';   // don't leave particles frozen mid-air
+    particles = [];
+    buildFooterTrigger();
   });
 }
