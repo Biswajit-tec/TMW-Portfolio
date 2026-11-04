@@ -91,7 +91,7 @@
   display: block;
   position: relative;
   aspect-ratio: 16/9;
-  width: 0%;
+  width: 0;      /* plain 0, not 0%: WebKit sizes a shrink-to-fit grid column from a percentage width */
   overflow: hidden;
   border-radius: 4rem;
 }

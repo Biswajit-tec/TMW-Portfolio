@@ -118,6 +118,7 @@
 .tmw-reveal .tmw-chips { margin-bottom: 1rem; }
 
 @media (max-width: 768px) {
-  .tmw-reveal .arch__left .arch__info { max-width: none; }
+  /* Phones: text always starts at the left edge, full width (short chapters used to float centred). */
+  .tmw-reveal .arch__left .arch__info { max-width: none; place-items: start stretch; }
   .tmw-reveal .arch__left { min-width: 0; }
 }

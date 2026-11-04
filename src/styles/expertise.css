@@ -159,7 +159,12 @@
   color: var(--tmw-cream);
   pointer-events: none;
   will-change: transform, opacity;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+  /* Safari clips text-shadow to the element's own box when it is a composited layer
+     (visible as a dark rectangle behind the title). Padding gives the shadow room;
+     the negative margin keeps the title exactly where it was. */
+  padding: 0.3em 0.35em;
+  margin: -0.3em -0.35em;
 }
 
 /* ─── Meta block (description + CTA) ─────────────────────────────── */

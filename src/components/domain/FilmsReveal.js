@@ -9,7 +9,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 // Dark tints that the page background shifts through, one per image change.
+// Both ends of every tween are explicit: letting GSAP read the start colour from
+// the computed style returns transparent in Safari/WebKit, which turned the page white.
+const BASE_BG   = '#0a0703';
 const BG_COLORS = ['#0b1219', '#190c13', '#1b1009'];
+const bgAt = (i) => (i < 0 ? BASE_BG : BG_COLORS[i % BG_COLORS.length]);
+const bgTween = (i) => [
+  'body',
+  { backgroundColor: bgAt(i - 1) },
+  { backgroundColor: bgAt(i), duration: 1.5, ease: 'power2.inOut', immediateRender: false },
+];
 
 export function initFilmsReveal({ lenis } = {}) {
   const root = document.querySelector('.tmw-reveal');
@@ -58,7 +67,7 @@ export function initFilmsReveal({ lenis } = {}) {
       if (!next) return;
       main.add(
         gsap.timeline()
-          .to('body', { backgroundColor: BG_COLORS[i % BG_COLORS.length], duration: 1.5, ease: 'power2.inOut' }, 0)
+          .fromTo(...bgTween(i), 0)
           .to(img, { clipPath: 'inset(0px 0px 100%)', objectPosition: '0px 60%', duration: 1.5, ease: 'none' }, 0)
           .to(next, { objectPosition: '0px 40%', duration: 1.5, ease: 'none' }, 0)
       );
@@ -73,7 +82,7 @@ export function initFilmsReveal({ lenis } = {}) {
         scrollTrigger: { trigger: img, start: 'top-=70% top+=50%', end: 'bottom+=200% bottom', scrub: true },
       })
         .to(img, { objectPosition: '0px 30%', duration: 5, ease: 'none' })
-        .to('body', { backgroundColor: BG_COLORS[i % BG_COLORS.length], duration: 1.5, ease: 'power2.inOut' });
+        .fromTo(...bgTween(i));
     });
   });
 

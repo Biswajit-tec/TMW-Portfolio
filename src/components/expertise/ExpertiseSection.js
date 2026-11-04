@@ -68,6 +68,12 @@ export function initExpertiseSection(lenis) {
   // Navigation routes
   const domainRoutes = ['/films', '/brands', '/sports'];
 
+  // Touch devices can't be gesture-hijacked reliably (momentum scrolling ignores
+  // preventDefault, and phones keep scrolling natively). There the section is
+  // scroll-driven instead: it stays pinned for one screen of scroll per banner
+  // and Films → Brands → Sports follow the scroll position.
+  const scrollDriven = window.matchMedia('(pointer: coarse)').matches;
+
   // Department to restore when the visitor comes back from a domain page.
   const stored = sessionStorage.getItem('tmw_return_domain');
   sessionStorage.removeItem('tmw_return_domain');
@@ -116,7 +122,7 @@ export function initExpertiseSection(lenis) {
       if (i === 0) {
         panel.classList.add('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'visible', opacity: 1, zIndex: 5, pointerEvents: 'auto' });
-        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: F(0) });
+        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: 'none' });
         if (meta)  gsap.set(meta,  { opacity: 1, y: 0 });
       } else {
         panel.classList.remove('tmw-ex-panel--active');
@@ -222,6 +228,7 @@ export function initExpertiseSection(lenis) {
 
     // Outgoing text animation: rapid clean exit without lingering
     if (outTitle) {
+      tl.set(outTitle, { filter: F(0) }, 0);   // explicit start value (resting state is 'none')
       tl.to(outTitle, {
         y: -direction * 35,
         opacity: 0,
@@ -262,7 +269,8 @@ export function initExpertiseSection(lenis) {
     if (inTitle) {
       tl.fromTo(inTitle,
         { y: direction * 45, opacity: 0, filter: F(25), scale: 1 },
-        { y: 0, opacity: 1, filter: F(0), scale: 1, duration: 0.75, ease: 'power3.out' },
+        { y: 0, opacity: 1, filter: F(0), scale: 1, duration: 0.75, ease: 'power3.out',
+          onComplete: () => gsap.set(inTitle, { filter: 'none' }) },
         0.25
       );
     }
@@ -317,7 +325,7 @@ export function initExpertiseSection(lenis) {
       if (i === index) {
         panel.classList.add('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'visible', opacity: 1, zIndex: 5, pointerEvents: 'auto' });
-        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: F(0) });
+        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: 'none' });
         if (meta)  gsap.set(meta,  { opacity: 1, y: 0 });
       } else {
         panel.classList.remove('tmw-ex-panel--active');
@@ -489,6 +497,7 @@ export function initExpertiseSection(lenis) {
     }
 
     if (title) {
+      entranceTl.set(title, { filter: F(0) }, 0);
       entranceTl.to(title, {
         scale: 1.08,
         y: -25,
@@ -535,30 +544,63 @@ export function initExpertiseSection(lenis) {
     });
   });
 
+  // ─── Scroll-driven switching (touch devices) ──────────────────────────────
+  // Which banner a scroll progress (0–1) belongs to, with a little hysteresis so
+  // hovering on a boundary doesn't flip back and forth.
+  const bannerAt = (progress) => {
+    const raw = progress * domainCount;
+    let want = activeDomainIndex;
+    if (raw > activeDomainIndex + 1.04)      want = Math.floor(raw - 0.04);
+    else if (raw < activeDomainIndex - 0.04) want = Math.floor(raw + 0.04);
+    return Math.max(0, Math.min(domainCount - 1, want));
+  };
+  // Plain (no hysteresis) lookup for when the section is entered at an arbitrary point.
+  const bannerNow = (progress) => Math.max(0, Math.min(domainCount - 1, Math.floor(progress * domainCount)));
+  let wantedIndex = 0;
+  function syncToScroll() {
+    if (isTransitioning || isNavigating || wantedIndex === activeDomainIndex) return;
+    // Re-check once the transition ends: the user may have scrolled on meanwhile.
+    transitionTo(wantedIndex, activeDomainIndex, () => {
+      const st = ScrollTrigger.getById('tmw-expertise-trigger');
+      if (st && st.isActive) wantedIndex = bannerAt(st.progress);
+      syncToScroll();
+    });
+  }
+
   // ─── ScrollTrigger: Section Entry & Mode Activation ───────────────────────
   ScrollTrigger.create({
     id: 'tmw-expertise-trigger',
     trigger: section,
     start: 'top top',
-    end: '+=100%',
+    end: scrollDriven ? `+=${domainCount * 100}%` : '+=100%',
     pin: true,
     pinSpacing: true,
 
-    onEnter: () => {
+    onEnter: (self) => {
       gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
-      _snapToDomain(returnIndex ?? 0);
+      _snapToDomain(returnIndex ?? (scrollDriven ? bannerNow(self.progress) : 0));
       returnIndex = null;
+      wantedIndex = activeDomainIndex;
+      if (scrollDriven) return;
       inExpertiseMode = true;
       lastTransitionTime = Date.now() + 250;
       if (lenis) lenis.stop();
     },
 
-    onEnterBack: () => {
+    onEnterBack: (self) => {
       gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
-      _snapToDomain(2);
+      _snapToDomain(scrollDriven ? bannerNow(self.progress) : 2);
+      wantedIndex = activeDomainIndex;
+      if (scrollDriven) return;
       inExpertiseMode = true;
       lastTransitionTime = Date.now() + 250;
       if (lenis) lenis.stop();
+    },
+
+    onUpdate: (self) => {
+      if (!scrollDriven) return;
+      wantedIndex = bannerAt(self.progress);
+      syncToScroll();
     },
 
     onLeave: () => {
@@ -580,7 +622,11 @@ export function initExpertiseSection(lenis) {
     requestAnimationFrame(() => {
       const st = ScrollTrigger.getById('tmw-expertise-trigger');
       if (!st) return;
-      lenis.scrollTo(st.start + 1, { immediate: true, force: true });
+      // Scroll-driven: land in the middle of that banner's share of the pin.
+      const target = scrollDriven
+        ? st.start + ((returnIndex + 0.5) / domainCount) * (st.end - st.start)
+        : st.start + 1;
+      lenis.scrollTo(target, { immediate: true, force: true });
       ScrollTrigger.update();
     });
   }

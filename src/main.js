@@ -97,6 +97,11 @@ async function bootstrap() {
 
   // ── Final refresh: authoritative measurement with full page height ──────
   ScrollTrigger.refresh();
+
+  // Safari/WebKit can run this module before CSS and webfonts have loaded: re-measure once they have.
+  const remeasure = () => ScrollTrigger.refresh();
+  if (document.readyState !== 'complete') window.addEventListener('load', remeasure, { once: true });
+  document.fonts?.ready.then(remeasure);
 }
 
 bootstrap();
