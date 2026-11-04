@@ -1,0 +1,130 @@
+html {
+    font-size: calc(100vw / 1440);
+}
+
+body {
+    font-family: var(--font-primary);
+    font-size: 16rem;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ---------------- Block intro ---------------- */
+
+.block--intro {
+    position: relative;
+    z-index: 1;
+}
+
+.media {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    padding: 0 24rem;
+}
+
+.media__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: lightgray;
+}
+
+.media__caption {
+    position: relative;
+    width: 221rem;
+    font-size: 14rem;
+    line-height: 1.3;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* ---------------- Block main ---------------- */
+
+.block.block--main {
+    height: 425vh;
+}
+
+.block__wrapper {
+    position: sticky;
+    top: 0;
+    padding: 0 24rem;
+    will-change: transform;
+    overflow: hidden;
+}
+
+.content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    z-index: 1;
+}
+
+.content__title {
+    width: 924rem;
+    font-family: var(--font-secondary);
+    font-size: 104rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.content__description {
+    width: 455rem;
+    margin-top: 24rem;
+    font-size: 14rem;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.content__button {
+    margin-top: 32rem;
+    font-size: 14rem;
+    text-transform: uppercase;
+
+    &:hover {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+}
+
+/* ---------------- Gallery ---------------- */
+
+.gallery {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 736rem;
+}
+
+.gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 32rem;
+    row-gap: 40rem;
+    will-change: transform;
+}
+
+.gallery__item {
+    width: 100%;
+    aspect-ratio: 1;
+    will-change: transform;
+}
+
+.gallery__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: lightgray;
+}

@@ -15,6 +15,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EXPERTISE } from '../../config/content.js';
+import { navigateTo } from '../transition/PageTransition.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -461,7 +462,7 @@ export function initExpertiseSection(lenis) {
     // 2. Cinematic zoom & portal effect
     const entranceTl = gsap.timeline({
       onComplete: () => {
-        window.location.href = route;
+        navigateTo(route);
       },
     });
 

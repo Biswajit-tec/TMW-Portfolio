@@ -40,6 +40,7 @@ import { initProjectEndSection }  from './components/project-end/ProjectEndSecti
 import { initPhotoDumpSection }   from './components/photo-dump/PhotoDumpSection.js';
 import { initFooterSection }      from './components/footer/FooterSection.js';
 import { initNavbar }             from './components/navbar/NavbarSection.js';
+import { initPageTransition }      from './components/transition/PageTransition.js';
 import { ScrollTrigger }          from 'gsap/ScrollTrigger';
 import gsap                       from 'gsap';
 
@@ -71,6 +72,9 @@ async function bootstrap() {
   // ── Unlock scroll, make site accessible ───────────────────────────────
   document.body.style.overflowY = '';
   document.getElementById('tmw-site')?.removeAttribute('aria-hidden');
+
+  // ── Initialize Page Transition Revealer ──────────────────────────────
+  initPageTransition();
 
   // ── Section inits — sequential, each builds on the same scroll system ──
   // Expertise: pinned scroll-driven Films / Brands / Sports chapter

@@ -32,12 +32,13 @@ export function initRevealLoader() {
   if (brandEl) brandEl.textContent = BRAND.name;
   if (yearEl)  yearEl.textContent  = BRAND.established;
 
-  // ─── Reduced motion: skip dissolve, reveal immediately ────────────────
+  // ─── Reduced motion or Page Transition return: skip dissolve, reveal immediately ─
   const prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
+  const isTransitionReturning = sessionStorage.getItem('tmw_transition') === 'true';
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || isTransitionReturning) {
     if (loaderEl) {
       loaderEl.style.pointerEvents = 'none';
       loaderEl.style.display       = 'none';

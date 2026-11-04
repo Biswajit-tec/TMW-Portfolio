@@ -3,15 +3,104 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tubelight Mediaworks — Films Portfolio. Feature films, OTT productions, short films, vertical narratives, and documentaries." />
+    <meta name="description" content="Tubelight Media Works — Films Portfolio. Feature films, OTT productions, short narratives, and cinematic storytelling." />
     <meta name="theme-color" content="#0a0703" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Films | Tubelight Mediaworks</title>
     <link rel="stylesheet" href="/src/styles/globals.css" />
-    <link rel="stylesheet" href="/src/styles/department.css" />
+    <link rel="stylesheet" href="/src/styles/transition.css" />
+    <link rel="stylesheet" href="/src/styles/film.css" />
   </head>
-  <body class="tmw-dept-body">
-    <div id="tmw-dept-app"></div>
+  <body class="tmw-films-page">
+    <!-- Subtle Back Control -->
+    <button class="tmw-film-back" id="tmw-film-back" type="button" aria-label="Return to portfolio">
+      <svg class="tmw-film-back__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Portfolio</span>
+    </button>
+
+    <!-- First Chapter: Film Hero -->
+    <section class="film-hero" aria-label="Film Hero">
+      <div class="film-hero__bg">
+        <img class="film-hero__bg-img" src="/images/expertise/films.jpg" alt="Film production still — Tubelight Media Works" />
+        <div class="film-hero__bg-overlay"></div>
+      </div>
+
+      <div class="film-hero__content">
+        <span class="film-hero__eyebrow">Tubelight Media Works · Feature & OTT Division</span>
+        <h1 class="film-hero__title">Stories made to be seen. Work built to outlast the frame.</h1>
+        <p class="film-hero__subtitle">Deliberate light, engineered shadow, and enduring human narrative.</p>
+      </div>
+
+      <div class="film-hero__revealer"></div>
+
+      <div class="film-hero__images">
+        <div class="film-hero__img-card">
+          <img src="/images/gdrive/img_14.jpg" alt="Kali — Shortflix OTT Release" />
+          <div class="film-hero__img-badge">Kali · Shortflix OTT Premiere</div>
+        </div>
+        <div class="film-hero__img-card">
+          <img src="/images/uploaded/cinema-bw-couple.jpg" alt="Narrative Cinema Production" />
+          <div class="film-hero__img-badge">Narrative Cinema · 35mm Master</div>
+        </div>
+        <div class="film-hero__img-card">
+          <img src="/images/gdrive/img_1.jpg" alt="Director Unit — On Location" />
+          <div class="film-hero__img-badge">High-Speed Motion · 4K Master</div>
+        </div>
+      </div>
+
+      <div class="film-hero__outro-content">
+        <h2>Production with a point of view.</h2>
+        <p>Est. MMXXV · Global Narrative Cinema</p>
+      </div>
+    </section>
+
+    <!-- Second Chapter: Film Sec2 Continuous Continuation -->
+    <section class="film-sec2" aria-label="Film Slate & Archive">
+      <div class="film-sec2__intro">
+        <span class="film-sec2__tag">Chapter II · Curated Slate</span>
+        <h2 class="film-sec2__intro-title">Moving Image & Narrative Film</h2>
+      </div>
+
+      <div class="film-sec2__block-main">
+        <div class="film-sec2__wrapper">
+          <div class="film-sec2__gallery">
+            <ul class="film-sec2__grid">
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/1.webp" alt="Film Production Frame 01" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/2.webp" alt="Film Production Frame 02" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/3.webp" alt="Film Production Frame 03" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/4.webp" alt="Film Production Frame 04" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/5.webp" alt="Film Production Frame 05" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/6.webp" alt="Film Production Frame 06" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/7.webp" alt="Film Production Frame 07" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/8.webp" alt="Film Production Frame 08" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/9.webp" alt="Film Production Frame 09" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/10.webp" alt="Film Production Frame 10" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/11.webp" alt="Film Production Frame 11" loading="lazy" /></li>
+              <li class="film-sec2__item"><img class="film-sec2__image" src="/images/film-grid/12.webp" alt="Film Production Frame 12" loading="lazy" /></li>
+            </ul>
+          </div>
+
+          <div class="film-sec2__content">
+            <span class="film-sec2__eyebrow">The Film Slate</span>
+            <h2 class="film-sec2__title">The Film Archive</h2>
+            <p class="film-sec2__description">
+              From festival-recognized feature narratives and OTT short films to vertical stories and documentary investigations, our film unit brings cinematic discipline to every frame.
+            </p>
+            <div class="film-sec2__actions">
+              <a href="/#tmw-footer" class="film-sec2__btn">Start a Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page Transition Overlay -->
+    <div class="tmw-transition-overlay"></div>
+    <div class="tmw-logo-overlay"></div>
+
     <script type="module" src="/src/pages/films.js"></script>
   </body>
 </html>

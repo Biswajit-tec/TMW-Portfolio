@@ -3,15 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tubelight Mediaworks — Brands Portfolio. Commercial storytelling with a cinematic eye, brand films, campaigns, and immersive media." />
+    <meta name="description" content="Tubelight Mediaworks — Brands Portfolio" />
     <meta name="theme-color" content="#0a0703" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Brands | Tubelight Mediaworks</title>
     <link rel="stylesheet" href="/src/styles/globals.css" />
-    <link rel="stylesheet" href="/src/styles/department.css" />
+    <link rel="stylesheet" href="/src/styles/transition.css" />
+    <link rel="stylesheet" href="/src/styles/film.css" />
   </head>
-  <body class="tmw-dept-body">
-    <div id="tmw-dept-app"></div>
+  <body class="tmw-films-page">
+    <!-- Subtle Back Control -->
+    <button class="tmw-film-back" id="tmw-film-back" type="button" aria-label="Return to portfolio">
+      <svg class="tmw-film-back__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Portfolio</span>
+    </button>
+
+    <main class="film-sec2__intro" style="min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <span class="film-sec2__tag">Brands & Commercial Slate</span>
+      <h1 class="film-sec2__intro-title" style="font-size: clamp(2.4rem, 5vw, 4.5rem);">Commercial & Branded Media</h1>
+      <p style="margin-top: 1.25rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem;">Currently in Curation · Est. MMXXV</p>
+    </main>
+
+    <!-- Page Transition Overlay -->
+    <div class="tmw-transition-overlay"></div>
+    <div class="tmw-logo-overlay"></div>
+
     <script type="module" src="/src/pages/brands.js"></script>
   </body>
 </html>
