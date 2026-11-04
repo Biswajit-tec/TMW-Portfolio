@@ -56,6 +56,7 @@
 
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { perf } from '../../utils/perf.js';
 
 // ScrollTrigger is already registered by main.js; re-registering is a no-op.
 gsap.registerPlugin(ScrollTrigger);
@@ -92,6 +93,105 @@ function getGrid(gridItems) {
   return elements;
 }
 
+// ── Phone tuning ──────────────────────────────────────────────────────────
+// The desktop grids use very wide stages (120–160 %), huge depth ranges and
+// brightness swings to 0 % / 200 %. On a ~390 px screen that reads as tiny,
+// dark, scattered thumbnails. These variants keep each effect's character but:
+//   • fill the screen width with 3 larger portrait tiles,
+//   • use a shallower depth range so tiles stay a readable size,
+//   • keep brightness between ~45 % and ~120 % (never black / blown out),
+//   • skip brightness tweens entirely on the low-power tier (GPU filter cost —
+//     the desktop variants below use the same `bright()` gate).
+const bright = (pct) => (perf.low ? {} : { filter: `brightness(${pct}%)` });
+
+function applyMobileAnimation(grid, type, timeline, gridWrap, gridItems, gridItemsInner) {
+  const set = (k, v) => grid.style.setProperty(k, v);
+  // Common stage: 3 columns, full width, portrait tiles, tight gap.
+  set('--tmw-pd-grid-width', '100%');
+  set('--tmw-pd-columns',    '3');
+  set('--tmw-pd-gap',        '2.5vw');
+  set('--tmw-pd-item-ratio', '0.8');
+  set('--tmw-pd-inner-scale', '0.5');
+
+  switch (type) {
+    case 'type1':
+      set('--tmw-pd-perspective', '900px');
+      timeline
+        .set(gridWrap, { rotationY: 15 })
+        .set(gridItems, { z: () => gsap.utils.random(-300, 80) })
+        .fromTo(gridItems,
+          { xPercent: () => gsap.utils.random(-140, -60) },
+          { xPercent: () => gsap.utils.random(  60, 140) }, 0)
+        .fromTo(gridItemsInner, { scale: 2 }, { scale: 0.5 }, 0);
+      break;
+
+    case 'type2':
+      // Only 12 tiles → keep them taller and let them drift less, so the stage
+      // never empties out while it is on screen.
+      set('--tmw-pd-perspective', '1200px');
+      set('--tmw-pd-item-ratio', '0.7');
+      timeline
+        .set(gridWrap, { rotationX: 6 })
+        .set(gridItems, { z: () => gsap.utils.random(-250, 150) })
+        .fromTo(gridItems,
+          { yPercent: () => gsap.utils.random(8, 40), rotationY: -20, ...bright(120) },
+          { ease: 'power2', yPercent: () => gsap.utils.random(-40, -8), rotationY: 20, ...bright(75) }, 0)
+        .fromTo(gridWrap, { rotationZ: -3 }, { rotationX: -6, rotationZ: 4, scale: 1.08 }, 0)
+        .fromTo(gridItemsInner, { scale: 2 }, { scale: 0.5 }, 0);
+      break;
+
+    case 'type3':
+      set('--tmw-pd-perspective', '1400px');
+      timeline
+        .set(gridItems, {
+          transformOrigin: '50% 0%',
+          z:         () => gsap.utils.random(-1800, -600),
+          rotationX: () => gsap.utils.random(-40, -15),
+          ...bright(45),
+        })
+        .to(gridItems, {
+          xPercent:  () => gsap.utils.random(-60, 60),
+          yPercent:  () => gsap.utils.random(-110, 110),
+          rotationX: 0,
+          ...bright(115),
+        }, 0)
+        .to(gridWrap, { z: 800 }, 0)
+        .fromTo(gridItemsInner, { scale: 2 }, { scale: 0.5 }, 0);
+      break;
+
+    case 'type4':
+      set('--tmw-pd-perspective', '1800px');
+      set('--tmw-pd-gap', '2vw');
+      timeline
+        .set(gridWrap, { transformOrigin: '0% 50%', rotationY: 18, xPercent: -12 })
+        .set(gridItems, { transformOrigin: '50% 0%' })
+        .to(gridItems, { duration: 0.5, ease: 'power2',    z: 260, stagger: 0.04 }, 0)
+        .to(gridItems, { duration: 0.5, ease: 'power2.in', z: 0,   stagger: 0.04 }, 0.5)
+        .fromTo(gridItems,
+          { rotationX: -50, ...bright(115) },
+          { duration: 1, rotationX: 50, ...bright(55), stagger: 0.04 }, 0);
+      break;
+
+    case 'type5': {
+      set('--tmw-pd-gap', '1.5vw');
+      set('--tmw-pd-perspective', '1500px');
+      const gridObj = getGrid(gridItems);
+      timeline
+        .set(gridWrap, { rotationX: 32 })
+        .to(gridWrap, { rotationX: 18 })
+        .fromTo(gridItems, { ...bright(50) }, { ...bright(105) }, 0)
+        .to(gridObj.rows('even'), { xPercent: -60, ease: 'power1' }, 0)
+        .to(gridObj.rows('odd'),  { xPercent:  60, ease: 'power1' }, 0)
+        .addLabel('rowsEnd', '>-=0.15')
+        .to(gridItems, { ease: 'power1', yPercent: () => gsap.utils.random(-50, 90) }, 'rowsEnd');
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
 // ── Animation definitions ────────────────────────────────────────────────
 // KEY: invalidateOnRefresh:true forces GSAP to re-evaluate all function-
 // based values (gsap.utils.random()) on every ScrollTrigger.refresh().
@@ -119,6 +219,16 @@ function applyAnimation(grid, animationType, isMobile) {
       invalidateOnRefresh: true,  // ← KEY FIX: re-evaluates random() on refresh
     },
   });
+
+  // A resize can switch between desktop and phone tuning: start from a clean slate.
+  ['--tmw-pd-grid-width', '--tmw-pd-grid-height', '--tmw-pd-columns', '--tmw-pd-gap',
+   '--tmw-pd-item-ratio', '--tmw-pd-perspective', '--tmw-pd-inner-scale']
+    .forEach(v => grid.style.removeProperty(v));
+
+  if (isMobile) {
+    applyMobileAnimation(grid, animationType, timeline, gridWrap, gridItems, gridItemsInner);
+    return;
+  }
 
   switch (animationType) {
     case 'type1':
@@ -154,8 +264,8 @@ function applyAnimation(grid, animationType, isMobile) {
         // but spend most of the animation crossing through the visible
         // portion of their cell (roughly yPercent −80 to +80).
         .fromTo(gridItems,
-          { yPercent: () => gsap.utils.random(25, 150), rotationY: -45, filter: 'brightness(200%)' },
-          { ease: 'power2', yPercent: () => gsap.utils.random(-150, -25), rotationY: 45, filter: 'brightness(0%)' }, 0)
+          { yPercent: () => gsap.utils.random(25, 150), rotationY: -45, ...bright(200) },
+          { ease: 'power2', yPercent: () => gsap.utils.random(-150, -25), rotationY: 45, ...bright(0) }, 0)
         .fromTo(gridWrap,
           { rotationZ: -5 },
           { rotationX: -20, rotationZ: 10, scale: 1.2 }, 0)
@@ -172,13 +282,13 @@ function applyAnimation(grid, animationType, isMobile) {
           transformOrigin: '50% 0%',
           z:               () => gsap.utils.random(-5000, -2000),
           rotationX:       () => gsap.utils.random(-65, -25),
-          filter:          'brightness(0%)',
+          ...bright(0),
         })
         .to(gridItems, {
           xPercent:  () => gsap.utils.random(-150, 150),
           yPercent:  () => gsap.utils.random(-300, 300),
           rotationX: 0,
-          filter:    'brightness(200%)',
+          ...bright(200),
         }, 0)
         .to(gridWrap, { z: 6500 }, 0)
         .fromTo(gridItemsInner, { scale: 2 }, { scale: 0.5 }, 0);
@@ -196,8 +306,8 @@ function applyAnimation(grid, animationType, isMobile) {
         .to(gridItems, { duration: 0.5, ease: 'power2',    z: 500, stagger: 0.04 }, 0)
         .to(gridItems, { duration: 0.5, ease: 'power2.in', z: 0,   stagger: 0.04 }, 0.5)
         .fromTo(gridItems,
-          { rotationX: -70, filter: 'brightness(120%)' },
-          { duration: 1, rotationX: 70, filter: 'brightness(0%)', stagger: 0.04 }, 0);
+          { rotationX: -70, ...bright(120) },
+          { duration: 1, rotationX: 70, ...bright(0), stagger: 0.04 }, 0);
       break;
 
     case 'type5':
@@ -209,7 +319,7 @@ function applyAnimation(grid, animationType, isMobile) {
         timeline
           .set(gridWrap, { rotationX: 50 })
           .to(gridWrap, { rotationX: 30 })
-          .fromTo(gridItems, { filter: 'brightness(0%)' }, { filter: 'brightness(100%)' }, 0)
+          .fromTo(gridItems, { ...bright(0) }, { ...bright(100) }, 0)
           .to(gridObj.rows('even'), { xPercent: -100, ease: 'power1' }, 0)
           .to(gridObj.rows('odd'),  { xPercent:  100, ease: 'power1' }, 0)
           .addLabel('rowsEnd', '>-=0.15')
