@@ -1,0 +1,65 @@
+/* ═══════════════════════════════════════════════════════════════════
+   film.css — Tubelight Media Works Domain Pages
+   Shared chrome for the domain pages (body + back control)
+   ════════════════════════════════════════════════════════════════ */
+
+/* ─── Global Scope for Films Page ────────────────────────────────── */
+body.tmw-films-page {
+  background-color: var(--tmw-black, #0a0703);
+  color: var(--tmw-cream, #dcdbd5);
+  font-family: var(--tmw-font, 'PP Neue Montreal', sans-serif);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Subtle Back Control ────────────────────────────────────────── */
+.tmw-film-back {
+  position: fixed;
+  top: 1.75rem;
+  left: clamp(1.25rem, 3.5vw, 3rem);
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 9999px;
+  background: rgba(10, 7, 3, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(220, 219, 213, 0.18);
+  color: #dcdbd5;
+  font-family: var(--tmw-font, sans-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.tmw-film-back__icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.tmw-film-back:hover {
+  background: rgba(220, 219, 213, 0.15);
+  border-color: rgba(220, 219, 213, 0.4);
+  color: #ffffff;
+  transform: translateX(-4px);
+}
+
+.tmw-film-back:hover .tmw-film-back__icon {
+  transform: translateX(-2px);
+}
+
+@media (max-width: 600px) {
+  .tmw-film-back {
+    top: 1.25rem;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.72rem;
+  }
+}

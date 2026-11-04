@@ -1,0 +1,75 @@
+/* domain-ui.css — shared by the Films and Brands pages: category nav, type badge, chips, credits. */
+.tmw-domain-nav {
+  position: fixed;
+  top: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  border-radius: 999px;
+  background: rgba(10, 7, 3, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(220, 219, 213, 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.tmw-domain-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  color: var(--tmw-cream);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.tmw-domain-nav button span { opacity: 0.55; }
+.tmw-domain-nav button:hover { background: rgba(220, 219, 213, 0.14); }
+.tmw-domain-nav button.is-active { background: var(--accent); color: #121212; }
+
+.tmw-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #121212;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+.tmw-badge b { font-weight: 500; opacity: 0.6; letter-spacing: 0.08em; }
+
+.tmw-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tmw-chip {
+  padding: 0.28rem 0.7rem;
+  border: 1px solid rgba(245, 244, 240, 0.35);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--tmw-white);
+}
+
+.tmw-credits {
+  display: grid;
+  gap: 0.7rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(245, 244, 240, 0.2);
+}
+.tmw-credits dt { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.15rem; }
+.tmw-credits dd { font-size: 1rem; line-height: 1.4; text-transform: none; letter-spacing: 0; color: var(--tmw-white); }
+
+@media (max-width: 900px) {
+  .tmw-domain-nav { top: auto; bottom: 1rem; }
+  .tmw-domain-nav button { padding: 0.5rem 0.8rem; font-size: 0.68rem; letter-spacing: 0.1em; }
+}

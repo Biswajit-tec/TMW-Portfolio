@@ -3,15 +3,374 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tubelight Mediaworks — Brands Portfolio. Commercial storytelling with a cinematic eye, brand films, campaigns, and immersive media." />
+    <meta name="description" content="Tubelight Mediaworks — Brands Portfolio" />
     <meta name="theme-color" content="#0a0703" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Brands | Tubelight Mediaworks</title>
+    <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
+    <link rel="preload" as="font" type="font/woff" crossorigin href="https://fonts.cdnfonts.com/s/100431/ppneuemontreal-book.woff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" />
     <link rel="stylesheet" href="/src/styles/globals.css" />
-    <link rel="stylesheet" href="/src/styles/department.css" />
+    <link rel="stylesheet" href="/src/styles/transition.css" />
+    <link rel="stylesheet" href="/src/styles/film.css" />
   </head>
-  <body class="tmw-dept-body">
-    <div id="tmw-dept-app"></div>
+  <body class="tmw-films-page">
+    <!-- Subtle Back Control -->
+    <button class="tmw-film-back" id="tmw-film-back" type="button" aria-label="Return to portfolio">
+      <svg class="tmw-film-back__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Portfolio</span>
+    </button>
+
+    <main class="tmw-brands">
+      <nav class="tmw-domain-nav" aria-label="Brand categories"><button type="button" data-cat="commercials" style="--accent: #D5FF37">Commercials <span>9</span></button><button type="button" data-cat="social-media" style="--accent: #FFA0B0">Social Media <span>9</span></button><button type="button" data-cat="institutions" style="--accent: #7DD6FF">Institutions <span>7</span></button></nav>
+      <header class="tmw-brands__intro">
+        <h3 class="meta">Brands</h3>
+        <h1>Commercials at Tubelight</h1>
+        <p>Brand films, social campaigns and institutional documentaries — production with a point of view.</p>
+      </header>
+      <section class="brand-group" id="commercials" data-cat="commercials">
+        <div class="content content--left">
+          <h3 class="meta">Commercials</h3>
+          <h2 class="type" data-expand-1>
+            Brand Films, Product Videos,<br />
+            Informative / Instructional,<br />
+            Immersive VR Experience, Corporate
+            <span class="type__expand type__expand--inline type__expand--reveal">
+              <span class="type__expand-img"><span class="type__expand-img-inner" style="background-image: url(/images/brands/sedin-1.jpg);"></span></span>
+              <span class="anim skewed">Interviews.</span>
+            </span>
+          </h2>
+          <p class="block">SEDIN Technologies · BusyBee Honey · Anyo · Vantage Research · Data Patterns · RRD · Buzye · Naturals · Specsmakers</p>
+        </div>
+        <ul class="clients">
+        <li class="client client--media" style="--accent: #D5FF37">
+          <div class="client__media client__media--3"><img src="/images/brands/sedin-1.jpg" alt="SEDIN Technologies" loading="lazy" /><img src="/images/brands/sedin-2.jpg" alt="SEDIN Technologies" loading="lazy" /><img src="/images/brands/sedin-3.jpg" alt="SEDIN Technologies" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>01 / 09</b></span>
+            <h4 class="client__name">SEDIN Technologies</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Brand Films</span><span class=tmw-chip>Corporate Interviews</span></div>
+            <p class="client__desc">Tubelight Mediaworks shot a series of corporate interviews for Sedin Technologies and its associated companies to go on their websites.</p>
+            
+            <div class="client__links"><span class="client__links-label">Videos</span><a class="client__link client__link--n" href="https://youtu.be/6n2EoSPEhhw" target="_blank" rel="noopener" aria-label="SEDIN Technologies video 1">1</a><a class="client__link client__link--n" href="https://youtu.be/mx9Maq8hIs8" target="_blank" rel="noopener" aria-label="SEDIN Technologies video 2">2</a><a class="client__link client__link--n" href="https://youtu.be/tqsQYZY-UAA" target="_blank" rel="noopener" aria-label="SEDIN Technologies video 3">3</a><a class="client__link client__link--n" href="https://www.youtube.com/watch?v=aZeQU4Qc8lY" target="_blank" rel="noopener" aria-label="SEDIN Technologies video 4">4</a><a class="client__link client__link--n" href="https://youtu.be/CtsTY5QdbqQ" target="_blank" rel="noopener" aria-label="SEDIN Technologies video 5">5</a></div>
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #D5FF37">
+          <div class="client__media client__media--1"><img src="/images/brands/busybee-1.jpg" alt="BusyBee Honey" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>02 / 09</b></span>
+            <h4 class="client__name">BusyBee Honey</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Brand Films</span><span class=tmw-chip>Product Videos</span></div>
+            
+            
+            <div class="client__links"><a class="client__link" href="https://www.youtube.com/watch?v=iON9zcjFDA0" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </li>
+        <li class="client" style="--accent: #D5FF37">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>03 / 09</b></span>
+            <h4 class="client__name">Anyo</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Informative / Instructional</span></div>
+            
+            
+            
+          </div>
+        </li>
+        <li class="client" style="--accent: #D5FF37">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>04 / 09</b></span>
+            <h4 class="client__name">Vantage Research</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Informative / Instructional</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Kishore</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #D5FF37">
+          <div class="client__media client__media--1"><img src="/images/brands/data-patterns-1.jpg" alt="Data Patterns" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>05 / 09</b></span>
+            <h4 class="client__name">Data Patterns</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Informative / Instructional</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Abishek</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client" style="--accent: #D5FF37">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>06 / 09</b></span>
+            <h4 class="client__name">RRD</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Immersive VR Experience</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Geevee</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #D5FF37">
+          <div class="client__media client__media--3"><img src="/images/brands/buzye-1.jpg" alt="Buzye" loading="lazy" /><img src="/images/brands/buzye-2.jpg" alt="Buzye" loading="lazy" /><img src="/images/brands/buzye-3.jpg" alt="Buzye" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>07 / 09</b></span>
+            <h4 class="client__name">Buzye</h4>
+            
+            
+            
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #D5FF37">
+          <div class="client__media client__media--3"><img src="/images/brands/naturals-1.jpg" alt="Naturals" loading="lazy" /><img src="/images/brands/naturals-2.jpg" alt="Naturals" loading="lazy" /><img src="/images/brands/naturals-3.jpg" alt="Naturals" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>08 / 09</b></span>
+            <h4 class="client__name">Naturals</h4>
+            
+            
+            
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #D5FF37">
+          <div class="client__media client__media--1"><img src="/images/brands/specsmakers-1.jpg" alt="Specsmakers" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Commercials <b>09 / 09</b></span>
+            <h4 class="client__name">Specsmakers</h4>
+            
+            
+            
+            <div class="client__links"><a class="client__link" href="https://www.youtube.com/playlist?list=PLt2UIcEFTRkHM7a6cKUK7vrPRSsNh4w8r" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </li>
+        </ul>
+      </section>
+      <section class="brand-group" id="social-media" data-cat="social-media">
+        <div class="content content--justify">
+          <h3 class="meta">Social Media</h3>
+          <h2 class="type" data-expand-4>
+            Social Media for
+            <span class="type__expand type__expand--stack">
+              <span class="anim rotated">Jar App</span>
+              <span class="type__expand-img type__expand-img--small"><span class="type__expand-img-inner" style="background-image: url(/images/brands/jar-app-1.jpg);"></span></span>
+            </span>
+            and
+            <span class="type__expand type__expand--stack">
+              <span class="anim rotated">Bridlen,</span>
+              <span class="type__expand-img type__expand-img--small"><span class="type__expand-img-inner" style="background-image: url(/images/brands/bridlen-1.jpg);"></span></span>
+            </span>
+            <br />
+            In-Store Events &amp; Social Media Engagement.
+          </h2>
+          <p class="block">GNACK · Jar App · Mammacare Pro · Jeyachandran · LBB Homely · JCmoto · Bharath Benz · Iyanthira Paravai · Bridlen</p>
+        </div>
+        <ul class="clients">
+        <li class="client" style="--accent: #FFA0B0">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>01 / 09</b></span>
+            <h4 class="client__name">GNACK</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Sudharshan R</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #FFA0B0">
+          <div class="client__media client__media--1"><img src="/images/brands/jar-app-1.jpg" alt="Jar App" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>02 / 09</b></span>
+            <h4 class="client__name">Jar App</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            
+            <div class="client__links"><a class="client__link" href="https://www.youtube.com/playlist?list=PLt2UIcEFTRkFZ_TMiJjzru3-aMO_2d1yQ" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </li>
+        <li class="client" style="--accent: #FFA0B0">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>03 / 09</b></span>
+            <h4 class="client__name">Mammacare Pro</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Sudharshan R</dd></div><div><dt>Featuring</dt><dd>Nasimah Israth</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client" style="--accent: #FFA0B0">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>04 / 09</b></span>
+            <h4 class="client__name">Jeyachandran</h4>
+            <div class="tmw-chips"><span class=tmw-chip>In-Store Events &amp; Social Media Engagement</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Kavya S</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client" style="--accent: #FFA0B0">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>05 / 09</b></span>
+            <h4 class="client__name">LBB Homely</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Abishek K</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client" style="--accent: #FFA0B0">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>06 / 09</b></span>
+            <h4 class="client__name">JCmoto</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #FFA0B0">
+          <div class="client__media client__media--1"><img src="/images/brands/bharath-benz-1.jpg" alt="Bharath Benz" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>07 / 09</b></span>
+            <h4 class="client__name">Bharath Benz</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Goutham Selvaraj</dd></div></dl>
+            <div class="client__links"><a class="client__link" href="https://youtu.be/CqgNxRfH_iE" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </li>
+        <li class="client" style="--accent: #FFA0B0">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>08 / 09</b></span>
+            <h4 class="client__name">Iyanthira Paravai</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Sriram</dd></div></dl>
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #FFA0B0">
+          <div class="client__media client__media--1"><img src="/images/brands/bridlen-1.jpg" alt="Bridlen" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Social Media <b>09 / 09</b></span>
+            <h4 class="client__name">Bridlen</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Social Media</span></div>
+            
+            <dl class="tmw-credits"><div><dt>Director</dt><dd>Sriram</dd></div></dl>
+            <div class="client__links"><a class="client__link" href="https://youtu.be/6E683AlMMmE" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </li>
+        </ul>
+      </section>
+      <section class="brand-group" id="institutions" data-cat="institutions">
+        <div class="content content--line">
+          <h3 class="meta">Institutions</h3>
+          <h2 class="type" data-expand-5>
+            Government Awareness Campaign
+            <span class="type__expand type__expand--mini"><span class="type__expand-img type__expand-img--tiny"><span class="type__expand-img-inner" style="background-image: url(/images/brands/cmchis-1.jpg);"></span></span></span>
+            Documentaries
+            <span class="type__expand type__expand--mini"><span class="type__expand-img type__expand-img--tiny"><span class="type__expand-img-inner" style="background-image: url(/images/brands/iit-madras-1.jpg);"></span></span></span>
+            Brand Communication
+            <span class="type__expand type__expand--mini"><span class="type__expand-img type__expand-img--tiny"><span class="type__expand-img-inner" style="background-image: url(/images/brands/cmi-1.jpg);"></span></span></span>
+            Event Videography &amp; Photography, Brand Films, CSR
+            <span class="type__expand type__expand--mini"><span class="type__expand-img type__expand-img--tiny"><span class="type__expand-img-inner" style="background-image: url(/images/brands/united-way-1.jpg);"></span></span></span>
+          </h2>
+          <p class="block">CMCHIS · IIT Madras · Chennai Mathematical Institute · APL Global · United Way Chennai · Covelong Festival · Rhapsody</p>
+        </div>
+        <ul class="clients">
+        <li class="client client--media" style="--accent: #7DD6FF">
+          <div class="client__media client__media--3"><img src="/images/brands/cmchis-1.jpg" alt="CMCHIS" loading="lazy" /><img src="/images/brands/cmchis-2.jpg" alt="CMCHIS" loading="lazy" /><img src="/images/brands/cmchis-3.jpg" alt="CMCHIS" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Institutions <b>01 / 07</b></span>
+            <h4 class="client__name">CMCHIS</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Government Awareness Campaign</span><span class=tmw-chip>Documentaries</span></div>
+            <p class="client__desc">Chief Minister&#x27;s Comprehensive Health Insurance Scheme</p>
+            
+            <div class="client__links"><span class="client__links-label">Videos</span><a class="client__link client__link--n" href="https://youtu.be/nYIM3NlDDTY" target="_blank" rel="noopener" aria-label="CMCHIS video 1">1</a><a class="client__link client__link--n" href="https://youtu.be/ZAS3Ll3wrNs" target="_blank" rel="noopener" aria-label="CMCHIS video 2">2</a><a class="client__link client__link--n" href="https://youtu.be/c5-sjIVBpP8" target="_blank" rel="noopener" aria-label="CMCHIS video 3">3</a><a class="client__link client__link--n" href="https://youtu.be/MqQtRGX9zxk" target="_blank" rel="noopener" aria-label="CMCHIS video 4">4</a><a class="client__link client__link--n" href="https://youtu.be/JzvWlD4roYU" target="_blank" rel="noopener" aria-label="CMCHIS video 5">5</a><a class="client__link client__link--n" href="https://youtu.be/rp1vA6H12Mc" target="_blank" rel="noopener" aria-label="CMCHIS video 6">6</a><a class="client__link client__link--n" href="https://youtu.be/setZwjEZ7qg" target="_blank" rel="noopener" aria-label="CMCHIS video 7">7</a><a class="client__link client__link--n" href="https://youtu.be/F87aCk3Aoqg" target="_blank" rel="noopener" aria-label="CMCHIS video 8">8</a><a class="client__link client__link--n" href="https://youtu.be/lUUi-SJqFH0" target="_blank" rel="noopener" aria-label="CMCHIS video 9">9</a><a class="client__link client__link--n" href="https://youtu.be/XvXbf2mG-V4" target="_blank" rel="noopener" aria-label="CMCHIS video 10">10</a><a class="client__link client__link--n" href="https://youtu.be/DiSS_zleFh0" target="_blank" rel="noopener" aria-label="CMCHIS video 11">11</a><a class="client__link client__link--n" href="https://youtu.be/oTzCXidtPcY" target="_blank" rel="noopener" aria-label="CMCHIS video 12">12</a></div>
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #7DD6FF">
+          <div class="client__media client__media--3"><img src="/images/brands/iit-madras-1.jpg" alt="IIT Madras" loading="lazy" /><img src="/images/brands/iit-madras-2.jpg" alt="IIT Madras" loading="lazy" /><img src="/images/brands/iit-madras-3.jpg" alt="IIT Madras" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Institutions <b>02 / 07</b></span>
+            <h4 class="client__name">IIT Madras</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Documentary</span></div>
+            
+            
+            <div class="client__links"><span class="client__links-label">Videos</span><a class="client__link client__link--n" href="https://www.youtube.com/watch?v=my8GDg3eWX4" target="_blank" rel="noopener" aria-label="IIT Madras video 1">1</a><a class="client__link client__link--n" href="https://www.youtube.com/watch?v=qCbMuc-KY08" target="_blank" rel="noopener" aria-label="IIT Madras video 2">2</a><a class="client__link client__link--n" href="https://youtu.be/ygHL1g1887E" target="_blank" rel="noopener" aria-label="IIT Madras video 3">3</a><a class="client__link client__link--n" href="https://youtu.be/X5lzk2mGcsU" target="_blank" rel="noopener" aria-label="IIT Madras video 4">4</a><a class="client__link client__link--n" href="https://youtu.be/jPIxHW40iyc" target="_blank" rel="noopener" aria-label="IIT Madras video 5">5</a><a class="client__link client__link--n" href="https://youtu.be/M8ikv-m8c3Y" target="_blank" rel="noopener" aria-label="IIT Madras video 6">6</a><a class="client__link client__link--n" href="https://youtu.be/JS5sJ0n-Mhc" target="_blank" rel="noopener" aria-label="IIT Madras video 7">7</a><a class="client__link client__link--n" href="https://youtu.be/Snn6p1ijPdU" target="_blank" rel="noopener" aria-label="IIT Madras video 8">8</a><a class="client__link client__link--n" href="https://youtu.be/a78N4vuGBDI" target="_blank" rel="noopener" aria-label="IIT Madras video 9">9</a><a class="client__link client__link--n" href="https://youtu.be/qIXK0grAgSI" target="_blank" rel="noopener" aria-label="IIT Madras video 10">10</a><a class="client__link client__link--n" href="https://youtu.be/9MD0S3dMf3I" target="_blank" rel="noopener" aria-label="IIT Madras video 11">11</a><a class="client__link client__link--n" href="https://youtu.be/kglxhuwytio" target="_blank" rel="noopener" aria-label="IIT Madras video 12">12</a><a class="client__link client__link--n" href="https://youtu.be/OLiE5tcGE8c" target="_blank" rel="noopener" aria-label="IIT Madras video 13">13</a><a class="client__link client__link--n" href="https://youtu.be/Y0kEIsWyJE8" target="_blank" rel="noopener" aria-label="IIT Madras video 14">14</a><a class="client__link client__link--n" href="https://youtu.be/N_FS0P1mRX0" target="_blank" rel="noopener" aria-label="IIT Madras video 15">15</a><a class="client__link client__link--n" href="https://youtu.be/ioumhB8jZ0M" target="_blank" rel="noopener" aria-label="IIT Madras video 16">16</a><a class="client__link client__link--n" href="https://youtu.be/ubEXh59Phwc" target="_blank" rel="noopener" aria-label="IIT Madras video 17">17</a><a class="client__link client__link--n" href="https://youtu.be/OF2vjag6tHE" target="_blank" rel="noopener" aria-label="IIT Madras video 18">18</a><a class="client__link client__link--n" href="https://youtu.be/UobQV0k3PI4" target="_blank" rel="noopener" aria-label="IIT Madras video 19">19</a><a class="client__link client__link--n" href="https://youtu.be/p97bAyKs96Y" target="_blank" rel="noopener" aria-label="IIT Madras video 20">20</a></div>
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #7DD6FF">
+          <div class="client__media client__media--3"><img src="/images/brands/cmi-1.jpg" alt="Chennai Mathematical Institute" loading="lazy" /><img src="/images/brands/cmi-2.jpg" alt="Chennai Mathematical Institute" loading="lazy" /><img src="/images/brands/cmi-3.jpg" alt="Chennai Mathematical Institute" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Institutions <b>03 / 07</b></span>
+            <h4 class="client__name">Chennai Mathematical Institute</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Brand Communication</span></div>
+            
+            
+            <div class="client__links"><a class="client__link" href="https://youtu.be/YwGivrxyJik" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </li>
+        <li class="client" style="--accent: #7DD6FF">
+          
+          <div class="client__body">
+            <span class="tmw-badge">Institutions <b>04 / 07</b></span>
+            <h4 class="client__name">APL Global</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Event Videography &amp; Photography</span></div>
+            
+            
+            
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #7DD6FF">
+          <div class="client__media client__media--2"><img src="/images/brands/united-way-1.jpg" alt="United Way Chennai" loading="lazy" /><img src="/images/brands/united-way-2.jpg" alt="United Way Chennai" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Institutions <b>05 / 07</b></span>
+            <h4 class="client__name">United Way Chennai</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Brand Films</span><span class=tmw-chip>CSR</span><span class=tmw-chip>Documentary</span></div>
+            
+            
+            <div class="client__links"><span class="client__links-label">Videos</span><a class="client__link client__link--n" href="https://youtu.be/p7-C8VJkktg" target="_blank" rel="noopener" aria-label="United Way Chennai video 1">1</a><a class="client__link client__link--n" href="https://youtu.be/3r89qDFHM4c" target="_blank" rel="noopener" aria-label="United Way Chennai video 2">2</a><a class="client__link client__link--n" href="https://youtu.be/KpLazokTi8g" target="_blank" rel="noopener" aria-label="United Way Chennai video 3">3</a></div>
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #7DD6FF">
+          <div class="client__media client__media--3"><img src="/images/brands/covelong-1.jpg" alt="Covelong Festival" loading="lazy" /><img src="/images/brands/covelong-2.jpg" alt="Covelong Festival" loading="lazy" /><img src="/images/brands/covelong-3.jpg" alt="Covelong Festival" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Institutions <b>06 / 07</b></span>
+            <h4 class="client__name">Covelong Festival</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Documentary</span></div>
+            
+            
+            <div class="client__links"><span class="client__links-label">Videos</span><a class="client__link client__link--n" href="https://youtu.be/yHd9VE6Z0uc" target="_blank" rel="noopener" aria-label="Covelong Festival video 1">1</a><a class="client__link client__link--n" href="https://youtu.be/u89uNbtdlnU" target="_blank" rel="noopener" aria-label="Covelong Festival video 2">2</a><a class="client__link client__link--n" href="https://youtu.be/LtacIec1WEQ" target="_blank" rel="noopener" aria-label="Covelong Festival video 3">3</a></div>
+          </div>
+        </li>
+        <li class="client client--media" style="--accent: #7DD6FF">
+          <div class="client__media client__media--1"><img src="/images/brands/rhapsody-1.jpg" alt="Rhapsody" loading="lazy" /></div>
+          <div class="client__body">
+            <span class="tmw-badge">Institutions <b>07 / 07</b></span>
+            <h4 class="client__name">Rhapsody</h4>
+            <div class="tmw-chips"><span class=tmw-chip>Documentary</span></div>
+            
+            
+            <div class="client__links"><a class="client__link" href="https://youtu.be/60BBntClp7A" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- Page Transition Overlay -->
+    <div class="tmw-transition-overlay"></div>
+    <div class="tmw-logo-overlay"></div>
+
     <script type="module" src="/src/pages/brands.js"></script>
   </body>
 </html>

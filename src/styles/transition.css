@@ -1,0 +1,69 @@
+/* ═══════════════════════════════════════════════════════════════════
+   transition.css — Shared Cinematic Page Transition
+   Tubelight Media Works · Adapted from provided Page Transition component
+   ════════════════════════════════════════════════════════════════ */
+
+.tmw-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.tmw-transition-block {
+  flex: 1;
+  height: 100%;
+  background: #0a0703;
+  border-right: 1px solid rgba(220, 219, 213, 0.04);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
+.tmw-logo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.75rem;
+  background: #0a0703;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.tmw-logo-container {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tmw-logo-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.tmw-logo-brand {
+  font-family: 'PP Neue Montreal', 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: #dcdbd5;
+  opacity: 0.85;
+  font-weight: 500;
+  text-align: center;
+}
+

@@ -145,7 +145,7 @@
   right:      2rem;
   color:      var(--tmw-white);
   z-index:    2;
-  will-change: transform, filter, opacity;
+  will-change: transform, opacity;
 }
 
 .tmw-pe-footer h5 {

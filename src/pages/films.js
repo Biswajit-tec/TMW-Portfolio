@@ -1,7 +1,7 @@
-import { initDepartmentPage } from '../components/department/DepartmentPage.js';
+/** films.js — Films page: pinned image mask-reveal (UI library scroll animation 29). */
+import { bootDomainPage } from './boot.js';
+import { initFilmsReveal } from '../components/domain/FilmsReveal.js';
+import '../styles/domain-ui.css';
+import '../styles/films-reveal.css';
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => initDepartmentPage('films'));
-} else {
-  initDepartmentPage('films');
-}
+bootDomainPage(initFilmsReveal);

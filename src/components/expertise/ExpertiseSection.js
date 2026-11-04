@@ -15,6 +15,12 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EXPERTISE } from '../../config/content.js';
+import { navigateTo } from '../transition/PageTransition.js';
+import { perf } from '../../utils/perf.js';
+
+// Blur is a GPU filter pass over a huge text layer: off on weak devices, smaller on touch.
+const BLUR_MAX = perf.low ? 0 : perf.touch ? 10 : 25;
+const F = (px) => (BLUR_MAX ? `blur(${Math.min(px, BLUR_MAX)}px)` : 'none');
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,6 +68,11 @@ export function initExpertiseSection(lenis) {
   // Navigation routes
   const domainRoutes = ['/films', '/brands', '/sports'];
 
+  // Department to restore when the visitor comes back from a domain page.
+  const stored = sessionStorage.getItem('tmw_return_domain');
+  sessionStorage.removeItem('tmw_return_domain');
+  let returnIndex = stored !== null && Number(stored) < domainRoutes.length ? Number(stored) : null;
+
   // State
   let activeDomainIndex   = 0;
   let isTransitioning     = false;
@@ -105,12 +116,12 @@ export function initExpertiseSection(lenis) {
       if (i === 0) {
         panel.classList.add('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'visible', opacity: 1, zIndex: 5, pointerEvents: 'auto' });
-        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' });
+        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: F(0) });
         if (meta)  gsap.set(meta,  { opacity: 1, y: 0 });
       } else {
         panel.classList.remove('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'hidden', opacity: 0, zIndex: 1, pointerEvents: 'none' });
-        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: 'blur(30px)' });
+        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: F(30) });
         if (meta)  gsap.set(meta,  { opacity: 0, y: 15 });
       }
     });
@@ -126,6 +137,7 @@ export function initExpertiseSection(lenis) {
   // Reset when navigating back via browser history
   window.addEventListener('pageshow', (event) => {
     _setInitialStates();
+    if (activeDomainIndex > 0) _snapToDomain(activeDomainIndex);
   });
 
   // ─── Transition between domains ──────────────────────────────────────────
@@ -213,7 +225,7 @@ export function initExpertiseSection(lenis) {
       tl.to(outTitle, {
         y: -direction * 35,
         opacity: 0,
-        filter: 'blur(25px)',
+        filter: F(25),
         duration: 0.35,
         ease: 'power2.in',
       }, 0);
@@ -249,8 +261,8 @@ export function initExpertiseSection(lenis) {
     // Incoming text animation: starts as outgoing has exited
     if (inTitle) {
       tl.fromTo(inTitle,
-        { y: direction * 45, opacity: 0, filter: 'blur(25px)', scale: 1 },
-        { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 0.75, ease: 'power3.out' },
+        { y: direction * 45, opacity: 0, filter: F(25), scale: 1 },
+        { y: 0, opacity: 1, filter: F(0), scale: 1, duration: 0.75, ease: 'power3.out' },
         0.25
       );
     }
@@ -305,12 +317,12 @@ export function initExpertiseSection(lenis) {
       if (i === index) {
         panel.classList.add('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'visible', opacity: 1, zIndex: 5, pointerEvents: 'auto' });
-        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' });
+        if (title) gsap.set(title, { opacity: 1, y: 0, scale: 1, filter: F(0) });
         if (meta)  gsap.set(meta,  { opacity: 1, y: 0 });
       } else {
         panel.classList.remove('tmw-ex-panel--active');
         gsap.set(panel, { visibility: 'hidden', opacity: 0, zIndex: 1, pointerEvents: 'none' });
-        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: 'blur(30px)' });
+        if (title) gsap.set(title, { opacity: 0, y: 40, scale: 1, filter: F(30) });
         if (meta)  gsap.set(meta,  { opacity: 0, y: 15 });
       }
     });
@@ -446,6 +458,9 @@ export function initExpertiseSection(lenis) {
     const route = domainRoutes[index];
     if (!route) return;
 
+    // Remember the department so Back returns to it, not to the top of the site.
+    sessionStorage.setItem('tmw_return_domain', String(index));
+
     const activeImg = innerImgs[index];
     const activePanel = panels[index];
     const title = activePanel?.querySelector('.tmw-ex-title');
@@ -461,7 +476,7 @@ export function initExpertiseSection(lenis) {
     // 2. Cinematic zoom & portal effect
     const entranceTl = gsap.timeline({
       onComplete: () => {
-        window.location.href = route;
+        navigateTo(route);
       },
     });
 
@@ -478,7 +493,7 @@ export function initExpertiseSection(lenis) {
         scale: 1.08,
         y: -25,
         opacity: 0,
-        filter: 'blur(20px)',
+        filter: F(20),
         duration: 0.5,
         ease: 'power2.in',
       }, 0);
@@ -531,7 +546,8 @@ export function initExpertiseSection(lenis) {
 
     onEnter: () => {
       gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
-      _snapToDomain(0);
+      _snapToDomain(returnIndex ?? 0);
+      returnIndex = null;
       inExpertiseMode = true;
       lastTransitionTime = Date.now() + 250;
       if (lenis) lenis.stop();
@@ -556,6 +572,18 @@ export function initExpertiseSection(lenis) {
       if (lenis) lenis.start();
     },
   });
+
+  // ─── Returning from /films, /brands or /sports ────────────────────────────
+  // Jump straight to the department the visitor came from (after the final
+  // ScrollTrigger refresh in main.js has measured the page).
+  if (returnIndex !== null && lenis) {
+    requestAnimationFrame(() => {
+      const st = ScrollTrigger.getById('tmw-expertise-trigger');
+      if (!st) return;
+      lenis.scrollTo(st.start + 1, { immediate: true, force: true });
+      ScrollTrigger.update();
+    });
+  }
 
   // Global escape / external navigation unlock
   window.TMW_unlockExpertise = () => {

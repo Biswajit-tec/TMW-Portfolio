@@ -3,15 +3,180 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tubelight Mediaworks — Films Portfolio. Feature films, OTT productions, short films, vertical narratives, and documentaries." />
+    <meta name="description" content="Tubelight Media Works — Films Portfolio. Feature films, OTT productions, short narratives, and cinematic storytelling." />
     <meta name="theme-color" content="#0a0703" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Films | Tubelight Mediaworks</title>
+    <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
+    <link rel="preload" as="font" type="font/woff" crossorigin href="https://fonts.cdnfonts.com/s/100431/ppneuemontreal-book.woff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" />
     <link rel="stylesheet" href="/src/styles/globals.css" />
-    <link rel="stylesheet" href="/src/styles/department.css" />
+    <link rel="stylesheet" href="/src/styles/transition.css" />
+    <link rel="stylesheet" href="/src/styles/film.css" />
   </head>
-  <body class="tmw-dept-body">
-    <div id="tmw-dept-app"></div>
+  <body class="tmw-films-page">
+    <!-- Subtle Back Control -->
+    <button class="tmw-film-back" id="tmw-film-back" type="button" aria-label="Return to portfolio">
+      <svg class="tmw-film-back__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Portfolio</span>
+    </button>
+
+    <main class="tmw-reveal">
+      <nav class="tmw-domain-nav" aria-label="Film categories"><button type="button" data-cat="series" style="--accent: #D5FF37">Series <span>3</span></button><button type="button" data-cat="short-films" style="--accent: #FFA0B0">Short Films <span>2</span></button><button type="button" data-cat="music-videos" style="--accent: #7DD6FF">Music Videos <span>4</span></button></nav>
+      <header class="tmw-reveal__intro">
+        <span class="eyebrow">Tubelight Mediaworks</span>
+        <h1>Films at Tubelight</h1>
+        <p>Series, short films and music videos — stories made to be seen.</p>
+      </header>
+      <div class="arch">
+        <div class="arch__left">
+      <div class="arch__info" data-cat="series" style="--accent: #D5FF37">
+        <div class="content">
+          <span class="tmw-badge">Series <b>01 / 03</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Vertical Series</span><span class="tmw-chip">Murder Mystery</span><span class="tmw-chip">Tamil</span><span class="tmw-chip">2026</span></div>
+          <h2 class="header">Anju Paisa Keni</h2><p class="desc">A family cursed by a series of mysterious deaths and fights to break a chain of tragedies rooted in superstition, guilt, and generational trauma.</p>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Balu Bose</dd></div>
+            <div><dt>Featuring</dt><dd>Theni Murugan, Balu Bose, Vaidee, Sumithra</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="series" style="--accent: #D5FF37">
+        <div class="content">
+          <span class="tmw-badge">Series <b>02 / 03</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Vertical Series</span><span class="tmw-chip">Horror Comedy</span><span class="tmw-chip">Tamil</span><span class="tmw-chip">2026</span></div>
+          <h2 class="header">Sami Kida</h2><p class="desc">A family cursed by a series of mysterious deaths and fights to break a chain of tragedies rooted in superstition, guilt, and generational trauma.</p>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Ruban Thilak</dd></div>
+            <div><dt>Featuring</dt><dd>&#x27;Pakoda&#x27; Pandi, Rajesh Pandian, Sai Vignesh, Satheesh</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="series" style="--accent: #D5FF37">
+        <div class="content">
+          <span class="tmw-badge">Series <b>03 / 03</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Vertical Series</span><span class="tmw-chip">Comedy Drama</span><span class="tmw-chip">Tamil</span><span class="tmw-chip">2026</span></div>
+          <h2 class="header">DM for Collab</h2><p class="desc">When an ambitious Instagram ‘Influencer’ @konjam_vidhyasam builds a fake-perfect life online, her life slowly exposes the cost of content — on her love life, her friendships, and her sanity.</p>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Sriram Muralidharan</dd></div>
+            <div><dt>Featuring</dt><dd>Aikkia, Naresh, Arjun</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="short-films" style="--accent: #FFA0B0">
+        <div class="content">
+          <span class="tmw-badge">Short Films <b>01 / 02</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Short Film</span><span class="tmw-chip">Thriller</span><span class="tmw-chip">Tamil</span><span class="tmw-chip">2025</span></div>
+          <h2 class="header">Kali</h2><p class="desc">Four friends lose their hunt and drown their failure in drink until a lustful impulse sparks a sinister plan, leaving fate and faith to decide who pulls the trigger.</p>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Ruban Thilak</dd></div>
+            <div><dt>Featuring</dt><dd>Balu Bose, Sai Bala, Rajesh Pandian, Satheesh</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="short-films" style="--accent: #FFA0B0">
+        <div class="content">
+          <span class="tmw-badge">Short Films <b>02 / 02</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Short Film</span><span class="tmw-chip">Comedy Drama</span><span class="tmw-chip">Tamil</span><span class="tmw-chip">2019</span></div>
+          <h2 class="header">Thiruvilayadal</h2><p class="desc">When a digital Indian&#x27;s economic depression explodes and sends his voice all the way to Sivaloka where there is a familial conflict unfolding. Shiva decides to use the opportunity to take a break and do his thing.</p>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Raja Dharmar</dd></div>
+            <div><dt>Featuring</dt><dd>Sriram, Geevee</dd></div>
+          </dl>
+          <a class="link" href="https://www.youtube.com/watch?v=8Z-qokoKCeU" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none"><path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" /></svg> <span>Stream Link</span></a>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="music-videos" style="--accent: #7DD6FF">
+        <div class="content">
+          <span class="tmw-badge">Music Videos <b>01 / 04</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Music Video</span></div>
+          <h2 class="header">Butter fingers</h2><p class="desc">With Butterfingers, Akshay Ganesh bridges the worlds of neo-jazz and Carnatic music to craft a progressive sound distinctly his own.</p>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Sudharshan R</dd></div>
+            <div><dt>Featuring</dt><dd>Akshay Ganesh, Ramkumar Kanakarajan, Ashwin</dd></div>
+          </dl>
+          <a class="link" href="https://www.youtube.com/watch?v=5_4TN-yITvw" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none"><path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" /></svg> <span>Stream Link</span></a>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="music-videos" style="--accent: #7DD6FF">
+        <div class="content">
+          <span class="tmw-badge">Music Videos <b>02 / 04</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Music Video</span></div>
+          <h2 class="header">Poromboke</h2>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Vijay Varadharaj</dd></div>
+            <div><dt>Featuring</dt><dd>Akshay Ganesh, Ramkumar Kanakarajan, Ashwin</dd></div>
+          </dl>
+          <a class="link" href="https://www.youtube.com/watch?v=2ZQWtBanut4" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none"><path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" /></svg> <span>Stream Link</span></a>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="music-videos" style="--accent: #7DD6FF">
+        <div class="content">
+          <span class="tmw-badge">Music Videos <b>03 / 04</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Music Video</span></div>
+          <h2 class="header">Fur Elise - CV</h2>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Karthik</dd></div>
+            <div><dt>Featuring</dt><dd>Chitravina Ravikiran</dd></div>
+          </dl>
+          <a class="link" href="https://www.youtube.com/watch?v=15-cIMe-hxk" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none"><path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" /></svg> <span>Stream Link</span></a>
+        </div>
+      </div>
+      <div class="arch__info" data-cat="music-videos" style="--accent: #7DD6FF">
+        <div class="content">
+          <span class="tmw-badge">Music Videos <b>04 / 04</b></span>
+          <div class="tmw-chips"><span class="tmw-chip">Music Video</span></div>
+          <h2 class="header">Heal the World</h2>
+          <dl class="tmw-credits">
+            <div><dt>Director</dt><dd>Kishore Kumar , Ajay</dd></div>
+            <div><dt>Featuring</dt><dd>Preethi Bharath &amp; Students</dd></div>
+          </dl>
+          <a class="link" href="https://www.youtube.com/watch?v=I88FyF1bL2Q" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none"><path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" /></svg> <span>Stream Link</span></a>
+        </div>
+      </div>
+        </div>
+        <div class="arch__right">
+      <div class="img-wrapper" data-index="9">
+        <img src="/images/films/anju-paisa-keni.jpg" alt="Anju Paisa Keni — Serie" />
+      </div>
+      <div class="img-wrapper" data-index="8">
+        <img src="/images/films/sami-kida.jpg" alt="Sami Kida — Serie" />
+      </div>
+      <div class="img-wrapper" data-index="7">
+        <img src="/images/films/dm-for-collab.jpg" alt="DM for Collab — Serie" />
+      </div>
+      <div class="img-wrapper" data-index="6">
+        <img src="/images/films/kali.jpg" alt="Kali — Short Film" />
+      </div>
+      <div class="img-wrapper" data-index="5">
+        <img src="/images/films/thiruvilayadal.jpg" alt="Thiruvilayadal — Short Film" />
+      </div>
+      <div class="img-wrapper" data-index="4">
+        <img src="/images/films/butter-fingers.jpg" alt="Butter fingers — Music Video" />
+      </div>
+      <div class="img-wrapper" data-index="3">
+        <img src="/images/films/poromboke.jpg" alt="Poromboke — Music Video" />
+      </div>
+      <div class="img-wrapper" data-index="2">
+        <img src="/images/films/fur-elise.jpg" alt="Fur Elise - CV — Music Video" />
+      </div>
+      <div class="img-wrapper" data-index="1">
+        <img src="/images/films/heal-the-world.jpg" alt="Heal the World — Music Video" />
+      </div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </main>
+
+    <!-- Page Transition Overlay -->
+    <div class="tmw-transition-overlay"></div>
+    <div class="tmw-logo-overlay"></div>
+
     <script type="module" src="/src/pages/films.js"></script>
   </body>
 </html>

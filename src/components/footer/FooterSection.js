@@ -17,6 +17,7 @@
 
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { perf, whenIdle } from '../../utils/perf.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,23 +55,9 @@ export function initFooterSection() {
     resetDelay:      500,
   };
 
-  const imagePaths = [
-    '/images/gdrive/img_1.jpg',
-    '/images/gdrive/img_2.jpg',
-    '/images/gdrive/img_3.jpg',
-    '/images/gdrive/img_4.jpg',
-    '/images/gdrive/img_5.jpg',
-    '/images/gdrive/img_6.jpg',
-    '/images/gdrive/img_7.jpg',
-    '/images/gdrive/img_8.jpg',
-    '/images/gdrive/img_9.jpg',
-    '/images/gdrive/img_10.jpg',
-    '/images/gdrive/img_11.jpg',
-    '/images/gdrive/img_12.jpg',
-    '/images/gdrive/img_13.jpg',
-    '/images/gdrive/img_14.jpg',
-    '/images/gdrive/img_15.jpg',
-  ];
+  // Particles render at <=170px, so use 360px thumbnails (a fraction of the decode/GPU memory).
+  const allPaths  = Array.from({ length: 15 }, (_, i) => `/images/thumbs/img_${i + 1}.jpg`);
+  const imagePaths = perf.low ? allPaths.filter((_, i) => i % 2 === 0) : allPaths;
 
   class Particle {
     constructor(element) {
@@ -133,13 +120,15 @@ export function initFooterSection() {
 
     let finished = false;
 
+    // Read layout once, not every frame.
+    const containerH = explosionContainer.offsetHeight || 600;
+
     function animate() {
       if (finished) return;
 
       particles.forEach(p => p.update());
 
       // Check if all particles have cleared the top arc and descended below view
-      const containerH = explosionContainer.offsetHeight || 600;
       const allSettled = particles.length > 0 && particles.every(p => p.y > containerH * 0.4 && p.vy > 0);
 
       if (allSettled) {
@@ -161,10 +150,10 @@ export function initFooterSection() {
   }
 
   // Pre-load images lazily in background
-  imagePaths.forEach(path => {
+  whenIdle(() => imagePaths.forEach(path => {
     const img = new Image();
     img.src = path;
-  });
+  }));
 
   // ── ScrollTrigger Viewport Activation ────────────────────────────────
   ScrollTrigger.getAll()

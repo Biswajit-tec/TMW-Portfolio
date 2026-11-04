@@ -200,10 +200,37 @@
     gap: var(--tmw-pd-gap, 1.5vw);
   }
 
+  /* Captions on phones: larger, fully opaque, always centred, with a soft dark
+     scrim + shadow so they stay readable over any photo passing behind. */
   .tmw-pd-title {
-    font-size:  clamp(1.2rem, 5.5vw, 2rem);
-    padding:    0 6vw;
-    /* On mobile, title fits better at larger relative size */
+    font-size:      clamp(1.7rem, 8vw, 2.5rem);
+    line-height:    1.15;
+    font-weight:    400;
+    padding:        0 8vw;
+    opacity:        1;
+    color:          #fff;
+    text-shadow:    0 1px 3px rgba(0, 0, 0, 0.85), 0 0 28px rgba(0, 0, 0, 0.75);
+    align-items:    center;
+    justify-items:  center;
+    text-align:     center;
+  }
+  .tmw-pd-title--top,
+  .tmw-pd-title--bottom { align-items: center; }
+  .tmw-pd-title--left,
+  .tmw-pd-title--right  { justify-items: center; text-align: center; }
+
+  .tmw-pd-title::before {
+    content:        '';
+    position:       absolute;
+    left:           0;
+    right:          0;
+    top:            50%;
+    height:         min(38vh, 14rem);
+    transform:      translateY(-50%);
+    background:     radial-gradient(ellipse 75% 50% at 50% 50%,
+                      rgba(10, 7, 3, 0.82) 0%, rgba(10, 7, 3, 0.55) 45%, rgba(10, 7, 3, 0) 100%);
+    z-index:        -1;
+    pointer-events: none;
   }
 
   .tmw-pd-content,
@@ -222,9 +249,6 @@
     margin-bottom: 3vh;
   }
 
-  .tmw-pd-title {
-    font-size: clamp(1.1rem, 5vw, 1.8rem);
-  }
 
   /* On very small screens, cap to 3 columns for types with 4+ default */
   .tmw-pd-grid-wrap {

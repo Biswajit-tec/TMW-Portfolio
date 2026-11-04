@@ -18,12 +18,19 @@
  * Returns: Promise<void> — resolves when loader is fully removed.
  */
 
-import * as THREE from 'three';
 import { gsap }   from 'gsap';
 import { vertexShader, fragmentShader } from './shaders.js';
 import { BRAND } from '../../config/content.js';
+import { perf } from '../../utils/perf.js';
 
-export function initRevealLoader() {
+const hasWebGL = () => {
+  try {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl'));
+  } catch { return false; }
+};
+
+export async function initRevealLoader() {
   const loaderEl = document.getElementById('tmw-loader');
   const canvas   = document.getElementById('tmw-loader-canvas');
   const brandEl  = document.querySelector('.tmw-loader-brand');
@@ -32,12 +39,15 @@ export function initRevealLoader() {
   if (brandEl) brandEl.textContent = BRAND.name;
   if (yearEl)  yearEl.textContent  = BRAND.established;
 
-  // ─── Reduced motion: skip dissolve, reveal immediately ────────────────
+  // ─── Reduced motion or Page Transition return: skip dissolve, reveal immediately ─
   const prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
+  const isTransitionReturning =
+    sessionStorage.getItem('tmw_transition') === 'true' ||
+    sessionStorage.getItem('tmw_return_domain') !== null;
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || isTransitionReturning) {
     if (loaderEl) {
       loaderEl.style.pointerEvents = 'none';
       loaderEl.style.display       = 'none';
@@ -45,13 +55,35 @@ export function initRevealLoader() {
     return Promise.resolve();
   }
 
+  // ─── Low tier / no WebGL: skip the shader, do a cheap CSS reveal ─────
+  // The full-screen Perlin dissolve is two noise evaluations per pixel; weak
+  // GPUs can't hold 60 fps through it, so they get a plain fade instead.
+  if (perf.low || !hasWebGL()) {
+    gsap.fromTo([brandEl, yearEl], { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1 });
+    return new Promise((resolve) => {
+      gsap.to(loaderEl, {
+        opacity: 0,
+        duration: 0.7,
+        delay: 1.4,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          if (loaderEl) { loaderEl.style.pointerEvents = 'none'; loaderEl.style.display = 'none'; }
+          resolve();
+        },
+      });
+    });
+  }
+
+  // three.js is only fetched when the shader is actually used (keeps it out of the main bundle).
+  const THREE = await import('three');
+
   // ─── Three.js setup ──────────────────────────────────────────────────
   const scene  = new THREE.Scene();
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(perf.dpr);
   renderer.setClearColor(0x000000, 0);
 
   const uniforms = {
@@ -72,7 +104,7 @@ export function initRevealLoader() {
   const handleResize = () => {
     const w = window.innerWidth, h = window.innerHeight;
     renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(perf.dpr);
     uniforms.uResolution.value.set(w, h);
   };
   window.addEventListener('resize', handleResize);

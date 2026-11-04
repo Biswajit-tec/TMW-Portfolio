@@ -18,7 +18,7 @@
 import gsap             from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText }     from 'gsap/SplitText';
-import Lenis             from 'lenis';
+import { createLenis, probeFrameRate } from '../../utils/perf.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -29,14 +29,8 @@ export function initHeroSection() {
   ).matches;
 
   // ─── Smooth scroll (Lenis) ────────────────────────────────────────────────
-  const lenis = new Lenis();
-
-  lenis.on('scroll', ScrollTrigger.update);
-
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-  gsap.ticker.lagSmoothing(0);
+  const lenis = createLenis({ lerp: 0.1 });
+  probeFrameRate();
 
   if (prefersReducedMotion) {
     // Just show the hero at its natural state, no scroll animation
@@ -101,6 +95,16 @@ export function initHeroSection() {
   const outroImgTop     = document.querySelectorAll('.tmw-hero-outro-img')[0];
   const outroImgBottom  = document.querySelectorAll('.tmw-hero-outro-img')[1];
 
+  // ─── Setters reused by the scroll handler ─────────────────────────────────
+  const clamp      = gsap.utils.clamp(0, 1);
+  const setDark    = (v) => { fgOverlayDark.style.opacity   = v; };
+  const setAccent  = (v) => { fgOverlayAccent.style.opacity = v; };
+  // Transforms are written straight to style (one string per element). GSAP's
+  // quickSetter does not reliably render several transform props on one element.
+  const setCopyL   = (x) => { bgCopyLeft.style.transform  = `translate3d(${x}%, 0, 0)`; };
+  const setCopyR   = (x) => { bgCopyRight.style.transform = `translate3d(${x}%, 0, 0)`; };
+  let lastP = -1;
+
   // ─── Scroll-triggered cinematic sequence ──────────────────────────────────
   ScrollTrigger.create({
     trigger: '.tmw-hero',
@@ -112,37 +116,33 @@ export function initHeroSection() {
 
     onUpdate: (self) => {
       const p = self.progress;
+      if (p === lastP) return;
+      lastP = p;
+
+      // Per-frame work uses direct style writes (no tween objects, no string
+      // parsing) — this callback runs on every scroll frame.
 
       // ── Phase 1 (0–25%): clip foreground to a thin vertical slit ──────────
-      const p1    = gsap.utils.clamp(0, 1, p / 0.25);
-      const slitL = gsap.utils.interpolate(0,   48, p1);
-      const slitR = gsap.utils.interpolate(100, 52, p1);
-      gsap.set(fgContent, {
-        clipPath: `polygon(${slitL}% 0%, ${slitR}% 0%, ${slitR}% 100%, ${slitL}% 100%)`,
-      });
-      gsap.set(fgOverlayDark, { opacity: gsap.utils.interpolate(0, 1, p1) });
+      const p1    = clamp(p / 0.25);
+      const slitL = 48 * p1;
+      const slitR = 100 - 48 * p1;
+      fgContent.style.clipPath = `polygon(${slitL}% 0%, ${slitR}% 0%, ${slitR}% 100%, ${slitL}% 100%)`;
+      setDark(p1);
 
-      // ── Phase 2 (25–45%): rotate the slit 65° ────────────────────────────
-      const p2 = gsap.utils.clamp(0, 1, (p - 0.25) / 0.2);
-      gsap.set(fgContent, { rotate: gsap.utils.interpolate(0, 65, p2) });
+      // ── Phase 2 (25–45%): rotate the slit 65° · Phase 3 (45–65%): scale to zero ─
+      const rotation = 65 * clamp((p - 0.25) / 0.2);
+      const p3       = clamp((p - 0.45) / 0.2);
+      fgContent.style.transform = `rotate(${rotation}deg) scale(${1 - p3})`;
 
-      // ── Phase 3 (45–65%): scale to zero + slide bg copy out + accent flash ─
-      const p3 = gsap.utils.clamp(0, 1, (p - 0.45) / 0.2);
-      gsap.set(fgContent, { scale: gsap.utils.interpolate(1, 0, p3) });
-      gsap.set(bgCopyLeft,  { x: `${gsap.utils.interpolate(0,  100, p3)}%` });
-      gsap.set(bgCopyRight, { x: `${gsap.utils.interpolate(0, -100, p3)}%` });
-
-      const p3a = gsap.utils.clamp(0, 1, (p - 0.45) / 0.05);
-      gsap.set(fgOverlayAccent, { opacity: gsap.utils.interpolate(0, 1, p3a) });
+      // ── Phase 3: slide bg copy out + accent flash ─────────────────────────
+      setCopyL(100 * p3);
+      setCopyR(-100 * p3);
+      setAccent(clamp((p - 0.45) / 0.05));
 
       // ── Phase 4 (65–85%): outro images wipe in from top + bottom ──────────
-      const p4 = gsap.utils.clamp(0, 1, (p - 0.65) / 0.2);
-      gsap.set(outroImgTop, {
-        clipPath: `polygon(0% 0%, 100% 0%, 100% ${gsap.utils.interpolate(0, 100, p4)}%, 0% ${gsap.utils.interpolate(0, 100, p4)}%)`,
-      });
-      gsap.set(outroImgBottom, {
-        clipPath: `polygon(0% ${gsap.utils.interpolate(100, 0, p4)}%, 100% ${gsap.utils.interpolate(100, 0, p4)}%, 100% 100%, 0% 100%)`,
-      });
+      const p4 = clamp((p - 0.65) / 0.2) * 100;
+      outroImgTop.style.clipPath    = `polygon(0% 0%, 100% 0%, 100% ${p4}%, 0% ${p4}%)`;
+      outroImgBottom.style.clipPath = `polygon(0% ${100 - p4}%, 100% ${100 - p4}%, 100% 100%, 0% 100%)`;
 
       // ── Phase 5 (90%+): SplitText outro headline ──────────────────────────
       if (p >= 0.9 && !areOutroLinesRevealed) {
